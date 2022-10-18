@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebTools.Authorization
+namespace AppBVTA.Authorizations
 {
     public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     {

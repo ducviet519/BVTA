@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System;
 
-namespace WebTools.Authorization
+namespace AppBVTA.Authorizations
 {
     public class ControllerModelConvention : Attribute, IControllerModelConvention
     {

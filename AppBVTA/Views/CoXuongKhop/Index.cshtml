@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="partialContainer"></div>
+<button type="button" class="btn btn-success" id="btnAdd" data-url="@Url.Action("Add","CoXuongKhop")">Thêm gì đó</button>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                var url = $(this).attr("data-url");
+                $(this).callModal(url);
+            });
+        });
+    </script>
+}

@@ -39,7 +39,10 @@ a.navbar-brand {
 .thead:first-child{
     background-color: cornflowerblue;
 }
-
+.table .thead {
+    background-color: #3882b6;
+    color: #ffffff;
+}
 tr #odd {
 }
 /* Provide sufficient contrast against white background */

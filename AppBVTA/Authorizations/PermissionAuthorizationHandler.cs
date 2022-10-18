@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebTools.Authorization
+namespace AppBVTA.Authorizations
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
