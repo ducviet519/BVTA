@@ -51,9 +51,14 @@ namespace AppBVTA.Controllers
         {
             return PartialView("_ThongTinBenhNhan");
         }
+
         public IActionResult PhieuKhamBenh()
         {
             return View();
+        }
+        public IActionResult KhamLamSang()
+        {
+            return PartialView("_KhamLamSang");
         }
         
     }

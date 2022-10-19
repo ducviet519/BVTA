@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "PhieuKhamBenh";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,6 +6,15 @@
 <style type="text/css">
     .btn {
         display: unset;
+    }
+
+    .nav-sidebar .nav-item > .nav-link {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .nav-sidebar .nav-item:hover {
+        background-color: transparent;
     }
 </style>
 
@@ -16,11 +24,101 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" id="tab-BieuDo" data-toggle="pill" href="#content-BieuDo" role="tab" aria-controls="content-BieuDo" aria-selected="false">Biểu đồ</a>
-    </li>    
+    </li>
 </ul>
 <div class="tab-content pl-3 pr-3" id="custom-content-below-tabContent">
     <div class="tab-pane fade show active" id="content-PhieuKhamBenh" role="tabpanel" aria-labelledby="content-PhieuKhamBenh">
-        @await Html.PartialAsync("_ThongTinBenhNhan")
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    @await Html.PartialAsync("_ThongTinBenhNhan")
+                    <!-- /.row -->
+                    <div class="row">
+                        <div class="col-3 pr-0">
+                            <div class="card mb-0 mr-0" style="height: 100%">
+                                <div class="card-header" style="padding-bottom:17px; padding-top:17px;">
+                                    <h3 class="card-title head-text">Danh mục</h3>                                  
+                                </div>
+                                <div class="card-body">
+                                    <!-- Sidebar -->
+                                    <div class="sidebar" style="height:auto;">
+                                        <!-- Sidebar Menu -->
+                                        <nav class="mt-2">
+                                            <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent text-sm" data-widget="treeview" role="menu" data-accordion="farse">
+                                                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                                                <li class="nav-item menu-is-opening menu-open">
+                                                    <a href="#" class="nav-link">
+                                                        <p>
+                                                            1.Khám lâm sàng
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item menu-is-opening menu-open">
+                                                    <a href="#" class="nav-link">
+                                                        <i class="far fa-plus-square"></i>
+                                                        <p>
+                                                            2. Đánh giá
+                                                            <i class="right fas fa-angle-left"></i>
+                                                        </p>
+                                                    </a>
+                                                    <ul class="nav nav-treeview" style="display: block;">
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link">
+                                                                <i class="far fa-minus-square"></i>
+                                                                <p>2.1 Đánh giá ASDAS</p>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link">
+                                                                <i class="far fa-minus-square"></i>
+                                                                <p>2.2 Đánh giá DAPSA</p>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link">
+                                                                <i class="far fa-minus-square"></i>
+                                                                <p>2.3 Đánh giá PASI</p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item menu-is-opening menu-open">
+                                                    <a href="#" class="nav-link">
+                                                        <p>
+                                                            3. Chỉ định
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item menu-is-opening menu-open">
+                                                    <a href="#" class="nav-link">
+                                                        <p>
+                                                            4. Đơn thuốc
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item menu-is-opening menu-open">
+                                                    <a href="#" class="nav-link">
+                                                        <p>
+                                                            5. Xử trí
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                        <!-- /.sidebar-menu -->
+                                    </div>
+                                    <!-- /.sidebar -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9 pl-0">
+                            @await Html.PartialAsync("_KhamLamSang")
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="content-BieuDo" role="tabpanel" aria-labelledby="content-BieuDo">
         @await Html.PartialAsync("_DanhSachChoKham")
@@ -34,6 +132,18 @@
                 var url = $(this).data('url');
                 $(this).callModal(url);
             });
+
+            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
+            $('#ngayKham').inputmask('datetime', { alias: 'dd/mm/yyyy', inputFormat: 'dd/mm/yyyy', outputFormat: 'ddmmyyyy' });
+            
+
+            $('#gioKham').datetimepicker({ format: 'HH:mm' });
+            $("#gioKham").inputmask('datetime', { alias: 'HH:MM', inputFormat: 'HH:MM', outputFormat: 'HHMM' });
+            
+
+            $('#ThangKP').datetimepicker({ format: 'MM', locale: 'vi' });
+            $('#NamKP').datetimepicker({ format: 'YYYY', locale: 'vi' });
+            
         });
     </script>
 }

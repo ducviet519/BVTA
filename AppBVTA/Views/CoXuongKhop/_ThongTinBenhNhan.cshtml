@@ -1,7 +1,12 @@
-﻿<!-- /.row -->
+﻿<style>
+    .sidebar {
+        height: 200px;
+    }
+</style>
+<!-- /.row -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card mb-0">
             <div class="card-header">
                 <div class="row">
                     <div class="col-3">
@@ -15,20 +20,84 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row">
-                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <!-- Sidebar -->
+                        <div class="sidebar">
+                            <!-- Sidebar Menu -->
+                            <nav class="mt-2">
+                                <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent text-sm" data-widget="treeview" role="menu" data-accordion="farse">
+                                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                                    <li class="nav-item menu-is-opening menu-open">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-plus-square"></i>
+                                            <p>
+                                                Phòng khám
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: block;">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-minus-square"></i>
+                                                    <p>10/01/2022 Phòng khám CXK 01</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-plus-square"></i>
+                                                    <p>
+                                                        10/01/2022 Phòng khám CXK 01
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview" style="display: none;">
+                                                    <li class="nav-item">
+                                                        <a href="#" class="nav-link">
+                                                            <i class="far fa-minus-square"></i>
+                                                            <p>10/01/2022 Phòng khám CXK 01</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#" class="nav-link">
+                                                            <i class="far fa-minus-square"></i>
+                                                            <p>10/01/2022 Phòng khám CXK 01</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#" class="nav-link">
+                                                            <i class="far fa-minus-square"></i>
+                                                            <p>10/01/2022 Phòng khám CXK 01</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-minus-square"></i>
+                                                    <p>10/01/2022 Phòng khám CXK 01</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- /.sidebar-menu -->
+                        </div>
+                        <!-- /.sidebar -->
+                    </div>
                     <div class="col-9">
-                        <div class="row">
+                        <div class="row mb-3">
                             <label class="col-form-label col-3">Mã KH: <strong>18009858</strong></label>
                             <label class="col-form-label col-3">Họ và tên: Nguyễn Thị A</label>
                             <label class="col-form-label col-3">Ngày sinh: 01/01/1987</label>
                             <label class="col-form-label col-3">Giới tính: Nữ</label>
                         </div>
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-3">
-                                <div class="form-group row">
+                                <div class="form-group form-group-sm row">
                                     <label for="NguoiDanhGia" class="col-form-label col-auto">Ngày khám:</label>
                                     <div class="col-7">
-                                        <input type="text" id="ngayKham" name="ngayKham" class="form-control" />
+                                        <input type="text" id="ngayKham" name="ngayKham" class="form-control datetimepicker-input ngayKham" data-toggle="datetimepicker" data-target="#ngayKham"/>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +105,7 @@
                                 <div class="form-group row">
                                     <label for="NguoiDanhGia" class="col-form-label col-auto">Giờ khám:</label>
                                     <div class="col-6">
-                                        <input type="text" id="gioKham" name="gioKham" class="form-control" />
+                                        <input type="text" id="gioKham" name="gioKham" class="form-control datetimepicker-input gioKham" data-toggle="datetimepicker" data-target="#gioKham"/>
                                     </div>
                                 </div>
                             </div>
