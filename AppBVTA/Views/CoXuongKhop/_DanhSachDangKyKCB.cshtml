@@ -3,30 +3,34 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách đăng ký khám chữa bệnh</h3>
-
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <h3 class="card-title head-text">Danh sách đăng ký khám chữa bệnh</h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
+                            <div class="col-auto">
+                                <select class="form-control" id="PhongKham" name="PhongKham">
+                                    <option>PK Cơ xương khớp</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-info ml-5" id="searchKCB">Tìm kiếm</button>
+                        </div>
+                    </div>
+                    <div class="col-6"></div>
+                </div>
                 <table class="table table-bordered table-hover text-nowrap">
-                    <thead>
+                    <thead class="thead">
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>STT</th>
+                            <th>Phòng khám</th>
+                            <th>Tổng số</th>
+                            <th>Chưa khám</th>
+                            <th>CLS</th>
+                            <th>Chờ kết quả</th>
+                            <th>Đã khám</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,28 +38,28 @@
                             <td>183</td>
                             <td>John Doe</td>
                             <td>11-7-2014</td>
-                            <td><span class="tag tag-success">Approved</span></td>
+                            <td><a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-1" data-url="/CoXuongKhop/DanhSachChiTietBenhNhanChoKham">Approved</a></td>
                             <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                         </tr>
                         <tr>
                             <td>219</td>
                             <td>Alexander Pierce</td>
                             <td>11-7-2014</td>
-                            <td><span class="tag tag-warning">Pending</span></td>
+                            <td><a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-2" data-url="/CoXuongKhop/DanhSachChiTietBenhNhanChoKham">Pending</a></td>
                             <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                         </tr>
                         <tr>
                             <td>657</td>
                             <td>Bob Doe</td>
                             <td>11-7-2014</td>
-                            <td><span class="tag tag-primary">Approved</span></td>
+                            <td><a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-3" data-url="/CoXuongKhop/DanhSachChiTietBenhNhanChoKham">Approved</a></td>
                             <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                         </tr>
                         <tr>
                             <td>175</td>
                             <td>Mike Doe</td>
                             <td>11-7-2014</td>
-                            <td><span class="tag tag-danger">Denied</span></td>
+                            <td><a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-4" data-url="/CoXuongKhop/DanhSachChiTietBenhNhanChoKham">Denied</a></td>
                             <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                         </tr>
                     </tbody>
@@ -67,3 +71,4 @@
     </div>
 </div>
 <!-- /.row -->
+

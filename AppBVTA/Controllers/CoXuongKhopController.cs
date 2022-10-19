@@ -13,10 +13,7 @@ namespace AppBVTA.Controllers
             return View();
         }
 
-        public IActionResult Add()
-        {
-            return PartialView("_Add");
-        }
+        #region Tổng quan danh sách đăng ký khám chữa bệnh
 
         [HttpGet]
         public IActionResult TongQuanKhamBenh()
@@ -29,6 +26,12 @@ namespace AppBVTA.Controllers
         {
             return PartialView("_DanhSachDangKyKCB");
         }
+        [HttpGet]
+        public IActionResult DanhSachChiTietBenhNhanChoKham()
+        {
+            return PartialView("_DanhSachChiTietBenhNhanChoKham");
+        }
+
 
         [HttpGet]
         public IActionResult DanhSachChoKham()
@@ -41,5 +44,17 @@ namespace AppBVTA.Controllers
         {
             return PartialView("_DanhSachDangLamCLS");
         }
+
+        #endregion
+
+        public IActionResult ThongTinBenhNhan()
+        {
+            return PartialView("_ThongTinBenhNhan");
+        }
+        public IActionResult PhieuKhamBenh()
+        {
+            return View();
+        }
+        
     }
 }

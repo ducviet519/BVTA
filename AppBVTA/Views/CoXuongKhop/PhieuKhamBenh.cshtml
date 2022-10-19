@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "PhieuKhamBenh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .btn {
+        display: unset;
+    }
+</style>
+
+<ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="tab-PhieuKhamBenh" data-toggle="pill" href="#content-PhieuKhamBenh" role="tab" aria-controls="content-PhieuKhamBenh" aria-selected="true">Phiếu khám</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="tab-BieuDo" data-toggle="pill" href="#content-BieuDo" role="tab" aria-controls="content-BieuDo" aria-selected="false">Biểu đồ</a>
+    </li>    
+</ul>
+<div class="tab-content pl-3 pr-3" id="custom-content-below-tabContent">
+    <div class="tab-pane fade show active" id="content-PhieuKhamBenh" role="tabpanel" aria-labelledby="content-PhieuKhamBenh">
+        @await Html.PartialAsync("_ThongTinBenhNhan")
+    </div>
+    <div class="tab-pane fade" id="content-BieuDo" role="tabpanel" aria-labelledby="content-BieuDo">
+        @await Html.PartialAsync("_DanhSachChoKham")
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').on('click', 'a[data-toggle="ajax-modal"]', function (event) {
+                var url = $(this).data('url');
+                $(this).callModal(url);
+            });
+        });
+    </script>
+}
+
+

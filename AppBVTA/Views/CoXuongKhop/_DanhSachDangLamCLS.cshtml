@@ -3,30 +3,42 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách đang làm CLS</h3>
-
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <h3 class="card-title head-text">Danh sách đang làm CLS</h3>               
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
+                            <div class="col-auto">
+                                <select class="form-control" id="PhongKham" name="PhongKham">
+                                    <option>PK Cơ xương khớp</option>
+                                </select>
+                            </div>
+                            <label for="HoTenKH" class="col-form-label col-auto ml-5">PID/Họ tên KH:</label>
+                            <div class="col-auto">
+                                <select class="form-control" id="HoTenKH" name="HoTenKH">
+                                    <option>PK Cơ xương khớp</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-info ml-5" id="searchKCB">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-hover text-nowrap">
-                    <thead>
+                    <thead class="thead">
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>STT</th>
+                            <th>Giờ đăng ký</th>
+                            <th>Phòng khám</th>
+                            <th>Mã khách hàng</th>
+                            <th>Họ tên</th>
+                            <th>Năm sinh</th>
+                            <th>Giờ hẹn</th>
+                            <th>Dịch vụ</th>
+                            <th>Ghi chú</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>

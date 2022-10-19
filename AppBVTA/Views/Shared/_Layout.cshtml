@@ -22,18 +22,17 @@
                     <li class="nav-item d-none d-sm-inline-block">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
                     </li>
-                    <li class="nav-item d-none d-sm-inline-block">
+                    @*<li class="nav-item d-none d-sm-inline-block">
                         <a class="nav-link" asp-area="" asp-controller="Report" asp-action="Index">Module Khám bệnh CXK</a>
-                    </li>
-                    @*<li class="nav-item dropdown dropdown-hover">
-                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Phân quyền</a>
-                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                            <li><a asp-area="" asp-controller="Permission" asp-action="Users" class="dropdown-item">Tài khoản người dùng </a></li>
-                            <li><a asp-area="" asp-controller="Permission" asp-action="Roles" class="dropdown-item">Vai trò hệ thống</a></li>
-                            <li><a asp-area="" asp-controller="Permission" asp-action="ModuleController" class="dropdown-item">ModuleControllers</a></li>
-                            <li><a asp-area="" asp-controller="Permission" asp-action="ModuleAction" class="dropdown-item">ModuleActions</a></li>
-                        </ul>
                     </li>*@
+                    <li class="nav-item dropdown dropdown-hover">
+                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Module KB Cơ xương khớp</a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="TongQuanKhamBenh" class="dropdown-item">Danh sách đăng ký khám bệnh</a></li>
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
+                            
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">

@@ -4,15 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .nav-link {
-        padding-top: 10px;
-        padding-bottom: 10px;
+    .card-title {
+        float: unset;
     }
-
-    .nav-item:hover {
-        background-color: transparent;
+    .btn {
+        display: unset;
     }
-    
 </style>
 
 <ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
@@ -37,4 +34,15 @@
         @await Html.PartialAsync("_DanhSachDangLamCLS")
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').on('click', 'a[data-toggle="ajax-modal"]', function (event) {
+                var url = $(this).data('url');
+                $(this).callModal(url);
+            });
+        });
+    </script>
+}
 

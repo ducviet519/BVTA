@@ -36,13 +36,7 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
 }
-.thead:first-child{
-    background-color: cornflowerblue;
-}
-.table .thead {
-    background-color: #3882b6;
-    color: #ffffff;
-}
+
 tr #odd {
 }
 /* Provide sufficient contrast against white background */
@@ -223,6 +217,23 @@ body {
     display: none;
 }
 
+.thead:first-child {
+    background-color: #3882b6;
+    color: #ffffff;
+}
 .table td, .table th {
     vertical-align: middle;
+}
+.head-text {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav-tabs .nav-item:hover {
+    background-color: transparent;
 }
