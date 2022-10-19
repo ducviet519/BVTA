@@ -132,19 +132,14 @@
                 var url = $(this).data('url');
                 $(this).callModal(url);
             });
-
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#ngayKham').inputmask('datetime', { alias: 'dd/mm/yyyy', inputFormat: 'dd/mm/yyyy', outputFormat: 'ddmmyyyy' });
-            
-
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-            $("#gioKham").inputmask('datetime', { alias: 'HH:MM', inputFormat: 'HH:MM', outputFormat: 'HHMM' });
-            
-
-            $('#ThangKP').datetimepicker({ format: 'MM', locale: 'vi' });
-            $('#NamKP').datetimepicker({ format: 'YYYY', locale: 'vi' });
-            
+          
         });
+        $(function () {
+            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
+            $('#gioKham').datetimepicker({ format: 'HH:mm' });
+            $('#ThangKP').datetimepicker({ format: 'MM', locale: 'vi' });
+            $('#NamKP').datetimepicker({ format: 'YYYY'});
+        })
     </script>
 }
 
