@@ -30,7 +30,9 @@
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="TongQuanKhamBenh" class="dropdown-item">Danh sách đăng ký khám bệnh</a></li>
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
-                            
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaASDAS" class="dropdown-item">Đánh giá ASDAS</a></li>
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaDAPSA" class="dropdown-item">Đánh giá DAPSA</a></li>
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaPASI" class="dropdown-item">Đánh giá PASI</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -45,6 +47,7 @@
             @RenderBody()
         </div>
         <div id="partialContainer"></div>
+
         @await Html.PartialAsync("_GlobalScripts")
         @await Html.PartialAsync("_DataTablesScripts")
         <script src="~/js/site.js" asp-append-version="true"></script>
