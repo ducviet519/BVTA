@@ -329,12 +329,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('body').on('click', 'a[data-toggle="ajax-modal"]', function (event) {
-                var url = $(this).data('url');
-                $(this).callModal(url);
-            });
-        });
         $(function () {
             $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
             $('#gioKham').datetimepicker({ format: 'HH:mm' });
@@ -353,7 +347,7 @@
             var CRP = ((document.getElementById("CRP") || {}).value) || "0";
 
             if (dauCotSong === "" || cungKhop === "" || tuDanhGia === "" || khopNgoaiVi === "") {
-                toastr.warning("Hãy chọn đủ các tiêu chí trước khi đánh giá");
+                $('#danhGia').callToast("warning","Chú ý","Hãy chọn đủ các tiêu chí trước khi đánh giá");
             }
 
             var ketQua = eval('(0.12 *' + parseInt(dauCotSong) + ') + (0.06 *' + parseInt(cungKhop) + ') + (0.11 *' + parseInt(tuDanhGia) + ') + (0.07 *' + parseInt(khopNgoaiVi) + ') + (0.58 * ' + Math.log(parseInt(CRP) + 1) + ')');

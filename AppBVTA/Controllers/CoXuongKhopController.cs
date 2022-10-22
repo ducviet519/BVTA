@@ -58,8 +58,13 @@ namespace AppBVTA.Controllers
         {
             return PartialView("_DanhMuc");
         }
-
+        public IActionResult BieuDo()
+        {
+            return PartialView("_BieuDo");
+        }
         #endregion
+
+        #region 1. Khám lâm sàng
 
         public IActionResult PhieuKhamBenh()
         {
@@ -81,10 +86,11 @@ namespace AppBVTA.Controllers
             return RedirectToAction("PhieuKhamBenh");
         }
 
-        public IActionResult BieuDo()
-        {
-            return PartialView("_BieuDo");
-        }
+        
+
+        #endregion
+
+        #region 2. Đánh giá
 
         public IActionResult DanhGiaASDAS()
         {
@@ -98,6 +104,16 @@ namespace AppBVTA.Controllers
         {
             return View();
         }
-     
+
+        #endregion
+
+        #region 3. Chỉ định
+
+        public IActionResult ChiDinh()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

@@ -65,7 +65,15 @@
             $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
             $('#gioKham').datetimepicker({ format: 'HH:mm' });
             $('#ThangKP').datetimepicker({ format: 'MM', locale: 'vi' });
-            $('#NamKP').datetimepicker({ format: 'YYYY'});
+            $('#NamKP').datetimepicker({ format: 'YYYY' });
+            $('#Mach').inputmask({ alias: 'numeric' });
+            $('#NhietDo').inputmask({ alias: 'numeric' });
+            $('#HA').inputmask({ alias: 'numeric' });
+            $('#HA2').inputmask({ alias: 'numeric' });
+            $('#NhipTho').inputmask({ alias: 'numeric' });
+            $('#ChieuCao').inputmask({ alias: 'numeric' });
+            $('#CanNang').inputmask({ alias: 'numeric' });
+            $('#BMI').inputmask({ alias: 'numeric' });
         })
 
         $(function () {
@@ -243,7 +251,6 @@
                     }]
                 }
             }
-
             new Chart(stackedBarChartCanvas, {
                 type: 'bar',
                 data: stackedBarChartData,

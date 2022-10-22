@@ -33,6 +33,7 @@
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaASDAS" class="dropdown-item">Đánh giá ASDAS</a></li>
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaDAPSA" class="dropdown-item">Đánh giá DAPSA</a></li>
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaPASI" class="dropdown-item">Đánh giá PASI</a></li>
+                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="ChiDinh" class="dropdown-item">Chỉ định dịch vụ</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -46,12 +47,14 @@
         <div class="content-wrapper">
             @RenderBody()
         </div>
-        <div id="partialContainer"></div>
+        <div id="myPopup"></div>
 
         @await Html.PartialAsync("_GlobalScripts")
         @await Html.PartialAsync("_DataTablesScripts")
+        @await RenderSectionAsync("ScriptsContent", required: false)
         <script src="~/js/site.js" asp-append-version="true"></script>
         @await RenderSectionAsync("Scripts", required: false)
+
     </div>
 </body>
 </html>
