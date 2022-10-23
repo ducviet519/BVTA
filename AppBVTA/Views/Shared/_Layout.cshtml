@@ -51,7 +51,6 @@
 
         @await Html.PartialAsync("_GlobalScripts")
         @await Html.PartialAsync("_DataTablesScripts")
-        @await RenderSectionAsync("ScriptsContent", required: false)
         <script src="~/js/site.js" asp-append-version="true"></script>
         @await RenderSectionAsync("Scripts", required: false)
 

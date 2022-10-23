@@ -113,7 +113,14 @@ namespace AppBVTA.Controllers
         {
             return View();
         }
-
+        public IActionResult KetQuaChanDoanHinhAnh()
+        {
+            return PartialView("_KetQuaChanDoanHinhAnh");
+        }
+        public IActionResult KetQuaXetNghiem()
+        {
+            return PartialView("_KetQuaXetNghiem");
+        }
         #endregion
     }
 }

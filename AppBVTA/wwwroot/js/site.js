@@ -10,12 +10,13 @@ $.fn.clearData = function ($form) {
 }
 
 $.fn.callModal = function (url) {
+    
     var ReportPopupElement = $('#myPopup');
-    $("body").find(".modal-backdrop").remove();
     $.ajax({
         url: url,
         dataType: 'html',
         success: function (data) {
+            $("body").find(".modal-backdrop").remove();
             ReportPopupElement.html(data);
             ReportPopupElement.find('.modal').modal('show');
         }, error: function (xhr, status) {
