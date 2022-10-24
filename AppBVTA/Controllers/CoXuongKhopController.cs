@@ -121,6 +121,25 @@ namespace AppBVTA.Controllers
         {
             return PartialView("_KetQuaXetNghiem");
         }
+        public IActionResult ThemMoiChiDinh()
+        {
+            return View();
+        }
+        #endregion
+
+        #region Danh sách đơn thuốc
+        public IActionResult DanhSachDonThuoc()
+        {
+            return View();
+        }
+        public IActionResult ThemMoiDonThuoc()
+        {
+            return PartialView("_ThemMoiDonThuoc");
+        }
+        public IActionResult SuaDonThuoc()
+        {
+            return PartialView("_SuaDonThuoc");
+        }
         #endregion
     }
 }

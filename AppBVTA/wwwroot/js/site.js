@@ -238,17 +238,17 @@ $.fn.callDataTable_Checkbox_RowGrouping = function (groupColumn, colspanColumn) 
 }
 
 
-$.fn.callDataTable = function (disableColumn) {
+$.fn.callDataTable = function (disableColumn, pageLength) {
     var array = [];
     $.each(disableColumn.split(','), function (idx, val) {
         array.push(parseInt(val));
     });
     if (disableColumn == '') { disableColumn = 0; }
 
-    $(this).DataTable({
+    var table = $(this).DataTable({
         "paging": true,
         "lengthChange": false,
-        "pageLength": 15,
+        "pageLength": pageLength,
         "searching": true,
         "processing": true,
         "ordering": true,
@@ -275,4 +275,5 @@ $.fn.callDataTable = function (disableColumn) {
             }
         },
     });
+    return table;
 }

@@ -29,10 +29,17 @@
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Module KB Cơ xương khớp</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="TongQuanKhamBenh" class="dropdown-item">Danh sách đăng ký khám bệnh</a></li>
-                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
-                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaASDAS" class="dropdown-item">Đánh giá ASDAS</a></li>
-                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaDAPSA" class="dropdown-item">Đánh giá DAPSA</a></li>
-                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaPASI" class="dropdown-item">Đánh giá PASI</a></li>
+                            <li class="nav-item dropdown-submenu dropdown-hover">
+                                <a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Phiếu khám bệnh</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaASDAS" class="dropdown-item">Đánh giá ASDAS</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaDAPSA" class="dropdown-item">Đánh giá DAPSA</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaPASI" class="dropdown-item">Đánh giá PASI</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="ChiDinh" class="dropdown-item">Chỉ định</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhSachDonThuoc" class="dropdown-item">Đơn thuốc</a></li>
+                                </ul>
+                            </li>
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="ChiDinh" class="dropdown-item">Chỉ định dịch vụ</a></li>
                         </ul>
                     </li>
