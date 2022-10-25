@@ -10,5 +10,7 @@ namespace DataBVTA.Models.ViewModels
     public class ThongTinBenhNhanVM
     {
         public ThongTinBenhNhan BenhNhan { get; set; } 
+
+        public List<ThongTinBenhNhan> ListBenhNhan { get; set; }
     }
 }

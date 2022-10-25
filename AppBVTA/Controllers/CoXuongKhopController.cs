@@ -127,7 +127,7 @@ namespace AppBVTA.Controllers
         }
         #endregion
 
-        #region Danh sách đơn thuốc
+        #region 4. Danh sách đơn thuốc
         public IActionResult DanhSachDonThuoc()
         {
             return View();
@@ -139,6 +139,13 @@ namespace AppBVTA.Controllers
         public IActionResult SuaDonThuoc()
         {
             return PartialView("_SuaDonThuoc");
+        }
+        #endregion
+
+        #region 5. Xử trí
+        public IActionResult XuTri()
+        {
+            return View();
         }
         #endregion
     }
