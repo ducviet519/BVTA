@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group row">
-                    <label for="BacSi" class="col-2">Bác sĩ: </label>
+                    <label for="BacSi" class="col-form-label col-2">Bác sĩ: </label>
                     <select class="form-control col-8" id="BacSi" name="BacSi">
                         <option>Tên bác sĩ</option>
                     </select>
@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group row">
-                            <label for="DoiThuong" class="col-auto">Đối tượng: </label>
+                            <label for="DoiThuong" class="col-form-label col-auto">Đối tượng: </label>
                             <select class="form-control col-6" id="DoiThuong" name="DoiThuong">
                                 <option>Thu phí</option>
                             </select>
@@ -43,28 +43,28 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group row">
-                            <label for="SoLuong" class="col-auto">Số lượng: </label>
+                            <label for="SoLuong" class="col-form-label col-auto">Số lượng: </label>
                             <input type="text" class="form-control col-2" id="soLuong" value="1" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="form-group row">
             <div class="col-2">
-                <label class="col-auto">Dịch vụ: </label>
+                <label class="col-form-label col-auto">Dịch vụ: </label>
                 <label class="col-auto" id="maDichVu" style="color: dodgerblue; font-weight:bold"></label>
             </div>
             <div class="col-8">
                 <select class="example form-control">
                     <option value="0">0001|Tên dịch vụ 1|10000</option>
                     <option value="1">0002|Tên dịch vụ 2|20000</option>
-                    <option value="2">0003|Tên dịch vụ 3|30000</option>
+                    <option value="2">0003|Tên dịch vụ 3Tên dịch vụ 3Tên dịch vụ 3Tên dịch vụ 3Tên dịch vụ 3Tên dịch vụ 3Tên dịch vụ 3|30000</option>
                     <option value="3">0004|Tên dịch vụ 4|40000</option>
                     <option value="4">0005|Tên dịch vụ 5|50000</option>
                     <option value="5">0006|Tên dịch vụ 6|60000</option>
                 </select>
-                <table class="table table-bordered table-hover text-nowrap" id="dichvuTable">
+                @*<table class="table table-bordered table-hover text-nowrap" id="dichvuTable">
                     <thead class="thead">
                         <tr>
                             <th>Mã</th>
@@ -72,16 +72,16 @@
                             <th>Giá</th>
                         </tr>
                     </thead>
-                </table>
+                </table>*@
             </div>
             <div class="col-2">
-                <label class="col-auto" id="tongTien" style="color: dodgerblue; font-weight:bold"></label>
+                <label class="col-form-label col-auto" id="tongTien" style="color: dodgerblue; font-weight:bold"></label>
             </div>
         </div>
-        <div class="row">
+        <div class="form-group row justify-content-between">
             <div class="col-6">
                 <div class="form-group row mb-2">
-                    <label class="col-auto">Ngày thực hiện: </label>
+                    <label class="col-form-label col-auto">Ngày thực hiện: </label>
                     <div class="col-3">
                         <input type="text" id="ngayThucHien" name="ngayThucHien" class="form-control datetimepicker-input ngayThucHien" data-toggle="datetimepicker" data-target="#ngayThucHien" />
                     </div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-3">
                 <button class="btn btn-success btn-sm" type="submit">Lưu chỉ định</button>
             </div>
         </div>
@@ -126,10 +126,10 @@
                 templateResult: function (option) {
                     var item = option.text.split('|');
                     var ob = jQuery(
-                        '<div class="row">' +
+                        '<div class="row justify-content-between">' +
                         '<div class="col-md-2">' + item[0] + '</div>' +
-                        '<div class="col-md-7">' + item[1] + '</div>' +
-                        '<div class="col-md-3">' + item[2] + '</div>' +
+                        '<div class="col-md-8 text-wrap">' + item[1] + '</div>' +
+                        '<div class="col-md-2">' + item[2] + '</div>' +
                         '</div>');
                     return ob;
                 },
@@ -141,17 +141,18 @@
                     return m;
                 }
             });
-            var table = $('#dichvuTable').callDataTable("0,1,2", 10);
-            $(".example").on('change', function (e) {
+
+            //var table = $('#dichvuTable').callDataTable("0,1,2", 10);
+            $(".example").on('propertychange change keyup paste input', function (e) {
                 var item = $(".example").find(":selected").text().split('|');
-                table.row().remove();
-                table.row.add([item[0], item[1], item[2]]).draw(false);
+                //table.row().remove();
+                //table.row.add([item[0], item[1], item[2]]).draw(false);
                 var soluong = $('#soLuong').val();
 
                 document.getElementById('maDichVu').innerText = item[0];
                 document.getElementById('tongTien').innerText = (soluong * parseInt(item[2])).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });;
             });
-            $('#soLuong').on('change', function () {
+            $('#soLuong').on('propertychange change keyup paste input', function () {
                 var item = $(".example").find(":selected").text().split('|');
                 var soluong = $('#soLuong').val();
                 document.getElementById('tongTien').innerText = (parseInt(soluong) * parseInt(item[2])).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });;
