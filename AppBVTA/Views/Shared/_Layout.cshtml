@@ -29,8 +29,18 @@
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Module KB Cơ xương khớp</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                             <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="TongQuanKhamBenh" class="dropdown-item">Danh sách đăng ký khám bệnh</a></li>
-                            <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
-                            
+                            <li class="nav-item dropdown-submenu dropdown-hover">
+                                <a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Phiếu khám bệnh</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="PhieuKhamBenh" class="dropdown-item">Chi tiết khám bệnh</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaASDAS" class="dropdown-item">Đánh giá ASDAS</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaDAPSA" class="dropdown-item">Đánh giá DAPSA</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhGiaPASI" class="dropdown-item">Đánh giá PASI</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="ChiDinh" class="dropdown-item">Chỉ định</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="DanhSachDonThuoc" class="dropdown-item">Đơn thuốc</a></li>
+                                    <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="XuTri" class="dropdown-item">Xử trí</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -44,11 +54,13 @@
         <div class="content-wrapper">
             @RenderBody()
         </div>
-        <div id="partialContainer"></div>
+        <div id="myPopup"></div>
+
         @await Html.PartialAsync("_GlobalScripts")
         @await Html.PartialAsync("_DataTablesScripts")
         <script src="~/js/site.js" asp-append-version="true"></script>
         @await RenderSectionAsync("Scripts", required: false)
+
     </div>
 </body>
 </html>

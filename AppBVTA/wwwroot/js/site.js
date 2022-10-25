@@ -10,12 +10,13 @@ $.fn.clearData = function ($form) {
 }
 
 $.fn.callModal = function (url) {
-    var ReportPopupElement = $('#partialContainer');
-    $("body").find(".modal-backdrop").remove();
+    
+    var ReportPopupElement = $('#myPopup');
     $.ajax({
         url: url,
         dataType: 'html',
         success: function (data) {
+            $("body").find(".modal-backdrop").remove();
             ReportPopupElement.html(data);
             ReportPopupElement.find('.modal').modal('show');
         }, error: function (xhr, status) {
@@ -36,66 +37,243 @@ $.fn.callModal = function (url) {
     });
 }
 
-$.fn.callDataTable = function (lang, disableColumn) {
+$.fn.callToast = function (status, title, msg) {
+    toastr.options = {
+        "closeButton": false,
+        "debug": true,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    if (status == "success") {
+        toastr.success(msg, title)
+    }
+    else if (status == "info") {
+        toastr.info(msg, title)
+    }
+    else if (status == "warning") {
+        toastr.warning(msg, title)
+    }
+    else if (status == "error") {
+        toastr.error(msg, title)
+    }
+}
+
+
+//Test Export trong trường hợp không truyền exportColumn
+$.fn.callDataTableExportExcel = function (btnName, btnClass, excellTitle, excelSheetName, exportColumn) {
+    var array = [];
+    $.each(exportColumn.split(','), function (idx, val) {
+        array.push(parseInt(val));
+    });
+    if (btnName == '') { btnName = "Xuất Excel"; }
+    if (btnClass == '') { btnName = "btn btn-danger btn-sm"; }
+    if (excellTitle == '') { excellTitle = "Xuất dữ liệu Excel - Bệnh viện Tâm Anh"; }
+    if (excelSheetName == '') { excelSheetName = "Dữ liệu"; }
+    if (exportColumn == '') { exportColumn = ':visible'; }
+
+    $(this).DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": 15,
+        "searching": true,
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "order": [[0, 'asc']],
+        "columnDefs": [{
+            targets: -1,
+            visible: false
+        }],
+        "dom": 'Bfrtip',
+        "buttons": [{
+            "extend": 'excel',
+            "text": btnName,
+            "className": btnClass,
+            "title": excellTitle,
+            "sheetName": excelSheetName,
+            "exportOptions": { columns: array },
+        }],
+        "initComplete": function (settings, json) {
+            $(".buttons-excel").removeClass("dt-button");
+        },
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
+    });
+}
+
+$.fn.callDataTableCheckbox = function () {
+
+    var table = $(this).DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": 15,
+        "searching": true,
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "autoFill": true,
+        "responsive": true,
+        "order": [[1, 'asc']],
+        "columnDefs": [{
+            "className": 'select-checkbox',
+            "orderable": false,
+            "targets": 0
+        }],
+        "select": {
+            "style": 'multi',
+            "selector": 'td:first-child'
+        },
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
+    });
+    return table;
+}
+
+$.fn.callDataTable_Checkbox_RowGrouping = function (groupColumn, colspanColumn) {
+
+    var table = $("#tableChiDinh").DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": 15,
+        "searching": true,
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "autoFill": true,
+        "responsive": true,
+        "columnDefs": [{
+            "className": 'select-checkbox',
+            "orderable": false,
+            "targets": 0
+        },
+        { "visible": false, "targets": groupColumn }
+        ],
+        "order": [[groupColumn, 'asc']],
+        "select": {
+            "style": 'multi',
+            "selector": 'td:first-child'
+        },
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            var last = null;
+
+            api
+                .column(groupColumn, { page: 'current' })
+                .data()
+                .each(function (group, i) {
+                    if (last !== group) {
+                        $(rows)
+                            .eq(i)
+                            .before('<tr class="group"><td colspan="' + colspanColumn + '">' + group + '</td></tr>');
+
+                        last = group;
+                    }
+                });
+        },
+    });
+    return table;
+}
+
+
+$.fn.callDataTable = function (disableColumn, pageLength) {
     var array = [];
     $.each(disableColumn.split(','), function (idx, val) {
         array.push(parseInt(val));
     });
-
-    var setVal = 'en';
-    if (lang == 'vi') setVal = 'Vietnamese';
     if (disableColumn == '') { disableColumn = 0; }
 
-    $(this).DataTable({
-        "bPaginate": true,
-        "pageLength": 30,
-        "responsive": false,
+    var table = $(this).DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": pageLength,
         "searching": true,
-        "info": false,
-        "bLengthChange": false,
-        "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/" + setVal + ".json" },
-        "order": [],
-        "columnDefs": [{ orderable: false, targets: array }]
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "order": [[0, 'asc']],
+        "columnDefs": [{ orderable: false, targets: array }],
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
     });
-}
-
-$.fn.callToast = function (status, head, message) {
-    if (status == "success") {
-        $.toast({
-            heading: head,
-            text: message,
-            showHideTransition: 'fade',
-            icon: 'success',
-            position: 'top-center',
-            hideAfter: 5000,
-            afterHidden: function () {
-                $(".jq-toast-wrap").remove();
-            },
-            stack: false
-        })
-    } else if (status == "warning") {
-        $.toast({
-            heading: head,
-            text: message,
-            showHideTransition: 'fade',
-            icon: 'warning',
-            position: 'top-center',
-            hideAfter: 5000,
-            afterHidden: function () {
-                $(".jq-toast-wrap").remove();
-            }, stack: false
-        })
-    } else {
-        $.toast({
-            heading: head,
-            text: message,
-            showHideTransition: 'fade',
-            icon: 'error',
-            position: 'top-center',
-            hideAfter: 5000,
-            afterHidden: function () {
-                $(".jq-toast-wrap").remove();
-            }, stack: false
-        })
-    }
+    return table;
 }
