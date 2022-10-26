@@ -35,11 +35,12 @@ namespace AppBVTA.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> SearchTable(string phongKham)
+        public async Task<JsonResult> GetDanhSachChoKham(string phongKham, string mabn, string param)
         {
             string ngayKham = DateTime.Now.ToString("yyyyMMdd");
-            return Json(new { data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham) });
+            return Json(new { data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham, mabn, param) });
         }
+
 
         [HttpGet]
         public IActionResult DanhSachDangKyKCB()

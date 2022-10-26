@@ -9,6 +9,6 @@ namespace DataBVTA.Services.Interfaces
 {
     public interface IChoKhamRepository
     {
-        public Task<List<ChoKhamModel>> DanhSachChoKhamAsync(string ngayKham = "", string maPhongKham = "");
+        public Task<List<ChoKhamModel>> DanhSachChoKhamAsync(string ngayKham = "", string maPhongKham = "",string mabn="" , string param="");
     }
 }
