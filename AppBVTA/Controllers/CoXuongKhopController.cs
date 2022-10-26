@@ -1,6 +1,8 @@
 ﻿using DataBVTA.Models.Entities;
 using DataBVTA.Models.ViewModels;
+using DataBVTA.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,33 @@ namespace AppBVTA.Controllers
 {
     public class CoXuongKhopController : Controller
     {
-        public IActionResult Index()
+        private readonly IUnitOfWork _services;
+        public CoXuongKhopController(IUnitOfWork services)
         {
-            return View();
+            _services = services;
+        }
+        public async Task<IActionResult> Index()
+        {
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync();
+            return View(model);
         }
 
         #region Tổng quan danh sách đăng ký khám chữa bệnh
 
         [HttpGet]
-        public IActionResult TongQuanKhamBenh()
+        public async Task<IActionResult> TongQuanKhamBenh()
+        {  
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.PhongKham = new SelectList(await _services.PhongKham.DanhSachPhongKhamAsync(), "makp", "tenkp");
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> SearchTable(string phongKham)
         {
-            return View();
+            string ngayKham = DateTime.Now.ToString("yyyyMMdd");
+            return Json(new { data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham) });
         }
 
         [HttpGet]

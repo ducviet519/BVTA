@@ -277,3 +277,46 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
     });
     return table;
 }
+function searchDataTable(id, columnData, url, pageLength) {
+    var table = $(id).DataTable();
+    if ($.fn.dataTable.isDataTable(id)) {
+        table.destroy();
+        $(id).find('tbody').empty();
+    }
+    $(id).DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": pageLength,
+        "searching": true,
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "order": [[0, 'asc']],
+        "ajax": {
+            "url": url,
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": columnData,
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
+    });
+}
+
