@@ -22,16 +22,16 @@ $.fn.callModal = function (url) {
         }, error: function (xhr, status) {
             switch (status) {
                 case 404:
-                    $(this).callToast("error", 'Thông báo', 'File not found');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không tìm thấy chức năng!');
                     break;
                 case 500:
-                    $(this).callToast("error", 'Thông báo', 'Server error');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không kết nối được tới Server!');
                     break;
                 case 0:
-                    $(this).callToast("error", 'Thông báo', 'Request aborted');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi không phản hồi!');
                     break;
                 default:
-                    $(this).callToast("error", 'Thông báo', 'Unknown error ' + status);
+                    $(this).callToast("error", 'Thông báo', 'Sự cố không xác định! Lỗi: ' + status);
             }
         }
     });
