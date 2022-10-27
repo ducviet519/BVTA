@@ -33,7 +33,10 @@ namespace DataBVTA.Services.Repositories
         public async Task<List<ChoKhamModel>> DanhSachChoKhamAsync(string ngayKham = "", string maPhongKham = "",string mabn ="", string param= "")
         {
             List<ChoKhamModel> data = new List<ChoKhamModel>();
-            if(String.IsNullOrEmpty(ngayKham)) { ngayKham = DateTime.Now.ToString("yyyyMMdd"); }    
+            if(String.IsNullOrEmpty(ngayKham)) { ngayKham = DateTime.Now.ToString("yyyyMMdd"); }
+            if (String.IsNullOrEmpty(maPhongKham)) { maPhongKham = "-1"; }
+            if (String.IsNullOrEmpty(mabn)) { mabn = "-1"; } 
+
 
             try
             {

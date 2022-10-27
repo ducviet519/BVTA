@@ -15,6 +15,7 @@
                                 <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
                                 <div class="col-5">
                                     <select class="form-control" id="PhongKham" name="PhongKham" asp-items="@Model.PhongKham">
+                                        <option value="-1" selected="selected">Tất cả phòng khám</option>
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-info ml-5" id="searchKCB">Tìm kiếm</button>

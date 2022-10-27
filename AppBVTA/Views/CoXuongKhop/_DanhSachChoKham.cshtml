@@ -14,11 +14,12 @@
                             <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
                             <div class="col-auto">
                                 <select class="form-control" id="PhongKham2" name="PhongKham2" asp-items="@Model.PhongKham">
+                                    <option value="-1" selected="selected">Tất cả phòng khám</option>
                                 </select>
                             </div>
                             <label for="HoTenKH" class="col-form-label col-auto ml-5">PID/Họ tên KH:</label>
                             <div class="col-auto">
-                                <input type ="text" class="form-control" id="HoTenKH" name="HoTenKH" />
+                                <input type ="text" class="form-control" id="HoTenKH" name="HoTenKH"/>
                             </div>
                             <button class="btn btn-info ml-5" id="searchChoKham">Tìm kiếm</button>
                         </div>

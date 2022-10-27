@@ -292,8 +292,12 @@ function searchDataTable(id, columnData, url, pageLength) {
         "ordering": true,
         "info": true,
         "autoWidth": true,
-        "responsive": true,
+        "responsive": false,
         "order": [[0, 'asc']],
+        "columnDefs": [
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all"},
+        ],
         "ajax": {
             "url": url,
             "type": "GET",

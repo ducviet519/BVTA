@@ -51,7 +51,8 @@
         });
 
         $(function () {
-            var phongKham = $("#PhongKham").find(":selected").val();
+            var phongKham = "";
+            //var phongKham = $("#PhongKham").find(":selected").val();
             var hoTenKH = "";
 
             var searchTerm1 = "param=1";
@@ -64,7 +65,12 @@
                 { "data": "stt" },
                 { "data": "tenphongkham" },
                 { "data": "tongso" },
-                { "data": "chuakham" },
+                {
+                    "data": { chuakham: "chuakham", maphongkham: "maphongkham" },
+                    "render": function (data, title, row) {
+                        return '<a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-' + row.id + '" data-url="/CoXuongKhop/DanhSachChuaKham?mapk=' + data.maphongkham + '">' + data.chuakham + '</a>';
+                    }
+                },
                 { "data": "cls" },
                 { "data": "coketqua" },
                 { "data": "dakham" },
@@ -93,7 +99,7 @@
                 searchTerm2 += "&phongKham=" + phongKham;
             if ($.trim(hoTenKH) != "")
                 searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
-            
+
             var columnChoKham = [
                 { "data": "stt" },
                 { "data": "giodk" },

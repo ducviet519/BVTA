@@ -28,7 +28,7 @@ namespace AppBVTA.Controllers
 
         [HttpGet]
         public async Task<IActionResult> TongQuanKhamBenh()
-        {  
+        {
             DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
             model.PhongKham = new SelectList(await _services.PhongKham.DanhSachPhongKhamAsync(), "makp", "tenkp");
             return View(model);
@@ -38,7 +38,18 @@ namespace AppBVTA.Controllers
         public async Task<JsonResult> GetDanhSachChoKham(string phongKham, string mabn, string param)
         {
             string ngayKham = DateTime.Now.ToString("yyyyMMdd");
-            return Json(new { data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham, mabn, param) });
+            var danhSachPK = await _services.PhongKham.DanhSachPhongKhamAsync();
+            List<string> maPK = new List<string>();
+            foreach (var pk in danhSachPK)
+            {
+                maPK.Add(pk.makp);
+            }
+            var data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham, mabn, param);
+            if (String.IsNullOrEmpty(phongKham) == true || phongKham == "-1")
+            {
+                data = data.Where(s => maPK.Contains(s.maphongkham)).ToList();
+            }
+            return Json(new { data });
         }
 
 
@@ -53,6 +64,13 @@ namespace AppBVTA.Controllers
             return PartialView("_DanhSachChiTietBenhNhanChoKham");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DanhSachChuaKham(string mapk)
+        {
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync("", mapk,"","2");
+            return PartialView("_DanhSachChuaKham", model);
+        }
 
         [HttpGet]
         public IActionResult DanhSachChoKham()
@@ -96,7 +114,7 @@ namespace AppBVTA.Controllers
         [HttpGet]
         public IActionResult KhamLamSang()
         {
-            
+
             return PartialView("_KhamLamSang");
         }
         [HttpPost]
@@ -105,7 +123,7 @@ namespace AppBVTA.Controllers
             return RedirectToAction("PhieuKhamBenh");
         }
 
-        
+
 
         #endregion
 
