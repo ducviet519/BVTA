@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Phiếu khám bệnh</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <style type="text/css">
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+        }
+
+        .tieumuc {
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        .noidung {
+            font-weight: 400;
+            color: cornflowerblue;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row text-center">
+            <p style="text-transform:uppercase; font-size:20px; font-weight:bold;">Phiếu khám bệnh / Medical Record</p>
+        </div>
+        <div class="row text-center">
+            <p>PHÒNG KHÁM/CLINIC:</p>
+        </div>
+        <!-- I. HÀNH CHÍNH/PATIENT INFORMATION -->
+        <div class="row">
+            <p class="tieumuc">I. HÀNH CHÍNH/PATIENT INFORMATION:</p>
+        </div>
+        <div class="row">
+            <span>1. Họ và tên BN (In hoa)/Patient's name:</span>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-4">
+                <label>2. Ngày sinh/DOB (dd/mm/yyyy):</label>
+            </div>
+            <div class="col-4">
+                <label>7. Điện thoại liên hệ/Phone No:</label>
+            </div>
+        </div>
+        <!-- I. HÀNH CHÍNH/PATIENT INFORMATION -->
+    </div>
+</body>
+</html>
