@@ -185,5 +185,10 @@ namespace AppBVTA.Controllers
             return View();
         }
         #endregion
+
+        public IActionResult PhieuKhamBenhReport()
+        {
+            return View();
+        }
     }
 }

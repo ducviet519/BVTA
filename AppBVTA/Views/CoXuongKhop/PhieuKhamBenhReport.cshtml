@@ -1,0 +1,11 @@
+﻿@using AppBVTA.Reports
+@{
+    ViewData["Title"] = "Phiếu khám bệnh";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/viewer.part.bundle.css" />
+<script src="~/js/viewer.part.bundle.js"></script>
+
+@Html.DevExpress().WebDocumentViewer("DocumentViewer").Height("1000px").Bind(new PhieuKhamBenh())
+
