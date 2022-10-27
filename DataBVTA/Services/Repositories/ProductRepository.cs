@@ -51,7 +51,7 @@ namespace DataBVTA.Services.Repositories
                 return result;
             }
         }
-        public async Task<IReadOnlyList<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync()
         {
             var sql = "SELECT * FROM Products";
             using (IDbConnection dbConnection = Connection)

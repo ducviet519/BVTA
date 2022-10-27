@@ -1,6 +1,8 @@
 ﻿using DataBVTA.Models.Entities;
 using DataBVTA.Models.ViewModels;
+using DataBVTA.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +12,46 @@ namespace AppBVTA.Controllers
 {
     public class CoXuongKhopController : Controller
     {
-        public IActionResult Index()
+        private readonly IUnitOfWork _services;
+        public CoXuongKhopController(IUnitOfWork services)
         {
-            return View();
+            _services = services;
+        }
+        public async Task<IActionResult> Index()
+        {
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync();
+            return View(model);
         }
 
         #region Tổng quan danh sách đăng ký khám chữa bệnh
 
         [HttpGet]
-        public IActionResult TongQuanKhamBenh()
+        public async Task<IActionResult> TongQuanKhamBenh()
         {
-            return View();
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.PhongKham = new SelectList(await _services.PhongKham.DanhSachPhongKhamAsync(), "makp", "tenkp");
+            return View(model);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetDanhSachChoKham(string phongKham, string mabn, string param)
+        {
+            string ngayKham = DateTime.Now.ToString("yyyyMMdd");
+            var danhSachPK = await _services.PhongKham.DanhSachPhongKhamAsync();
+            List<string> maPK = new List<string>();
+            foreach (var pk in danhSachPK)
+            {
+                maPK.Add(pk.makp);
+            }
+            var data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham, mabn, param);
+            if (String.IsNullOrEmpty(phongKham) == true || phongKham == "-1")
+            {
+                data = data.Where(s => maPK.Contains(s.maphongkham)).ToList();
+            }
+            return Json(new { data });
+        }
+
 
         [HttpGet]
         public IActionResult DanhSachDangKyKCB()
@@ -34,6 +64,13 @@ namespace AppBVTA.Controllers
             return PartialView("_DanhSachChiTietBenhNhanChoKham");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DanhSachChuaKham(string mapk)
+        {
+            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
+            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync("", mapk,"","2");
+            return PartialView("_DanhSachChuaKham", model);
+        }
 
         [HttpGet]
         public IActionResult DanhSachChoKham()
@@ -77,7 +114,7 @@ namespace AppBVTA.Controllers
         [HttpGet]
         public IActionResult KhamLamSang()
         {
-            
+
             return PartialView("_KhamLamSang");
         }
         [HttpPost]
@@ -86,7 +123,7 @@ namespace AppBVTA.Controllers
             return RedirectToAction("PhieuKhamBenh");
         }
 
-        
+
 
         #endregion
 

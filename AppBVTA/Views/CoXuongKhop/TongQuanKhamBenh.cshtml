@@ -1,4 +1,4 @@
-﻿
+﻿@model DataBVTA.Models.ViewModels.DanhSachDangKyKhamBenh
 @{
     ViewData["Title"] = "TongQuanKhamBenh";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,8 +7,13 @@
     .card-title {
         float: unset;
     }
+
     .btn {
         display: unset;
+    }
+
+    .dataTables_filter {
+        display: none;
     }
 </style>
 
@@ -25,13 +30,13 @@
 </ul>
 <div class="tab-content pl-3 pr-3" id="custom-content-below-tabContent">
     <div class="tab-pane fade show active" id="content-DanhSachDangKyKCB" role="tabpanel" aria-labelledby="content-DanhSachDangKyKCB">
-        @await Html.PartialAsync("_DanhSachDangKyKCB")
+        @await Html.PartialAsync("_DanhSachDangKyKCB", Model)
     </div>
     <div class="tab-pane fade" id="content-DanhSachChoKham" role="tabpanel" aria-labelledby="content-DanhSachChoKham">
-        @await Html.PartialAsync("_DanhSachChoKham")
+        @await Html.PartialAsync("_DanhSachChoKham", Model)
     </div>
     <div class="tab-pane fade" id="content-DanhSachDangLamCLS" role="tabpanel" aria-labelledby="content-DanhSachDangLamCLS">
-        @await Html.PartialAsync("_DanhSachDangLamCLS")
+        @await Html.PartialAsync("_DanhSachDangLamCLS", Model)
     </div>
 </div>
 
@@ -41,6 +46,126 @@
             $('body').on('click', 'a[data-toggle="ajax-modal"]', function (event) {
                 var url = $(this).data('url');
                 $(this).callModal(url);
+            });
+            $('#PhongKham').select2();
+        });
+
+        $(function () {
+            var phongKham = $("#PhongKham").find(":selected").val();
+            var hoTenKH = "";
+
+            var searchTerm1 = "param=1";
+            if (phongKham != "")
+                searchTerm1 += "&phongKham=" + phongKham;
+            if ($.trim(hoTenKH) != "")
+                searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+            var columnData = [
+                { "data": "stt" },
+                { "data": "tenphongkham" },
+                { "data": "tongso" },
+                {
+                    "data": { chuakham: "chuakham", maphongkham: "maphongkham" },
+                    "render": function (data, title, row) {
+                        return '<a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-' + row.id + '" data-url="/CoXuongKhop/DanhSachChuaKham?mapk=' + data.maphongkham + '">' + data.chuakham + '</a>';
+                    }
+                },
+                { "data": "cls" },
+                { "data": "coketqua" },
+                { "data": "dakham" },
+            ]
+            searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10);
+
+            $('#searchKCB').on('click', function () {
+                var phongKham = $("#PhongKham").find(":selected").val();
+                var hoTenKH = "";
+
+                var searchTerm1 = "param=1";
+                if (phongKham != "")
+                    searchTerm1 += "&phongKham=" + phongKham;
+                if ($.trim(hoTenKH) != "")
+                    searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+                searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10);
+            });
+        });
+
+        $(function () {
+            var phongKham = $("#PhongKham2").find(":selected").val();
+            var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
+
+            var searchTerm2 = "param=2";
+            if (phongKham != "")
+                searchTerm2 += "&phongKham=" + phongKham;
+            if ($.trim(hoTenKH) != "")
+                searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+            var columnChoKham = [
+                { "data": "stt" },
+                { "data": "giodk" },
+                { "data": "tenphongkham" },
+                { "data": "mabn" },
+                { "data": "hoten" },
+                { "data": "namsinh" },
+                { "data": "giohen" },
+                { "data": "tenchidinh" },
+                { "data": "ghichu" },
+                {
+                    "render": function (data, row) { return "<a class='btn btn-link btn-sm' onclick=XacNhanKB('" + row.id + "'); >Xác nhận</a>"; }
+                },
+            ]
+            searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10);
+
+            $('#searchChoKham').on('click', function () {
+                var phongKham = $("#PhongKham2").find(":selected").val();
+                var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
+
+                var searchTerm2 = "param=2";
+                if (phongKham != "")
+                    searchTerm2 += "&phongKham=" + phongKham;
+                if ($.trim(hoTenKH) != "")
+                    searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+                searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10);
+            });
+        });
+
+        $(function () {
+            var phongKham = $("#PhongKham3").find(":selected").val();
+            var hoTenKH = ((document.getElementById("HoTenKH3") || {}).value) || "";
+
+            var searchTerm3 = "param=3";
+            if (phongKham != "")
+                searchTerm3 += "&phongKham=" + phongKham;
+            if ($.trim(hoTenKH) != "")
+                searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+            var columnCLS = [
+                { "data": "stt" },
+                { "data": "giodk" },
+                { "data": "tenphongkham" },
+                { "data": "mabn" },
+                { "data": "hoten" },
+                { "data": "namsinh" },
+                { "data": "giohen" },
+                { "data": "tenchidinh" },
+                { "data": "ghichu" },
+                {
+                    "render": function (data, row) { return "<a class='btn btn-link btn-sm' onclick=PhieuKhamBenh('" + row.id + "'); >Xem phiếu khám</a>"; }
+                },
+            ]
+            searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10);
+
+            $('#searchDangThucHienCLS').on('click', function () {
+                var phongKham = $("#PhongKham3").find(":selected").val();
+                var hoTenKH = ((document.getElementById("HoTenKH3") || {}).value) || "";
+
+                var searchTerm3 = "param=3";
+                if (phongKham != "")
+                    searchTerm3 += "&phongKham=" + phongKham;
+                if ($.trim(hoTenKH) != "")
+                    searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+                searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10);
             });
         });
     </script>

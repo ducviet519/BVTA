@@ -22,16 +22,16 @@ $.fn.callModal = function (url) {
         }, error: function (xhr, status) {
             switch (status) {
                 case 404:
-                    $(this).callToast("error", 'Thông báo', 'File not found');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không tìm thấy chức năng!');
                     break;
                 case 500:
-                    $(this).callToast("error", 'Thông báo', 'Server error');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không kết nối được tới Server!');
                     break;
                 case 0:
-                    $(this).callToast("error", 'Thông báo', 'Request aborted');
+                    $(this).callToast("error", 'Thông báo', 'Lỗi không phản hồi!');
                     break;
                 default:
-                    $(this).callToast("error", 'Thông báo', 'Unknown error ' + status);
+                    $(this).callToast("error", 'Thông báo', 'Sự cố không xác định! Lỗi: ' + status);
             }
         }
     });
@@ -277,3 +277,50 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
     });
     return table;
 }
+function searchDataTable(id, columnData, url, pageLength) {
+    var table = $(id).DataTable();
+    if ($.fn.dataTable.isDataTable(id)) {
+        table.destroy();
+        $(id).find('tbody').empty();
+    }
+    $(id).DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": pageLength,
+        "searching": true,
+        "processing": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": false,
+        "order": [[0, 'asc']],
+        "columnDefs": [
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all"},
+        ],
+        "ajax": {
+            "url": url,
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": columnData,
+        "language": {
+            "sProcessing": "Đang tải dữ liệu...",
+            "sLengthMenu": "Xem _MENU_ mục",
+            "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+            "sInfoPostFix": "",
+            "sSearch": "Tìm:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sPrevious": "Trước",
+                "sNext": "Tiếp",
+                "sLast": "Cuối"
+            }
+        },
+    });
+}
+
