@@ -16,12 +16,9 @@ namespace AppBVTA.Controllers
 
         public IActionResult PhieuKhamBenh()
         {
-            return new ViewAsPdf("PhieuKhamBenh");
+            return View();
+            //return new ViewAsPdf("PhieuKhamBenh");
         }
-
-        public IActionResult DemoViewAsPDF()
-        {
-            return new ViewAsPdf("DemoViewAsPDF");
-        }
+       
     }
 }
