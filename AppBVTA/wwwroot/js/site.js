@@ -277,7 +277,12 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
     });
     return table;
 }
-function searchDataTable(id, columnData, url, pageLength) {
+function searchDataTable(id, columnData, url, pageLength, disableColumn) {
+    var array = [];
+    $.each(disableColumn.split(','), function (idx, val) {
+        array.push(parseInt(val));
+    });
+    if (disableColumn == '') { disableColumn = 0; }
     var table = $(id).DataTable();
     if ($.fn.dataTable.isDataTable(id)) {
         table.destroy();
@@ -295,6 +300,7 @@ function searchDataTable(id, columnData, url, pageLength) {
         "responsive": false,
         "order": [[0, 'asc']],
         "columnDefs": [
+            { orderable: false, targets: array },
             { className: "text-wrap", targets: "_all" },
             { defaultContent: '', targets: "_all"},
         ],
