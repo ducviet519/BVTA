@@ -86,6 +86,7 @@ Global Options:
                                       specified)
   -V, --version                       Output version information and exit
 
+
 Outline Options:
       --dump-default-toc-xsl          Dump the default TOC xsl style sheet to
                                       stdout
@@ -188,6 +189,7 @@ Page Options:
       --window-status <windowStatus>  Wait until window.status is equal to this
                                       string before rendering page
       --zoom <float>                  Use this zoom factor (default 1)
+      
 
 Headers And Footer Options:
       --footer-center <text>          Centered footer text
