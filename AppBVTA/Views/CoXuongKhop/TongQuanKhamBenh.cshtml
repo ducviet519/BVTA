@@ -47,11 +47,11 @@
                 var url = $(this).data('url');
                 $(this).callModal(url);
             });
-            $('#PhongKham').select2();
+            $('.selectPhongKham').select2();
         });
 
         $(function () {
-            var phongKham = $("#PhongKham").find(":selected").val();
+            var phongKham = $("#PhongKham1").find(":selected").val();
             var hoTenKH = "";
 
             var searchTerm1 = "param=1";
@@ -77,7 +77,7 @@
             searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10);
 
             $('#searchKCB').on('click', function () {
-                var phongKham = $("#PhongKham").find(":selected").val();
+                var phongKham = $("#PhongKham1").find(":selected").val();
                 var hoTenKH = "";
 
                 var searchTerm1 = "param=1";

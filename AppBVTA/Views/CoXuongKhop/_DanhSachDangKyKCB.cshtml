@@ -10,17 +10,15 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <form asp-controller="CoXuongKhop" asp-action="TongQuanKhamBenh">
-                            <div class="form-group row">
-                                <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
-                                <div class="col-5">
-                                    <select class="form-control" id="PhongKham" name="PhongKham" asp-items="@Model.PhongKham">
-                                        <option value="-1" selected="selected">Tất cả phòng khám</option>
-                                    </select>
-                                </div>
-                                <button type="button" class="btn btn-info ml-5" id="searchKCB">Tìm kiếm</button>
+                        <div class="form-group row">
+                            <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
+                            <div class="col-auto">
+                                <select class="form-control selectPhongKham" id="PhongKham1" name="PhongKham1" asp-items="@Model.PhongKham">
+                                    <option value="-1" selected="selected">Tất cả phòng khám</option>
+                                </select>
                             </div>
-                        </form>
+                            <button type="button" class="btn btn-info ml-5" id="searchKCB">Tìm kiếm</button>
+                        </div>
                     </div>
                     <div class="col-6"></div>
                 </div>

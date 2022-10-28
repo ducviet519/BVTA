@@ -23,8 +23,8 @@
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
                     </li>
                     @*<li class="nav-item d-none d-sm-inline-block">
-                        <a class="nav-link" asp-area="" asp-controller="Report" asp-action="Index">Module Khám bệnh CXK</a>
-                    </li>*@
+            <a class="nav-link" asp-area="" asp-controller="Report" asp-action="Index">Module Khám bệnh CXK</a>
+        </li>*@
                     <li class="nav-item dropdown dropdown-hover">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Module KB Cơ xương khớp</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
@@ -41,6 +41,7 @@
                                     <li><a asp-area="" asp-controller="CoXuongKhop" asp-action="XuTri" class="dropdown-item">Xử trí</a></li>
                                 </ul>
                             </li>
+                            <li><a asp-area="" asp-controller="Reports" asp-action="PhieuKhamBenh" class="dropdown-item">Report phiếu khám bệnh</a></li>
                         </ul>
                     </li>
                 </ul>
