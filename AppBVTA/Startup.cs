@@ -1,16 +1,18 @@
 using DataBVTA.Contexts;
 using DataBVTA.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Rotativa.AspNetCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AppBVTA
@@ -28,6 +30,35 @@ namespace AppBVTA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/Login/Login";
+                    options.AccessDeniedPath = "/Login/Denied";
+                    options.Events = new CookieAuthenticationEvents()
+                    {
+                        OnSigningIn = async context =>
+                        {
+                            var principal = context.Principal;
+                            if (principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "")
+                            {
+                                var claimsIdentity = principal.Identity as ClaimsIdentity;
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+                            }
+
+                            await Task.CompletedTask;
+                        },
+                        OnSignedIn = async context =>
+                        {
+                            await Task.CompletedTask;
+                        },
+                        OnValidatePrincipal = async context =>
+                        {
+                            await Task.CompletedTask;
+                        }
+                    };
+                });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                     options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -52,11 +83,13 @@ namespace AppBVTA
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
