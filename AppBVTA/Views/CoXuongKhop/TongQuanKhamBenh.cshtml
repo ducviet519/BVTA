@@ -74,7 +74,7 @@
                 { "data": "coketqua" },
                 { "data": "dakham" },
             ]
-            searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10);
+            searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10, "");
 
             $('#searchKCB').on('click', function () {
                 var phongKham = $("#PhongKham1").find(":selected").val();
@@ -85,7 +85,7 @@
                     searchTerm1 += "&phongKham=" + phongKham;
                 if ($.trim(hoTenKH) != "")
                     searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
-                searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10);
+                searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10, "");
             });
         });
 
@@ -113,7 +113,7 @@
                     "render": function (data, row) { return "<a class='btn btn-link btn-sm' onclick=XacNhanKB('" + row.id + "'); >Xác nhận</a>"; }
                 },
             ]
-            searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10);
+            searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
 
             $('#searchChoKham').on('click', function () {
                 var phongKham = $("#PhongKham2").find(":selected").val();
@@ -125,7 +125,7 @@
                 if ($.trim(hoTenKH) != "")
                     searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
-                searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10);
+                searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
             });
         });
 
@@ -153,7 +153,7 @@
                     "render": function (data, row) { return "<a class='btn btn-link btn-sm' onclick=PhieuKhamBenh('" + row.id + "'); >Xem phiếu khám</a>"; }
                 },
             ]
-            searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10);
+            searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
 
             $('#searchDangThucHienCLS').on('click', function () {
                 var phongKham = $("#PhongKham3").find(":selected").val();
@@ -165,7 +165,7 @@
                 if ($.trim(hoTenKH) != "")
                     searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
-                searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10);
+                searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
             });
         });
     </script>

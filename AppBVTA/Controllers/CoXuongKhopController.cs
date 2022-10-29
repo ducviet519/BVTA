@@ -1,6 +1,7 @@
 ﻿using DataBVTA.Models.Entities;
 using DataBVTA.Models.ViewModels;
 using DataBVTA.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -10,18 +11,13 @@ using System.Threading.Tasks;
 
 namespace AppBVTA.Controllers
 {
+    [Authorize]
     public class CoXuongKhopController : Controller
     {
         private readonly IUnitOfWork _services;
         public CoXuongKhopController(IUnitOfWork services)
         {
             _services = services;
-        }
-        public async Task<IActionResult> Index()
-        {
-            DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
-            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync();
-            return View(model);
         }
 
         #region Tổng quan danh sách đăng ký khám chữa bệnh

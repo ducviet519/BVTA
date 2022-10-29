@@ -7,18 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataBVTA.Services;
 using DataBVTA.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppBVTA.Controllers
 {
+    [Authorize]
     public class ReportsController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
-
         public IActionResult PhieuKhamBenh()
         {
             ExportReport data = new ExportReport();
