@@ -279,11 +279,6 @@
             $('#soKhopSung').inputmask({ alias: 'numeric', max: 68 });
             $('#CRP').inputmask({ alias: 'numeric'});
         })
-        $(function () {
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-        })
-
         $('#danhGia').click(function () {
 
             var benhKhopHD = ((document.querySelector('input[name="benhKhopHD"]:checked') || {}).value) || "";

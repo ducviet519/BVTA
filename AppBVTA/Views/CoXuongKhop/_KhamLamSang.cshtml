@@ -13,7 +13,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <input type="hidden" id="id" name="id" value="@Model.BenhNhan.id" />
+                    <input type="hidden" id="mabn" name="mabn" value="" />
                     <div class="row">
                         <div class="col-2">
                             <div class="form-group row">
@@ -667,3 +667,25 @@
     </div>
 </div>
 <!-- /.row -->
+
+<script type="text/javascript">
+    (function () {
+        document.querySelector('body').addEventListener('scriptsLoaded', function () {
+
+            $(function () {
+                $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
+                $('#gioKham').datetimepicker({ format: 'HH:mm' });
+                $('#ThangKP').datetimepicker({ format: 'MM', locale: 'vi' });
+                $('#NamKP').datetimepicker({ format: 'YYYY' });
+                $('#Mach').inputmask({ alias: 'numeric' });
+                $('#NhietDo').inputmask({ alias: 'numeric' });
+                $('#HA').inputmask({ alias: 'numeric' });
+                $('#HA2').inputmask({ alias: 'numeric' });
+                $('#NhipTho').inputmask({ alias: 'numeric' });
+                $('#ChieuCao').inputmask({ alias: 'numeric' });
+                $('#CanNang').inputmask({ alias: 'numeric' });
+                $('#BMI').inputmask({ alias: 'numeric' });
+            })
+        });
+    })();
+</script>

@@ -329,16 +329,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(function () {
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-        })
-
-        $(function () {
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-        })
-
         $('#danhGia').click(function () {
             var dauCotSong = ((document.querySelector('input[name="dauCotSong"]:checked') || {}).value) || "";
             var cungKhop = ((document.querySelector('input[name="cungKhop"]:checked') || {}).value) || "";

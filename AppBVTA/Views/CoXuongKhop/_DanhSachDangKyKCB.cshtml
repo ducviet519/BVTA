@@ -1,4 +1,8 @@
 ﻿@model DataBVTA.Models.ViewModels.DanhSachDangKyKhamBenh
+@{
+    var region = ViewData["Region"] as string;
+}
+
 <!-- /.row -->
 <div class="row">
     <div class="col-12">
@@ -42,3 +46,49 @@
     </div>
 </div>
 <!-- /.row -->
+<script type="text/javascript">
+    (function () {
+        document.querySelector('body').addEventListener('scriptsLoaded', function () {
+
+            $(function () {
+                var phongKham = $("#PhongKham1").find(":selected").val();
+                var hoTenKH = "";
+
+                var searchTerm1 = "param=1";
+                if (phongKham != "")
+                    searchTerm1 += "&phongKham=" + phongKham;
+                if ($.trim(hoTenKH) != "")
+                    searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+                var columnData = [
+                    { "data": "stt" },
+                    { "data": "tenphongkham" },
+                    { "data": "tongso" },
+                    {
+                        "data": { chuakham: "chuakham", maphongkham: "maphongkham" },
+                        "render": function (data, title, row) {
+                            return '<a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-' + row.id + '" data-url="/CoXuongKhop/DanhSachChuaKham?mapk=' + data.maphongkham + '">' + data.chuakham + '</a>';
+                        }
+                    },
+                    { "data": "cls" },
+                    { "data": "coketqua" },
+                    { "data": "dakham" },
+                ]
+                searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10, "");
+
+                $('#searchKCB').on('click', function () {
+                    var phongKham = $("#PhongKham1").find(":selected").val();
+                    var hoTenKH = "";
+
+                    var searchTerm1 = "param=1";
+                    if (phongKham != "")
+                        searchTerm1 += "&phongKham=" + phongKham;
+                    if ($.trim(hoTenKH) != "")
+                        searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+                    searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10, "");
+                });
+            });
+
+        });
+    })();
+</script>

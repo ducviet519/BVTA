@@ -48,3 +48,51 @@
     </div>
 </div>
 <!-- /.row -->
+<script type="text/javascript">
+    (function () {
+        document.querySelector('body').addEventListener('scriptsLoaded', function () {
+
+            $(function () {
+                var phongKham = $("#PhongKham2").find(":selected").val();
+                var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
+
+                var searchTerm2 = "param=2";
+                if (phongKham != "")
+                    searchTerm2 += "&phongKham=" + phongKham;
+                if ($.trim(hoTenKH) != "")
+                    searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+                var columnChoKham = [
+                    { "data": "stt" },
+                    { "data": "giodk" },
+                    { "data": "tenphongkham" },
+                    { "data": "mabn" },
+                    { "data": "hoten" },
+                    { "data": "namsinh" },
+                    { "data": "giohen" },
+                    { "data": "tenchidinh" },
+                    { "data": "ghichu" },
+                    {
+                        "data": { mabn: "mabn", maphongkham: "maphongkham" },
+                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham + "'  onclick=PhieuKhamBenh('" + row.id + "'); >Xác nhận</a>"; }
+                    },
+                ]
+                searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
+
+                $('#searchChoKham').on('click', function () {
+                    var phongKham = $("#PhongKham2").find(":selected").val();
+                    var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
+
+                    var searchTerm2 = "param=2";
+                    if (phongKham != "")
+                        searchTerm2 += "&phongKham=" + phongKham;
+                    if ($.trim(hoTenKH) != "")
+                        searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+
+                    searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
+                });
+            });
+
+        });
+    })();
+</script>

@@ -91,11 +91,6 @@
         $(function () {
             $('#ketQua').inputmask({ alias: 'numeric' });
         })
-        $(function () {
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-        })
-
         $('#danhGia').click(function () {
 
             var ketQua = ((document.getElementById("ketQua") || {}).value) || "";

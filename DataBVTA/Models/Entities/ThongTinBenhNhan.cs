@@ -8,6 +8,7 @@ namespace DataBVTA.Models.Entities
 {
     public class ThongTinBenhNhan
     {
-        public string id { get; set; }
+        public string mabn { get; set; }
+        public string tenbn { get; set; }
     }
 }
