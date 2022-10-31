@@ -179,11 +179,6 @@
                 $(this).callModal(url);
             });
         });
-        $(function () {           
-            $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
-            $('#gioKham').datetimepicker({ format: 'HH:mm' });
-        })
-
         var table = $('#tableChiDinh').callDataTable_Checkbox_RowGrouping(2,6)
         // Order by the grouping
         $('#tableChiDinh tbody').on('click', 'tr.group', function () {

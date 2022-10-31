@@ -31,9 +31,8 @@ namespace AppBVTA.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetDanhSachChoKham(string phongKham, string mabn, string param)
+        public async Task<JsonResult> GetDanhSachChoKham(string ngayKham,string phongKham, string mabn, string param)
         {
-            string ngayKham = DateTime.Now.ToString("yyyyMMdd");
             var danhSachPK = await _services.PhongKham.DanhSachPhongKhamAsync();
             List<string> maPK = new List<string>();
             foreach (var pk in danhSachPK)
@@ -48,12 +47,12 @@ namespace AppBVTA.Controllers
             return Json(new { data });
         }
 
-
         [HttpGet]
         public IActionResult DanhSachDangKyKCB()
         {
             return PartialView("_DanhSachDangKyKCB");
         }
+        
         [HttpGet]
         public IActionResult DanhSachChiTietBenhNhanChoKham()
         {
@@ -99,12 +98,9 @@ namespace AppBVTA.Controllers
 
         #region 1. Khám lâm sàng
 
-        public IActionResult PhieuKhamBenh()
+        public IActionResult PhieuKhamBenh(string mabn, string maphongkham)
         {
-            ThongTinBenhNhanVM model = new ThongTinBenhNhanVM();
-            var data = new ThongTinBenhNhan() { id = "0123456789" };
-            model.BenhNhan = data;
-            return View(model);
+            return View();
         }
 
         [HttpGet]

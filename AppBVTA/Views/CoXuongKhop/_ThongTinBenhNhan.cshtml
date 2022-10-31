@@ -162,3 +162,16 @@
     </div>
 </div>
 <!-- /.row -->
+
+<script type="text/javascript">
+    (function () {
+        document.querySelector('body').addEventListener('scriptsLoaded', function () {
+
+            $(function () {
+                $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
+                $('#gioKham').datetimepicker({ format: 'HH:mm' });
+            })
+
+        });
+    })();
+</script>

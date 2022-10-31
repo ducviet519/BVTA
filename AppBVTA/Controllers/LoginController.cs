@@ -120,19 +120,19 @@ namespace AppBVTA.Controllers
                             });
                         return RedirectToAction(nameof(HomeController.Index), "Home");
                     }
-                    TempData["Error"] = "Lỗi! Tài khoản hoặc Mật khẩu không chính xác";
+                    TempData["Error"] = "Lỗi! Tài khoản hoặc Mật khẩu không chính xác.";
                     return View();
                 }
                 else
                 {
-                    TempData["Error"] = "Tài khoản và mật khẩu không chính xác.";
+                    TempData["Error"] = "Lỗi! Tài khoản hoặc Mật khẩu không chính xác.";
                     return View();
                 }
             }
             catch (Exception ex)
             {
                 var errorMsg = ex.Message;
-                TempData["Error"] = $"Lỗi! {errorMsg}";
+                TempData["Error"] = $"Lỗi! {errorMsg}.";
                 return View();
             }
         }
