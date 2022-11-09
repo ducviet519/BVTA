@@ -111,5 +111,6 @@ namespace DataBVTA.Services
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
         #endregion
+
     }
 }

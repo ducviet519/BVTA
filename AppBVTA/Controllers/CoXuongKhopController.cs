@@ -31,7 +31,7 @@ namespace AppBVTA.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetDanhSachChoKham(string ngayKham,string phongKham, string mabn, string param)
+        public async Task<JsonResult> GetDanhSachChoKham(string param, string ngayKham,string phongKham, string mabn)
         {
             var danhSachPK = await _services.PhongKham.DanhSachPhongKhamAsync();
             List<string> maPK = new List<string>();
@@ -39,7 +39,7 @@ namespace AppBVTA.Controllers
             {
                 maPK.Add(pk.makp);
             }
-            var data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(ngayKham, phongKham, mabn, param);
+            var data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(param, phongKham, mabn, ngayKham);
             if (String.IsNullOrEmpty(phongKham) == true || phongKham == "-1")
             {
                 data = data.Where(s => maPK.Contains(s.maphongkham)).ToList();
@@ -63,7 +63,7 @@ namespace AppBVTA.Controllers
         public async Task<IActionResult> DanhSachChuaKham(string mapk)
         {
             DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
-            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync("", mapk,"","2");
+            model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync("2", mapk);
             return PartialView("_DanhSachChuaKham", model);
         }
 
@@ -82,8 +82,20 @@ namespace AppBVTA.Controllers
         #endregion
 
         #region Thông tin chung của bệnh nhân
-        public IActionResult ThongTinBenhNhan()
+        public async Task<IActionResult> ThongTinBenhNhan(string phongKham, string mabn, string param)
         {
+            var danhSachPK = await _services.PhongKham.DanhSachPhongKhamAsync();
+            List<string> maPK = new List<string>();
+            foreach (var pk in danhSachPK)
+            {
+                maPK.Add(pk.makp);
+            }
+            var data = await _services.DanhSachChoKham.DanhSachChoKhamAsync(param, phongKham, mabn);
+            if (String.IsNullOrEmpty(phongKham) == true || phongKham == "-1")
+            {
+                data = data.Where(s => maPK.Contains(s.maphongkham)).ToList();
+            }
+
             return PartialView("_ThongTinBenhNhan");
         }
         public IActionResult DanhMuc()

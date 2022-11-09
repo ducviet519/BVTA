@@ -1,4 +1,5 @@
-﻿using DataBVTA.Models.Entities;
+﻿using DataBVTA.Models;
+using DataBVTA.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -15,8 +16,8 @@ namespace DataBVTA.Contexts
     {
         public IDbConnection Connection { get; }
         DatabaseFacade Database { get; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<UserMenuPermission> RoleMenuPermission { get; set; }
+        public DbSet<NavigationMenu> NavigationMenu { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

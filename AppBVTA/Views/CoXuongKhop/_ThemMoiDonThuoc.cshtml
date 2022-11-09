@@ -42,12 +42,12 @@
                     <table class="table table-bordered" style="width: 100%" id="themThuocTable">
                         <thead class="thead">
                             <tr>
-                                <th>Tên thuốc</th>
-                                <th>Cách dùng</th>
-                                <th>SL</th>
-                                <th>Bắt đầu</th>
-                                <th>Kết thúc</th>
-                                <th>Tiện ích</th>
+                                <th class="w-auto text-nowrap">Tên thuốc</th>
+                                <th class="w-auto text-nowrap">Cách dùng</th>
+                                <th class="w-auto text-nowrap">SL</th>
+                                <th class="w-auto text-nowrap">Bắt đầu</th>
+                                <th class="w-auto text-nowrap">Kết thúc</th>
+                                <th class="w-auto text-nowrap">Tiện ích</th>
                             </tr>
                         </thead>
                     </table>
@@ -157,11 +157,11 @@
             var soLuong = ((document.getElementById("SoLuong") || {}).value) || "";
             var dungTuNgay = ((document.getElementById("TuNgay") || {}).value) || "";
             var dungDenNgay = ((document.getElementById("DenNgay") || {}).value) || "";
-            if (cachDung === "" || soLuong === "" || dungTuNgay === "" || dungDenNgay === "") { $(".example").callToast("error", "Lỗi! Không thể thêm thuốc!", "Vui lòng kiểm tra lại Cách dùng, Số lượng, Từ ngày, Đến ngày không được để trống."); }
+            if (cachDung === "" || soLuong === "" || dungTuNgay === "" || dungDenNgay === "") { $(".example").callToast("info", "Thông báo!", "Không thể thêm thuốc! Vui lòng kiểm tra lại Cách dùng, Số lượng, Từ ngày, Đến ngày không được để trống."); }
             else {
                 var exists = !! ~document.getElementById('themThuocTable').innerHTML.indexOf(item[1]);
                 if (exists) {
-                    $(".example").callToast("error", "Lỗi! Thuốc " + item[1] + " đã tồn tại", "Vui lòng kiểm tra lại danh sách và xóa thuốc " + item[1] + " trước khi thêm mới");
+                    $(".example").callToast("info", "Thông báo!", "Thuốc " + item[1] + " đã tồn tại. Vui lòng kiểm tra lại danh sách và xóa thuốc trùng trước khi thêm mới");
                 }
                 else {
                     var rowNode = table.row.add([

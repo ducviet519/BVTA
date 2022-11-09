@@ -13,9 +13,11 @@ namespace DataBVTA.Services
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
+            services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IChoKhamRepository, ChoKhamRepository>();
             services.AddTransient<IPhongKhamRepository, PhongKhamRepository>();
+            services.AddTransient<IUploadFile, UploadFile>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }

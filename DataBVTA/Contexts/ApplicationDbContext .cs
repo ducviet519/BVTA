@@ -1,4 +1,5 @@
-﻿using DataBVTA.Models.Entities;
+﻿using DataBVTA.Models;
+using DataBVTA.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,17 @@ namespace DataBVTA.Contexts
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<UserMenuPermission> RoleMenuPermission { get; set; }
+
+        public DbSet<NavigationMenu> NavigationMenu { get; set; }
+
         public IDbConnection Connection => Database.GetDbConnection();
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+
+
+            base.OnModelCreating(builder);
+        }
     }
 }

@@ -7,25 +7,14 @@ using System.Threading.Tasks;
 
 namespace AppBVTA.Authorizations
 {
-    public class PermissionPolicyProvider : IAuthorizationPolicyProvider
+    internal class PermissionPolicyProvider : IAuthorizationPolicyProvider
     {
         public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
-
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
         {
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
-
-        public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
-        {
-            return FallbackPolicyProvider.GetDefaultPolicyAsync();
-        }
-
-        public Task<AuthorizationPolicy> GetFallbackPolicyAsync()
-        {
-            return FallbackPolicyProvider.GetDefaultPolicyAsync();
-        }
-
+        public Task<AuthorizationPolicy> GetDefaultPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
             if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
@@ -34,8 +23,8 @@ namespace AppBVTA.Authorizations
                 policy.AddRequirements(new PermissionRequirement(policyName));
                 return Task.FromResult(policy.Build());
             }
-
             return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
+        public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
     }
 }
