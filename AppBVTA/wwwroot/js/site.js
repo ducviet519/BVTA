@@ -22,16 +22,16 @@ $.fn.callModal = function (url) {
         }, error: function (xhr, status) {
             switch (status) {
                 case 404:
-                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không tìm thấy chức năng!');
+                    $(this).callToast("error", 'Lỗi!', 'Đường dẫn không đúng hoặc tính năng không tồn tại!');
                     break;
                 case 500:
-                    $(this).callToast("error", 'Thông báo', 'Lỗi! Không kết nối được tới Server!');
+                    $(this).callToast("error", 'Lỗi!', 'Không kết nối được tới Server!');
                     break;
                 case 0:
-                    $(this).callToast("error", 'Thông báo', 'Lỗi không phản hồi!');
+                    $(this).callToast("error", 'Lỗi!', 'Hệ thống không phản hồi!');
                     break;
                 default:
-                    $(this).callToast("error", 'Thông báo', 'Sự cố không xác định! Lỗi: ' + status);
+                    $(this).callToast("error", 'Lỗi!', 'Sự cố không xác định! Lỗi: ' + status);
             }
         }
     });
@@ -93,10 +93,11 @@ $.fn.callDataTableExportExcel = function (btnName, btnClass, excellTitle, excelS
         "autoWidth": true,
         "responsive": true,
         "order": [[0, 'asc']],
-        "columnDefs": [{
-            targets: -1,
-            visible: false
-        }],
+        "columnDefs": [
+            { targets: -1, visible: false },
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all" },
+        ],
         "dom": 'Bfrtip',
         "buttons": [{
             "extend": 'excel',
@@ -143,11 +144,11 @@ $.fn.callDataTableCheckbox = function () {
         "autoFill": true,
         "responsive": true,
         "order": [[1, 'asc']],
-        "columnDefs": [{
-            "className": 'select-checkbox',
-            "orderable": false,
-            "targets": 0
-        }],
+        "columnDefs": [
+            { "className": 'select-checkbox', "orderable": false, "targets": 0 },
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all" },
+        ],
         "select": {
             "style": 'multi',
             "selector": 'td:first-child'
@@ -186,12 +187,11 @@ $.fn.callDataTable_Checkbox_RowGrouping = function (groupColumn, colspanColumn) 
         "autoWidth": true,
         "autoFill": true,
         "responsive": true,
-        "columnDefs": [{
-            "className": 'select-checkbox',
-            "orderable": false,
-            "targets": 0
-        },
-        { "visible": false, "targets": groupColumn }
+        "columnDefs": [
+            { "className": 'select-checkbox', "orderable": false, "targets": 0 },
+            { "visible": false, "targets": groupColumn },
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all" },
         ],
         "order": [[groupColumn, 'asc']],
         "select": {
@@ -256,7 +256,11 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
         "autoWidth": true,
         "responsive": true,
         "order": [[0, 'asc']],
-        "columnDefs": [{ orderable: false, targets: array }],
+        "columnDefs": [
+            { orderable: false, targets: array },
+            { className: "text-wrap", targets: "_all" },
+            { defaultContent: '', targets: "_all" },
+        ],
         "language": {
             "sProcessing": "Đang tải dữ liệu...",
             "sLengthMenu": "Xem _MENU_ mục",

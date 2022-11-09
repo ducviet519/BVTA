@@ -30,7 +30,7 @@ namespace DataBVTA.Services.Repositories
         }
         #endregion
 
-        public async Task<List<ChoKhamModel>> DanhSachChoKhamAsync(string ngayKham = "", string maPhongKham = "",string mabn ="", string param= "")
+        public async Task<List<ChoKhamModel>> DanhSachChoKhamAsync(string param, string maPhongKham = null, string mabn = null, string ngayKham = null)
         {
             List<ChoKhamModel> data = new List<ChoKhamModel>();
             if(String.IsNullOrEmpty(ngayKham)) { ngayKham = DateTime.Now.ToString("yyyyMMdd"); }

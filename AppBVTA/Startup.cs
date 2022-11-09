@@ -1,18 +1,18 @@
+using AppBVTA.Authorizations;
 using DataBVTA.Contexts;
 using DataBVTA.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Rotativa.AspNetCore;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppBVTA
@@ -30,7 +30,8 @@ namespace AppBVTA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => {
                     options.LoginPath = "/Login/Login";
@@ -39,13 +40,6 @@ namespace AppBVTA
                     {
                         OnSigningIn = async context =>
                         {
-                            var principal = context.Principal;
-                            if (principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "")
-                            {
-                                var claimsIdentity = principal.Identity as ClaimsIdentity;
-                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "User"));
-                            }
-
                             await Task.CompletedTask;
                         },
                         OnSignedIn = async context =>
@@ -57,7 +51,7 @@ namespace AppBVTA
                             await Task.CompletedTask;
                         }
                     };
-                });
+                }); 
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options
@@ -67,6 +61,12 @@ namespace AppBVTA
             services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
             services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
             services.AddInfrastructure();
+            services.AddHttpContextAccessor();
+            services.Configure<FormOptions>(options =>
+            {
+                // Set the limit to 256 MB
+                options.MultipartBodyLengthLimit = 268435456;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
