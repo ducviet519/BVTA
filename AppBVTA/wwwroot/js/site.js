@@ -10,7 +10,7 @@ $.fn.clearData = function ($form) {
 }
 
 $.fn.callModal = function (url) {
-    
+
     var ReportPopupElement = $('#myPopup');
     $.ajax({
         url: url,
@@ -33,7 +33,7 @@ $.fn.callModal = function (url) {
                 default:
                     $(this).callToast("error", 'Lỗi!', 'Sự cố không xác định! Lỗi: ' + status);
             }
-        }
+        },
     });
 }
 
@@ -306,7 +306,7 @@ function searchDataTable(id, columnData, url, pageLength, disableColumn) {
         "columnDefs": [
             { orderable: false, targets: array },
             { className: "text-wrap", targets: "_all" },
-            { defaultContent: '', targets: "_all"},
+            { defaultContent: '', targets: "_all" },
         ],
         "ajax": {
             "url": url,

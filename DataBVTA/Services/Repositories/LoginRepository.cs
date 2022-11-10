@@ -120,7 +120,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    var data = await dbConnection.ExecuteAsync("sp_Auth_Roles", new { RoleID = id });
+                    var data = await dbConnection.ExecuteAsync("sp_Auth_Roles", new { RoleID = id, Action = "Delete" }, commandType: CommandType.StoredProcedure);
                     if (data != 0)
                     {
                         result = "OK";

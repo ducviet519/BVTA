@@ -12,5 +12,6 @@ namespace DataBVTA.Models
         public string RoleName { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

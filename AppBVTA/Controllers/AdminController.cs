@@ -32,70 +32,93 @@ namespace AppBVTA.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertOrUpdateRole(Roles role)
+        public async Task<JsonResult> InsertOrUpdateRole(Roles role)
         {
             string message = "";
+            string title = "";
+            string result = "";
             try
             {
-                string result = "";
+                string user = User.Identity.Name;
                 if (!String.IsNullOrEmpty(role.RoleID))
                 {
-                    result = await _services.Login.UpdateRole(role);
+                    result = await _services.Login.UpdateRole(role, user);
                     if (result == "OK")
                     {
                         message = $"Thành công! Đã cập nhật lại thông tin cho role: {role.RoleName}";
+                        title = "Thành công!";
+                        result = "success";
                     }
                     else
                     {
                         message = $"Lỗi! {result}";
+                        title = "Lỗi!";
+                        result = "error";
                     }
                 }
                 else
                 {
-                    result = await _services.Login.InsertRole(role);
+                    result = await _services.Login.InsertRole(role, user);
                     if (result == "OK")
                     {
                         message = $"Thành công! Đã thêm mới role: {role.RoleName}";
+                        title = "Thành công!";
+                        result = "success";
                     }
                     else
                     {
                         message = $"Lỗi! {result}";
+                        title = "Lỗi!";
+                        result = "error";
                     }
-                }
-                return Ok(new { Message = message });
+                }                
             }
             catch (Exception ex)
             {
                 message = ex.Message;
-                return BadRequest(new { Message = message });
+                title = "Lỗi!";
+                result = "error";
             }
+            return Json(new { Result = result, Title = title, Message = message });
         }
 
-        public async Task<IActionResult> DeleteRole(string id)
+        [HttpGet]
+        public async Task<JsonResult> DeleteRole(string roleID, string roleName)
         {
             string message = "";
+            string title = "";
+            string result = "";
             try
             {
-                string result = "";
-                if (!String.IsNullOrEmpty(id))
+                if (!String.IsNullOrEmpty(roleID) || roleName == "Admin" || roleName == "User" || roleName == "Manager")
                 {
-                    result = await _services.Login.DeleteRole(id);
+                    result = await _services.Login.DeleteRole(roleID);
                     if (result == "OK")
                     {
-                        message = $"Thành công! Đã xóa role";
+                        message = $"Đã xóa thành công role: {roleName}";
+                        title = "Thành công!";
+                        result = "success";
                     }
                     else
                     {
-                        message = $"Lỗi! {result}";
+                        message = $"{result}";
+                        title = "Lỗi!";
+                        result = "error";
                     }
                 }
-                return Ok(new { Message = message });
+                else 
+                {   message = $"Lỗi! Không thể xóa Role mặc định";
+                    title = "Lỗi!";
+                    result = "error";
+                }
             }
             catch (Exception ex)
             {
                 message = ex.Message;
-                return BadRequest(new { Message = message });
+                title = "Lỗi!";
+                result = "error";
             }
+            return Json(new { Result = result, Title = title, Message = message });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model DataBVTA.Models.ViewModels.PermissionViewModel
 <div class="tab-custom-content">
     <div class="row">
-        <div class="col"><label class="col-form-label" style="font-size:16px; text-transform:uppercase">Danh sách người dùng</label></div>
+        <div class="col"><label class="col-form-label" style="font-size:16px; text-transform:uppercase">Danh sách nhóm quyền</label></div>
         <div class="col">
             @*<a class="btn btn-success float-right" data-toggle="ajax-modal" data-target="#addRoles" data-url="/Roles/CreateRoles"><i class="fa fa-plus"></i> &nbsp Thêm Role</a>*@
         </div>
@@ -12,10 +12,10 @@
         <table class="table table-bordered table-striped dataTable dtr-inline" width="100%" role="grid" id="tableRoles">
             <thead>
                 <tr>
-                    <th class="text-wrap w-aut0">ID</th>
-                    <th class="text-wrap w-aut0">Tên nhóm quyền</th>
-                    <th class="text-wrap w-aut0">Mô tả</th>
-                    <th class="text-wrap w-aut0">Tiện ích</th>
+                    <th class="text-wrap w-auto">#</th>
+                    <th class="text-wrap w-auto">Tên nhóm quyền</th>
+                    <th class="text-wrap w-auto">Mô tả</th>
+                    <th class="text-wrap w-auto">Tiện ích</th>
                 </tr>
             </thead>
         </table>
@@ -50,44 +50,85 @@
         </form>
     </div>
 </div>
+
 <script type="text/javascript">
     (function () {
         document.querySelector('body').addEventListener('scriptsLoaded', function () {
 
             // .. do your thing here
             var columnData = [
-                { "data": "id" },
-                { "data": "roleName" },
-                { "data": "tongso" },
                 {
-                    "data": { chuakham: "chuakham", maphongkham: "maphongkham" },
-                    "render": function (data, title, row) {
-                        return '<a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-' + row.id + '" data-url="/CoXuongKhop/DanhSachChuaKham?mapk=' + data.maphongkham + '">' + data.chuakham + '</a>';
-                    }
+                    "data": null,
+                    "render": function (data, title, row, meta) {
+                        return meta.row + 1;
+                    },
+                    "class" : "text-center"
                 },
-                { "data": "cls" },
-                { "data": "coketqua" },
-                { "data": "dakham" },
+                { "data": "roleName" },
+                { "data": "description" },
+                {
+                    "data": { roleID: "roleID", roleName: "roleName" },
+                    "render": function (data, title, row, meta) {
+                        if (data.roleName == "Admin" || data.roleName == "User" || data.roleName == "Manager") {
+                            var btnDelete = '<button class="btn btn-link btn-sm disabled"><i class="fas fa-trash"></i> Xóa</button>';
+                        }
+                        else {
+                            var btnDelete = '<button type="button" class="btn btn-link btn-sm" data-toggle="button-delete" data-target="#deleteRole-' + meta.row + '" data-url="/Admin/DeleteRole?roleID=' + data.roleID + '&roleName=' + data.roleName + '"><i class="fas fa-trash"></i> Xóa</button>';
+                        }
+                        return btnDelete;
+                    },
+                    "class": "text-center"
+                },
             ]
-            searchDataTable("#tableRoles", columnData, "/Admin/GetRoles", 10, "");
+            searchDataTable("#tableRoles", columnData, "/Admin/GetRoles", 10, "3");
 
             $('#btnAdd').on('click', function (event) {
-                alert("OK");
-                var data = $("#roleForm").serialize();
-                console.log(data);
-                alert(data);
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/InsertOrUpdateRole',
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-                    data: data,
-                    success: function (data, result) {
-                        $(this).callToast("success","Thành công!",data.Message)
-                    },
-                    error: function (data) {
-                        $(this).callToast("error", "Lỗi!", data.Message)
+                event.preventDefault();
+                var exists = !! ~document.getElementById('tableRoles').innerHTML.indexOf(document.getElementById('RoleName').value);
+                if (exists) {
+                    $(this).callToast("info", "Thông báo!", "Tên Role đã tồn tại, vui lòng sử dụng tên khác");
+                }
+                else {
+                    var roleName = ((document.getElementById("RoleName") || {}).value) || "";
+                    if (roleName == "") {
+                        $(this).callToast("info", "Thông báo!", "Tên Role đang để trống");
                     }
-                })
+                    else {
+                        var data = $("#roleForm").serialize();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Admin/InsertOrUpdateRole',
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+                            data: data,
+                            success: function (data) {
+                                $(this).callToast(data.result, data.title, data.message);
+                            },
+                            error: function (data) {
+                                $(this).callToast(data.result, data.title, data.message);
+                            }
+                        }).done(function () {
+                            searchDataTable("#tableRoles", columnData, "/Admin/GetRoles", 10, "3");
+                            $(this).clearData($('#roleForm'));
+                        });
+                    }
+                }
+            });
+            $('body').on('click', 'button[data-toggle="button-delete"]', function (event) {
+                var url = $(this).data('url');
+                if (confirm('Xóa sẽ không thể khôi phục. Bạn có muốn xóa?')) {
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        success: function (data) {
+                            $(this).callToast(data.result, data.title, data.message);
+                        },
+                        error: function (data) {
+                            $(this).callToast(data.result, data.title, data.message);
+                        }
+                    }).done(function (data) {
+                        searchDataTable("#tableRoles", columnData, "/Admin/GetRoles", 10, "");
+                    });
+                }
             });
         });
     })();

@@ -3,30 +3,32 @@
     <div class="row">
         <div class="col"><label class="col-form-label" style="font-size:16px; text-transform:uppercase">Danh sách người dùng</label></div>
         <div class="col">
-            <a class="btn btn-success float-right" data-toggle="ajax-modal" data-target="#addRoles" data-url="/Roles/CreateRoles"><i class="fa fa-plus"></i> &nbsp Thêm Role</a>
+            <a class="btn btn-success float-right" data-toggle="ajax-modal" data-target="#addRoles" data-url="/Roles/CreateRoles"><i class="fa fa-plus"></i> &nbsp Thêm</a>
         </div>
     </div>
 </div>
 <table class="table table-bordered table-striped dataTable dtr-inline" width="100%" role="grid" id="tableUsers">
     <thead>
         <tr>
-            <th class="text-wrap w-aut0">ID</th>
-            <th class="text-wrap w-aut0">Tên người dùng</th>
-            <th class="text-wrap w-aut0">Tài khoản</th>
-            <th class="text-wrap w-aut0">Email</th>
-            <th class="text-wrap w-aut0">Trạng thái</th>
-            <th class="text-wrap w-aut0">Nhóm</th>
-            <th class="text-wrap w-aut0">Phân quyền</th>
+            <th class="text-wrap w-auto">ID</th>
+            <th class="text-wrap w-auto">Tên người dùng</th>
+            <th class="text-wrap w-auto">Tài khoản</th>
+            <th class="text-wrap w-auto">Email</th>
+            <th class="text-wrap w-auto">Trạng thái</th>
+            <th class="text-wrap w-auto">Nhóm</th>
+            <th class="text-wrap w-auto">Phân quyền</th>
         </tr>
     </thead>
     <tbody>
         @{
             if (Model.ListUsers != null && Model.ListUsers.Count > 0)
             {
+                var count = 0;
                 foreach (var item in Model.ListUsers)
                 {
+                    count = ++count;
                     <tr>
-                        <td>@item.UserID</td>
+                        <td>@count</td>
                         <td>@item.DisplayName</td>
                         <td>@item.UserName</td>
                         <td>@item.Email</td>
