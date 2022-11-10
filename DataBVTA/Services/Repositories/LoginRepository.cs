@@ -20,7 +20,7 @@ namespace DataBVTA.Services.Repositories
         public LoginRepository(IConfiguration configuration)
         {
             _configuration = configuration;
-            ConnectionString = _configuration.GetConnectionString("ToolsDB");
+            ConnectionString = _configuration.GetConnectionString("DefaultConnection");
             provideName = "System.Data.SqlClient";
         }
         public string ConnectionString { get; }
@@ -114,14 +114,13 @@ namespace DataBVTA.Services.Repositories
         public async Task<string> DeleteRole(string id)
         {
             string result = "";
-            var query = "DELETE FROM Roles WHERE RoleID = @RoleID";
             try
             {
                 using (IDbConnection dbConnection = Connection)
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    var data = await dbConnection.ExecuteAsync(query, new { RoleID = id });
+                    var data = await dbConnection.ExecuteAsync("sp_Auth_Roles", new { RoleID = id });
                     if (data != 0)
                     {
                         result = "OK";
@@ -215,7 +214,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<Roles>("sp_Report_Version_View", commandType: CommandType.StoredProcedure)).ToList();
+                    data = (await dbConnection.QueryAsync<Roles>("sp_Auth_Roles", new { Action = "GetAll" }, commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
                 }
                 return data;
@@ -296,7 +295,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<Users>("sp_Report_Version_View", commandType: CommandType.StoredProcedure)).ToList();
+                    data = (await dbConnection.QueryAsync<Users>("sp_Auth_Users", new { Action = "GetAll" }, commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
                 }
                 return data;
@@ -353,14 +352,74 @@ namespace DataBVTA.Services.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<string> InsertRole()
+        public async Task<string> InsertRole(Roles role, string user = null)
         {
-            throw new NotImplementedException();
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<Roles>("sp_Auth_Roles"
+                        , new
+                        {
+                            Action = "Add",
+                            RoleName = role.RoleName,
+                            Description = role.Description,
+                            Status = role.Status,
+                            User = user
+
+                        }
+                        , commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
         }
 
-        public Task<string> InsertUsers()
+        public async Task<string> InsertUsers(Users users)
         {
-            throw new NotImplementedException();
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<Users>("sp_Auth_Users",
+                        new
+                        {
+                            DisplayName = users.DisplayName,
+                            UserName = users.UserName,
+                            Password = users.Password,
+                            Source = users.Source,
+                            Email = users.Email,
+                            Status = users.Status,
+                            Action = "Add"
+                        },
+                        commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
         }
 
         public Task<string> AddUserMenuPermissions()
@@ -402,9 +461,40 @@ namespace DataBVTA.Services.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<string> UpdateRole()
+        public async Task<string> UpdateRole(Roles role, string user = null)
         {
-            throw new NotImplementedException();
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<Roles>("sp_Auth_Roles"
+                        , new
+                        {
+                            Action = "Edit",
+                            RoleID = role.RoleID,
+                            RoleName = role.RoleName,
+                            Description = role.Description,
+                            Status = role.Status,
+                            User = user
+
+                        }
+                        , commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
         }
 
         #endregion

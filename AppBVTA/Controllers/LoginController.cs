@@ -1,5 +1,7 @@
 ﻿using AppBVTA.Authorizations;
 using AppBVTA.Models;
+using DataBVTA.Models;
+using DataBVTA.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +15,15 @@ using System.Threading.Tasks;
 
 namespace AppBVTA.Controllers
 {
+
     public class LoginController : Controller
     {
         #region UserHelper
+        private readonly IUnitOfWork _services;
+        public LoginController(IUnitOfWork services)
+        {
+            _services = services;
+        }
         private List<Claim> GenerateClaim(UserModel user)
         {
             //var UserLoginInfo = _userServices.FindByName(login.Username);
@@ -70,7 +78,16 @@ namespace AppBVTA.Controllers
                     };
 
                     //Ghi thông tin người dùng vào CSDL
-                    //_userServices.AddUser(userAccount);
+                    Users users = new Users()
+                    {
+                        DisplayName = user.DisplayName,
+                        UserName = login.Username.Trim().ToLower(),
+                        Password = login.Password,
+                        Source = domain,
+                        Email = $@"{login.Username.Trim().ToLower()}@{domain}",
+                        Status = (user.Enabled ?? false)
+                    };
+                    _services.Login.InsertUsers(users);
                     return userAccount;
                 }
             }

@@ -11,12 +11,12 @@ namespace DataBVTA.Services.Interfaces
     public interface ILoginRepository
     {
         public Task<List<Roles>> GetRoles();
-        public Task<string> InsertRole();
-        public Task<string> UpdateRole();
+        public Task<string> InsertRole(Roles role, string user = null);
+        public Task<string> UpdateRole(Roles role, string user = null);
         public Task<string> DeleteRole(string id);
 
         public Task<List<Users>> GetUsers();
-        public Task<string> InsertUsers();
+        public Task<string> InsertUsers(Users users);
 
         public Task<List<ModuleController>> GetControllers();
         public Task<string> InsertController();
