@@ -43,7 +43,7 @@
                         <button type="reset" class="btn btn-info">Làm mới</button>
                     </div>
                     <div class="col-auto">
-                        <button type="button" class="btn btn-success" id="btnAdd">Thêm mới</button>
+                        <button type="button" class="btn btn-success" id="btnAddRole">Thêm mới</button>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                             var btnDelete = '<button class="btn btn-link btn-sm disabled"><i class="fas fa-trash"></i> Xóa</button>';
                         }
                         else {
-                            var btnDelete = '<button type="button" class="btn btn-link btn-sm" data-toggle="button-delete" data-target="#deleteRole-' + meta.row + '" data-url="/Admin/DeleteRole?roleID=' + data.roleID + '&roleName=' + data.roleName + '"><i class="fas fa-trash"></i> Xóa</button>';
+                            var btnDelete = '<button type="button" class="btn btn-link btn-sm" data-toggle="role-delete" data-target="#deleteRole-' + meta.row + '" data-url="/Admin/DeleteRole?roleID=' + data.roleID + '&roleName=' + data.roleName + '"><i class="fas fa-trash"></i> Xóa</button>';
                         }
                         return btnDelete;
                     },
@@ -82,7 +82,7 @@
             ]
             searchDataTable("#tableRoles", columnData, "/Admin/GetRoles", 10, "3");
 
-            $('#btnAdd').on('click', function (event) {
+            $('body .tab-pane').on('click', '#btnAddRole', function (event) {
                 event.preventDefault();
                 var exists = !! ~document.getElementById('tableRoles').innerHTML.indexOf(document.getElementById('RoleName').value);
                 if (exists) {
@@ -113,7 +113,7 @@
                     }
                 }
             });
-            $('body').on('click', 'button[data-toggle="button-delete"]', function (event) {
+            $('body .tab-pane').on('click', 'button[data-toggle="role-delete"]', function (event) {
                 var url = $(this).data('url');
                 if (confirm('Xóa sẽ không thể khôi phục. Bạn có muốn xóa?')) {
                     $.ajax({

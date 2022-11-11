@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <!--<TargetFramework>net5.0-windows</TargetFramework>-->
     <ReferencePath>C:\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\</ReferencePath>
     <ApplicationIcon>wwwroot\images\favicon.ico</ApplicationIcon>
     <Win32Resource></Win32Resource>
     <StartupObject>AppBVTA.Program</StartupObject>
-    <Nullable>enable</Nullable>
+    <!--<Nullable>enable</Nullable>-->
   </PropertyGroup>
 
   <ItemGroup>

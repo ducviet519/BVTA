@@ -88,14 +88,13 @@ namespace DataBVTA.Services.Repositories
         public async Task<string> DeleteNavigationMenu(string id)
         {
             string result = "";
-            var query = "DELETE FROM NavigationMenu WHERE MenuID = @MenuID";
             try
             {
                 using (IDbConnection dbConnection = Connection)
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    var data = await dbConnection.ExecuteAsync(query, new { MenuID = id });
+                    var data = await dbConnection.ExecuteAsync("sp_Auth_NavigationMenu", new { Action = "Delete", MenuID = id }, commandType: CommandType.StoredProcedure);
                     if (data != 0)
                     {
                         result = "OK";
@@ -148,7 +147,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<ModuleAction>("sp_Report_Version_View", commandType: CommandType.StoredProcedure)).ToList();
+                    data = (await dbConnection.QueryAsync<ModuleAction>("sp_Auth_ModuleActions", new { Action = "GetAll" }, commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
                 }
                 return data;
@@ -170,7 +169,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<ModuleController>("sp_Report_Version_View", commandType: CommandType.StoredProcedure)).ToList();
+                    data = (await dbConnection.QueryAsync<ModuleController>("sp_Auth_ModuleControllers", new { Action = "GetAll" }, commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
                 }
                 return data;
@@ -192,7 +191,7 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<NavigationMenu>("sp_Report_Version_View", commandType: CommandType.StoredProcedure)).ToList();
+                    data = (await dbConnection.QueryAsync<NavigationMenu>("sp_Auth_NavigationMenu", new { Action = "GetAll"}, commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
                 }
                 return data;
@@ -312,18 +311,18 @@ namespace DataBVTA.Services.Repositories
         public async Task<string> InsertAction(ModuleAction action, string user = null)
         {
             string result = "";
-            var query = "INSERT INTO dbo.ModuleActions(ActionID, Name, CreatedBy, DateCreated) VALUES(NEWID(), @ActionName, @User, GETDATE());";
             try
             {
                 using (IDbConnection dbConnection = Connection)
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    var data = await dbConnection.QueryAsync<ModuleAction>(query
+                    var data = await dbConnection.QueryAsync<ModuleAction>("sp_Auth_ModuleActions"
                         , new
                         {
-                            ActionName = action.Name,
-                            User = user
+                            ActionName = action.ActionName,
+                            User = user,
+                            Action = "Add"
 
                         }
                         , commandType: CommandType.StoredProcedure);
@@ -342,14 +341,74 @@ namespace DataBVTA.Services.Repositories
             }
         }
 
-        public Task<string> InsertController()
+        public async Task<string> InsertController(ModuleController controller, string user = null)
         {
-            throw new NotImplementedException();
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<ModuleAction>("sp_Auth_ModuleControllers"
+                        , new
+                        {
+                            ControllerName = controller.ControllerName,
+                            User = user,
+                            Action = "Add"
+
+                        }
+                        , commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
         }
 
-        public Task<string> InsertNavigationMenu()
+        public async Task<string> InsertNavigationMenu(NavigationMenu menu, string user = null)
         {
-            throw new NotImplementedException();
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<NavigationMenu>("sp_Auth_NavigationMenu"
+                        , new
+                        {
+                            MenuName = menu.Name,
+                            Area = menu.Area,
+                            ControllerID = menu.ControllerID,
+                            ActionID = menu.ActionID,
+                            Visiable = menu.Visible,
+                            User = user,
+                            Action = "Add"
+
+                        }
+                        , commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
         }
 
         public async Task<string> InsertRole(Roles role, string user = null)
@@ -451,7 +510,7 @@ namespace DataBVTA.Services.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<string> UpdateController()
+        public Task<string> UpdateController(ModuleController controller, string user = null)
         {
             throw new NotImplementedException();
         }

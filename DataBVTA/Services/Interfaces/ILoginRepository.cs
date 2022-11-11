@@ -19,8 +19,8 @@ namespace DataBVTA.Services.Interfaces
         public Task<string> InsertUsers(Users users);
 
         public Task<List<ModuleController>> GetControllers();
-        public Task<string> InsertController();
-        public Task<string> UpdateController();
+        public Task<string> InsertController(ModuleController controller, string user = null);
+        public Task<string> UpdateController(ModuleController controller, string user = null);
         public Task<string> DeleteController(string id);
 
         public Task<List<ModuleAction>> GetActions();
@@ -29,7 +29,7 @@ namespace DataBVTA.Services.Interfaces
         public Task<string> DeleteAction(string id);
 
         public Task<List<NavigationMenu>> GetNavigationMenus();
-        public Task<string> InsertNavigationMenu();
+        public Task<string> InsertNavigationMenu(NavigationMenu menu, string user = null);
         public Task<string> UpdateNavigationMenu();
         public Task<string> DeleteNavigationMenu(string id);
 
