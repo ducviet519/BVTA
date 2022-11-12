@@ -11,6 +11,7 @@ namespace DataBVTA.Models.ViewModels
         public List<Roles> ListRoles { get; set; }
 
         public List<Users> ListUsers { get; set; }
+        public Users User { get; set; }
 
         public List<UserInRole> UserInRoles { get; set; }
 

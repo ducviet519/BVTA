@@ -1,4 +1,10 @@
 ﻿@model DataBVTA.Models.ViewModels.PermissionViewModel
+<style>
+    table.dataTable tbody tr.selected {
+        color: unset;
+        background-color: unset;
+    }
+</style>
 <div class="tab-custom-content">
     <div class="row">
         <div class="col"><label class="col-form-label" style="font-size:16px; text-transform:uppercase">Danh sách nhóm quyền</label></div>
@@ -22,19 +28,14 @@
     </div>
     <div class="col-4">
         <form method="post" asp-controller="Permission" asp-action="CreateRoles" id="roleForm">
-            <div class="card-body">
-                <div class="row form-group" hidden>
-                    <div class="col-2"><label for="RoleID">ID:</label></div>
-                    <div class="col">
-                        <input type="text" class="form-control" name="RoleID" id="RoleID" readonly />
-                    </div>
-                </div>
+            <div class="card-body m-0 p-0">
+                <div class="tab-custom-content"><label class="col-form-label col-12 text-center">Tạo chuỗi Chức năng</label></div>
                 <div class="row form-group">
-                    <div class="col-2"><label for="RoleName">Tên Role:</label></div>
+                    <div class="col-2"><label class="col-form-label ">Tên Role:</label></div>
                     <div class="col"><input type="text" class="form-control" name="RoleName" id="RoleName" placeholder="Nhập tên Role" required /></div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-2"><label for="Description">Mô tả:</label></div>
+                    <div class="col-2"><label class="col-form-label ">Mô tả:</label></div>
                     <div class="col"><textarea rows="4" class="form-control" name="Description" id="Description"></textarea></div>
                 </div>
                 <!-- /.card-body -->

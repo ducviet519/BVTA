@@ -1,0 +1,63 @@
+﻿
+@model DataBVTA.Models.ViewModels.PermissionViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userPermissionLabel" aria-hidden="true" id="UserRolePopup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Phân quyền theo nhóm quyền</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;&nbsp;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="Permission" asp-action="EditUserRole" id="roleuserForm">
+                    <table class="table table-bordered table-striped dataTable dtr-inline" width="100%" role="grid" id="tableUserRole">
+                        <thead>
+                            <tr>
+                                <th class="text-warp w-auto">Tên vai trò</th>
+                                <th class="text-warp w-auto">Mô tả</th>
+                                <th class="text-warp w-auto">Sử dụng</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary" data-save="modal">Lưu</button>                      
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    var columnRoles = [
+        { "data": "roleName" },
+        { "data": "description" },
+        {
+            "data": { roleID: "roleID", roleName: "roleName" },
+            "render": function (data, title, row, meta) {
+                if (true) {
+                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="checkbox-' + data.roleName + '" name="checkboxRole" value="' + data.roleName + '">';
+                }
+                else {
+                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="checkbox-' + data.roleName + '" name="checkboxRole" value="' + data.roleName + '">';
+                }
+                return '<input type="hidden" id="RoleID-' + data.roleID + '" name="RoleID" value="' + data.roleID + '" /><div class="form-check form-check-inline">' + inputCheckbox + '</div>';
+            },
+            "class": "text-center"
+        },
+    ]
+    searchDataTable("#tableUserRole", columnRoles, "/Admin/GetRoles", 10, "2");
+
+    $('body .modal').on('click', 'button[data-save="modal"]', function () {
+        //var data = $('input[name="checkboxRole"]:checked').serialize();
+        var data = $('#roleuserForm').serialize();
+        alert(data);
+    })
+</script>
