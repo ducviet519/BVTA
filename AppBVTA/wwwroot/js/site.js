@@ -10,7 +10,7 @@ $.fn.clearData = function ($form) {
 }
 
 $.fn.callModal = function (url) {
-    
+
     var ReportPopupElement = $('#myPopup');
     $.ajax({
         url: url,
@@ -33,7 +33,7 @@ $.fn.callModal = function (url) {
                 default:
                     $(this).callToast("error", 'Lỗi!', 'Sự cố không xác định! Lỗi: ' + status);
             }
-        }
+        },
     });
 }
 
@@ -130,12 +130,21 @@ $.fn.callDataTableExportExcel = function (btnName, btnClass, excellTitle, excelS
     });
 }
 
-$.fn.callDataTableCheckbox = function () {
-
-    var table = $(this).DataTable({
+$.fn.callDataTableCheckbox = function (id, columnData, url, pageLength, disableColumn) {
+    var array = [];
+    $.each(disableColumn.split(','), function (idx, val) {
+        array.push(parseInt(val));
+    });
+    if (disableColumn == '') { disableColumn = 0; }
+    var table = $(id).DataTable();
+    if ($.fn.dataTable.isDataTable(id)) {
+        table.destroy();
+        $(id).find('tbody').empty();
+    }
+    var table = $(id).DataTable({
         "paging": true,
         "lengthChange": false,
-        "pageLength": 15,
+        "pageLength": pageLength,
         "searching": true,
         "processing": true,
         "ordering": true,
@@ -143,11 +152,17 @@ $.fn.callDataTableCheckbox = function () {
         "autoWidth": true,
         "autoFill": true,
         "responsive": true,
+        "ajax": {
+            "url": url,
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": columnData,
         "order": [[1, 'asc']],
         "columnDefs": [
             { "className": 'select-checkbox', "orderable": false, "targets": 0 },
-            { className: "text-wrap", targets: "_all" },
-            { defaultContent: '', targets: "_all" },
+            //{ 'targets': 0, 'checkboxes': { 'selectRow': true } },
+            { "orderable": false, "targets": array },
         ],
         "select": {
             "style": 'multi',
@@ -168,6 +183,13 @@ $.fn.callDataTableCheckbox = function () {
                 "sPrevious": "Trước",
                 "sNext": "Tiếp",
                 "sLast": "Cuối"
+            },
+            "select": {
+                "rows": {
+                    _: "Đã chọn %d dòng",
+                    0: "Click vào dòng để chọn",
+                    1: "Đã chọn 1 dòng"
+                }
             }
         },
     });
@@ -213,6 +235,13 @@ $.fn.callDataTable_Checkbox_RowGrouping = function (groupColumn, colspanColumn) 
                 "sPrevious": "Trước",
                 "sNext": "Tiếp",
                 "sLast": "Cuối"
+            },
+            "select": {
+                "rows": {
+                    _: "Đã chọn %d dòng",
+                    0: "Click vào dòng để chọn",
+                    1: "Đã chọn 1 dòng"
+                }
             }
         },
         "drawCallback": function (settings) {
@@ -237,15 +266,18 @@ $.fn.callDataTable_Checkbox_RowGrouping = function (groupColumn, colspanColumn) 
     return table;
 }
 
-
-$.fn.callDataTable = function (disableColumn, pageLength) {
+$.fn.callDataTable = function (id, columnData, url, pageLength, disableColumn) {
     var array = [];
     $.each(disableColumn.split(','), function (idx, val) {
         array.push(parseInt(val));
     });
     if (disableColumn == '') { disableColumn = 0; }
-
-    var table = $(this).DataTable({
+    var table = $(id).DataTable();
+    if ($.fn.dataTable.isDataTable(id)) {
+        table.destroy();
+        $(id).find('tbody').empty();
+    }
+    var table = $(id).DataTable({
         "paging": true,
         "lengthChange": false,
         "pageLength": pageLength,
@@ -254,13 +286,19 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
         "ordering": true,
         "info": true,
         "autoWidth": true,
-        "responsive": true,
+        "responsive": false,
         "order": [[0, 'asc']],
         "columnDefs": [
             { orderable: false, targets: array },
             { className: "text-wrap", targets: "_all" },
             { defaultContent: '', targets: "_all" },
         ],
+        "ajax": {
+            "url": url,
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": columnData,
         "language": {
             "sProcessing": "Đang tải dữ liệu...",
             "sLengthMenu": "Xem _MENU_ mục",
@@ -281,6 +319,7 @@ $.fn.callDataTable = function (disableColumn, pageLength) {
     });
     return table;
 }
+
 function searchDataTable(id, columnData, url, pageLength, disableColumn) {
     var array = [];
     $.each(disableColumn.split(','), function (idx, val) {
@@ -306,7 +345,7 @@ function searchDataTable(id, columnData, url, pageLength, disableColumn) {
         "columnDefs": [
             { orderable: false, targets: array },
             { className: "text-wrap", targets: "_all" },
-            { defaultContent: '', targets: "_all"},
+            { defaultContent: '', targets: "_all" },
         ],
         "ajax": {
             "url": url,
@@ -333,4 +372,5 @@ function searchDataTable(id, columnData, url, pageLength, disableColumn) {
         },
     });
 }
+
 

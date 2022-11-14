@@ -20,17 +20,19 @@ namespace DataBVTA.Models
         public string ActionID { get; set; }
 
         public bool Visible { get; set; }
+
+        public bool Checked { get; set; }
     }
 
     public class ModuleController
     {
         public string ControllerID { get; set; }
-        public string Name { get; set; }
+        public string ControllerName { get; set; }
     }
 
     public class ModuleAction
     {
         public string ActionID { get; set; }
-        public string Name { get; set; }
+        public string ActionName { get; set; }
     }
 }
