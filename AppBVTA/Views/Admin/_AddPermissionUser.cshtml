@@ -46,14 +46,15 @@
 </div>
 
 <script type="text/javascript">
+    var userName = ((document.getElementById("UserName") || {}).value) || "";
     var columnMenu = [
         { "data": "name" },
         { "data": "area" },
         {
-            "data": { menuID: "menuID", name: "name" },
+            "data": { menuID: "menuID", name: "name", checked: "checked" },
             "render": function (data, title, row, meta) {
-                if (true) {
-                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="NavigationMenuName-' + meta.row + '" name="NavigationMenuName-' + meta.row + '" value="' + data.name + '">';
+                if (data.checked) {
+                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="NavigationMenuName-' + meta.row + '" name="NavigationMenuName-' + meta.row + '" value="' + data.name + '" checked>';
                 }
                 else {
                     var inputCheckbox = '<input type="checkbox" class="form-check-input" id="NavigationMenuName-' + meta.row + '" name="NavigationMenuName-' + meta.row + '" value="' + data.name + '">';
@@ -65,7 +66,7 @@
         { "data": "controllerID" },
         //{ "data": "actionID" },
     ]
-    var table = $(this).callDataTable("#tableUserPermission", columnMenu, "/Admin/GetMenu", 10, "2");
+    var table = $(this).callDataTable("#tableUserPermission", columnMenu, "/Admin/GetMenu?UserName=" + userName, 10, "2");
     table.column(3).visible(false);
 
     $('#ControllerID2').select2({
@@ -109,7 +110,7 @@
             error: function (data) {
                 $(this).callToast(data.result, data.title, data.message);
             }
-        })
-    })
+        });
+    });
     
 </script>

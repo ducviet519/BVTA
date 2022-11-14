@@ -25,8 +25,11 @@
                         </thead>
                     </table>
                     <div class="modal-footer">
+                        <input type="hidden" id="UserID" name="UserID" value="@Model.User.UserID" />
+                        <input type="hidden" id="UserName" name="UserName" value="@Model.User.UserName" />
+                        <input type="hidden" id="count" name="count" />
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary" data-save="modal">Lưu</button>                      
+                        <button type="button" class="btn btn-primary" data-save="modal">Lưu</button>
                     </div>
                 </form>
             </div>
@@ -35,29 +38,40 @@
 </div>
 
 <script type="text/javascript">
-    
+    var userName = ((document.getElementById("UserName") || {}).value) || "";
     var columnRoles = [
         { "data": "roleName" },
         { "data": "description" },
         {
-            "data": { roleID: "roleID", roleName: "roleName" },
+            "data": { roleID: "roleID", roleName: "roleName", checked: "checked" },
             "render": function (data, title, row, meta) {
-                if (true) {
-                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="checkbox-' + data.roleName + '" name="checkboxRole" value="' + data.roleName + '">';
+                if (data.checked) {
+                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="RoleName-' + meta.row + '" name="RoleName-' + meta.row + '" value="' + data.roleName + '" checked>';
                 }
                 else {
-                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="checkbox-' + data.roleName + '" name="checkboxRole" value="' + data.roleName + '">';
+                    var inputCheckbox = '<input type="checkbox" class="form-check-input" id="RoleName-' + meta.row + '" name="RoleName-' + meta.row + '" value="' + data.roleName + '" >';
                 }
-                return '<input type="hidden" id="RoleID-' + data.roleID + '" name="RoleID" value="' + data.roleID + '" /><div class="form-check form-check-inline">' + inputCheckbox + '</div>';
+                return '<input type="hidden" id="RoleID-' + meta.row + '" name="RoleID-' + meta.row + '" value="' + data.roleID + '" /><div class="form-check form-check-inline">' + inputCheckbox + '</div>';
             },
             "class": "text-center"
         },
     ]
-    searchDataTable("#tableUserRole", columnRoles, "/Admin/GetRoles", 10, "2");
+    var table = $(this).callDataTable("#tableUserRole", columnRoles, "/Admin/GetRoles?UserName="+ userName, 10, "2");
 
     $('body .modal').on('click', 'button[data-save="modal"]', function () {
-        //var data = $('input[name="checkboxRole"]:checked').serialize();
+        document.getElementById("count").value = table.rows().count();
         var data = $('#roleuserForm').serialize();
-        alert(data);
-    })
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/AddRoleUser',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+            data: data,
+            success: function (data) {
+                $(this).callToast(data.result, data.title, data.message);
+            },
+            error: function (data) {
+                $(this).callToast(data.result, data.title, data.message);
+            }
+        });
+    });
 </script>

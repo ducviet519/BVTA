@@ -20,15 +20,30 @@ namespace AppBVTA.Controllers
         public async Task<IActionResult> Permission()
         {
             PermissionViewModel model = new PermissionViewModel();
-            model.ListUsers = await _services.Login.GetUsers();
-            model.ListRoles = await _services.Login.GetRoles();
+            model.ListUsers = await _services.Permission.GetUsers();
+            model.ListRoles = await _services.Permission.GetRoles();
             return View(model);
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetRoles()
+        public async Task<JsonResult> GetRoles(string UserName)
         {
-            var data = (await _services.Login.GetRoles()).ToList();
+            var roles = (await _services.Permission.GetRoles()).ToList();
+            List<Roles> data = new List<Roles>();
+            foreach (var item in roles)
+            {
+                Roles role = new Roles();
+                role.RoleID = item.RoleID;
+                role.RoleName = item.RoleName;
+                role.Description = item.Description;
+                if (await _services.Permission.IsUserHasRole(UserName, item.RoleName))
+                {
+                    role.Checked = true;
+                }
+                else { role.Checked = false; }
+                data.Add(role);
+            }
+            data = data.ToList();
             return Json(new { data });
         }
 
@@ -41,38 +56,19 @@ namespace AppBVTA.Controllers
             try
             {
                 string user = User.Identity.Name;
-                if (!String.IsNullOrEmpty(role.RoleID))
+                result = await _services.Permission.InsertRole(role, user);
+                if (result == "OK")
                 {
-                    result = await _services.Login.UpdateRole(role, user);
-                    if (result == "OK")
-                    {
-                        message = $"Thành công! Đã cập nhật lại thông tin cho role: {role.RoleName}";
-                        title = "Thành công!";
-                        result = "success";
-                    }
-                    else
-                    {
-                        message = $"Lỗi! {result}";
-                        title = "Lỗi!";
-                        result = "error";
-                    }
+                    message = $"Thành công! Đã thêm mới role: {role.RoleName}";
+                    title = "Thành công!";
+                    result = "success";
                 }
                 else
                 {
-                    result = await _services.Login.InsertRole(role, user);
-                    if (result == "OK")
-                    {
-                        message = $"Thành công! Đã thêm mới role: {role.RoleName}";
-                        title = "Thành công!";
-                        result = "success";
-                    }
-                    else
-                    {
-                        message = $"Lỗi! {result}";
-                        title = "Lỗi!";
-                        result = "error";
-                    }
-                }                
+                    message = $"Lỗi! {result}";
+                    title = "Lỗi!";
+                    result = "error";
+                }
             }
             catch (Exception ex)
             {
@@ -93,7 +89,7 @@ namespace AppBVTA.Controllers
             {
                 if (!String.IsNullOrEmpty(roleID) || roleName == "Admin" || roleName == "User" || roleName == "Manager")
                 {
-                    result = await _services.Login.DeleteRole(roleID);
+                    result = await _services.Permission.DeleteRole(roleID);
                     if (result == "OK")
                     {
                         message = $"Đã xóa thành công role: {roleName}";
@@ -107,8 +103,9 @@ namespace AppBVTA.Controllers
                         result = "error";
                     }
                 }
-                else 
-                {   message = $"Lỗi! Không thể xóa Role mặc định";
+                else
+                {
+                    message = $"Lỗi! Không thể xóa Role mặc định";
                     title = "Lỗi!";
                     result = "error";
                 }
@@ -124,7 +121,7 @@ namespace AppBVTA.Controllers
 
         [HttpPost]
         public async Task<JsonResult> AddAction(string actionName)
-        {         
+        {
             string message = "";
             string title = "";
             string result = "";
@@ -137,7 +134,7 @@ namespace AppBVTA.Controllers
                 string user = User.Identity.Name;
                 if (!String.IsNullOrEmpty(action.ActionName))
                 {
-                    result = await _services.Login.InsertAction(action, user);
+                    result = await _services.Permission.InsertAction(action, user);
                     if (result == "OK")
                     {
                         message = $"Thành công! Đã thêm thành công action: {action.ActionName}";
@@ -150,7 +147,7 @@ namespace AppBVTA.Controllers
                         title = "Lỗi!";
                         result = "error";
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -164,7 +161,7 @@ namespace AppBVTA.Controllers
         [HttpPost]
         public async Task<JsonResult> AddController(string controllerName)
         {
-           
+
             string message = "";
             string title = "";
             string result = "";
@@ -177,7 +174,7 @@ namespace AppBVTA.Controllers
                 string user = User.Identity.Name;
                 if (!String.IsNullOrEmpty(controller.ControllerName))
                 {
-                    result = await _services.Login.InsertController(controller, user);
+                    result = await _services.Permission.InsertController(controller, user);
                     if (result == "OK")
                     {
                         message = $"Thành công! Đã thêm thành công controller: {controller.ControllerName}";
@@ -204,14 +201,14 @@ namespace AppBVTA.Controllers
         [HttpGet]
         public async Task<JsonResult> GetController()
         {
-            var data = (await _services.Login.GetControllers()).ToList();
+            var data = (await _services.Permission.GetControllers()).ToList();
             return Json(new { data });
         }
 
         [HttpGet]
         public async Task<JsonResult> GetAction()
         {
-            var data = (await _services.Login.GetActions()).ToList();
+            var data = (await _services.Permission.GetActions()).ToList();
             return Json(new { data });
         }
 
@@ -222,11 +219,11 @@ namespace AppBVTA.Controllers
             string title = "";
             string result = "";
             try
-            {                
+            {
                 string user = User.Identity.Name;
                 if (!String.IsNullOrEmpty(menu.Name))
                 {
-                    result = await _services.Login.InsertNavigationMenu(menu, user);
+                    result = await _services.Permission.InsertNavigationMenu(menu, user);
                     if (result == "OK")
                     {
                         message = $"Thành công! Đã thêm thành công controller: {menu.Name}";
@@ -251,9 +248,25 @@ namespace AppBVTA.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetMenu()
+        public async Task<JsonResult> GetMenu(string UserName)
         {
-            var data = (await _services.Login.GetNavigationMenus()).ToList();
+            var menus = (await _services.Permission.GetNavigationMenus()).ToList();
+            List<NavigationMenu> data = new List<NavigationMenu>();
+            foreach (var item in menus)
+            {
+                NavigationMenu menu = new NavigationMenu();
+                menu.MenuID = item.MenuID;
+                menu.Name = item.Name;
+                menu.ControllerID = item.ControllerID;
+                menu.ActionID = item.ActionID;
+                if (await _services.Permission.IsUserHasPermission(UserName, item.Name))
+                {
+                    menu.Checked = true;
+                }
+                else { menu.Checked = false; }
+                data.Add(menu);
+            }
+            data = data.ToList();
             return Json(new { data });
         }
 
@@ -267,7 +280,7 @@ namespace AppBVTA.Controllers
             {
                 if (!String.IsNullOrEmpty(menuID))
                 {
-                    result = await _services.Login.DeleteNavigationMenu(menuID);
+                    result = await _services.Permission.DeleteNavigationMenu(menuID);
                     if (result == "OK")
                     {
                         message = $"Đã xóa thành công role: {menuName}";
@@ -294,51 +307,98 @@ namespace AppBVTA.Controllers
         public async Task<IActionResult> AddRoleUser(string UserID)
         {
             PermissionViewModel model = new PermissionViewModel();
-            var data = await _services.Login.GetUsers();
-            if(!String.IsNullOrEmpty(UserID))
-            {
-                data = data.Where(s => s.UserID != null && s.UserID.Contains(UserID)).ToList();
-                model.ListUsers = data;
-            }          
-            return PartialView("_AddRoleUser", model);
-        }
-
-        public async Task<IActionResult> AddPermissionUser(string UserID)
-        {
-            PermissionViewModel model = new PermissionViewModel();
-            var data = await _services.Login.GetUsers();
+            var data = await _services.Permission.GetUsers();
             if (!String.IsNullOrEmpty(UserID))
             {
                 data = data.Where(s => s.UserID != null && s.UserID.Contains(UserID)).ToList();
                 model.User = data.FirstOrDefault();
             }
-            return PartialView("_AddPermissionUser",model);
+            return PartialView("_AddRoleUser", model);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddRoleUser(UserInRole userInRole)
+        {
+            Int32.TryParse(Request.Form["count"], out int count);
+            string message = "";
+            string title = "";
+            string result = "";
+            try
+            {
+                await _services.Permission.DeleteUserRole(Request.Form["UserID"]);
+                for (var i = 0; i <= count; i++)
+                {
+                    if (!String.IsNullOrEmpty(Request.Form["RoleName-" + i]))
+                    {
+                        UserInRole data = new UserInRole()
+                        {
+                            RoleID = Request.Form["RoleID-" + i],
+                            RoleName = Request.Form["RoleName-" + i],
+                            UserID = Request.Form["UserID"],
+                            UserName = Request.Form["UserName"]
+                        };
+                        var test = data;
+                        result = await _services.Permission.InsertUserRole(data);
+                    }
+                }
+                if (result == "OK")
+                {
+                    message = $"Thành công! Đã thêm thành công";
+                    title = "Thành công!";
+                    result = "success";
+                }
+                else
+                {
+                    message = $"Lỗi! {result}";
+                    title = "Lỗi!";
+                    result = "error";
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                title = "Lỗi!";
+                result = "error";
+            }
+            return Json(new { Result = result, Title = title, Message = message });
+        }
+
+        public async Task<IActionResult> AddPermissionUser(string UserID)
+        {
+            PermissionViewModel model = new PermissionViewModel();
+            var data = await _services.Permission.GetUsers();
+            if (!String.IsNullOrEmpty(UserID))
+            {
+                data = data.Where(s => s.UserID != null && s.UserID.Contains(UserID)).ToList();
+                model.User = data.FirstOrDefault();
+            }
+            return PartialView("_AddPermissionUser", model);
         }
 
         [HttpPost]
         public async Task<JsonResult> AddPermissionUser(UserMenuPermission menu)
         {
             Int32.TryParse(Request.Form["count"], out int count);
-            string UserID = Request.Form["UserID"];
-            string UserName = Request.Form["UserName"];
             string message = "";
             string title = "";
             string result = "";
             try
             {
                 string user = User.Identity.Name;
-                for(var i = 0; i <= count; i++)
+                await _services.Permission.DeleteUserMenuPermissions(Request.Form["UserID"]);
+                for (var i = 0; i <= count; i++)
                 {
                     if (!String.IsNullOrEmpty(Request.Form["NavigationMenuName-" + i]))
                     {
                         UserMenuPermission data = new UserMenuPermission()
                         {
                             NavigationMenuID = Request.Form["NavigationMenuID-" + i],
-                            NavigationMenuName = Request.Form["NavigationMenuName-" + i]
+                            NavigationMenuName = Request.Form["NavigationMenuName-" + i],
+                            UserID = Request.Form["UserID"],
+                            UserName = Request.Form["UserName"],
                         };
-                        var test = data;
-                        //result = await _services.Login.InsertNavigationMenu(menu, user);
-                    }                                                        
+                        result = await _services.Permission.InsertUserMenuPermissions(data, user);
+                    }
                 }
                 if (result == "OK")
                 {

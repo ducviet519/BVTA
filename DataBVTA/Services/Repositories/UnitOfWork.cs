@@ -9,7 +9,7 @@ namespace DataBVTA.Services.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ILoginRepository Login { get; }
+        public ILoginRepository Permission { get; }
         public IProductRepository Products { get; }
         public IChoKhamRepository DanhSachChoKham { get; }
         public IPhongKhamRepository PhongKham { get; }
@@ -21,7 +21,7 @@ namespace DataBVTA.Services.Repositories
                 IPhongKhamRepository phongKhamRepository
             )
         {
-            Login = loginRepository;
+            Permission = loginRepository;
             Products = productRepository;
             DanhSachChoKham = choKhamRepository;
             PhongKham = phongKhamRepository;

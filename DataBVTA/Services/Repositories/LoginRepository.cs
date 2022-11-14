@@ -33,57 +33,6 @@ namespace DataBVTA.Services.Repositories
         #endregion
 
         #region Delete Item
-        public async Task<string> DeleteAction(string id)
-        {
-            string result = "";
-            var query = "DELETE FROM ModuleActions WHERE ActionID = @ActionID";
-            try
-            {
-                using (IDbConnection dbConnection = Connection)
-                {
-                    if (dbConnection.State == ConnectionState.Closed)
-                        dbConnection.Open();
-                    var data = await dbConnection.ExecuteAsync(query, new { ActionID = id });
-                    if (data != 0)
-                    {
-                        result = "OK";
-                    }
-                    dbConnection.Close();
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result = ex.Message;
-                return result;
-            }
-        }
-
-        public async Task<string> DeleteController(string id)
-        {
-            string result = "";
-            var query = "DELETE FROM ModuleControllers WHERE ControllerID = @ControllerID";
-            try
-            {
-                using (IDbConnection dbConnection = Connection)
-                {
-                    if (dbConnection.State == ConnectionState.Closed)
-                        dbConnection.Open();
-                    var data = await dbConnection.ExecuteAsync(query, new { ControllerID = id });
-                    if (data != 0)
-                    {
-                        result = "OK";
-                    }
-                    dbConnection.Close();
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result = ex.Message;
-                return result;
-            }
-        }
 
         public async Task<string> DeleteNavigationMenu(string id)
         {
@@ -120,6 +69,56 @@ namespace DataBVTA.Services.Repositories
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
                     var data = await dbConnection.ExecuteAsync("sp_Auth_Roles", new { RoleID = id, Action = "Delete" }, commandType: CommandType.StoredProcedure);
+                    if (data != 0)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<string> DeleteUserRole(string id) 
+        {
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.ExecuteAsync("sp_Auth_Users", new { UserID = id, Action = "DeleteRoleUse" }, commandType: CommandType.StoredProcedure);
+                    if (data != 0)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<string> DeleteUserMenuPermissions(string id)
+        {
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    var data = await dbConnection.ExecuteAsync("sp_Auth_NavigationMenu", new { UserID = id, Action = "DeleteUserMenuPermission" }, commandType: CommandType.StoredProcedure);
                     if (data != 0)
                     {
                         result = "OK";
@@ -225,7 +224,7 @@ namespace DataBVTA.Services.Repositories
             }
         }
 
-        public async Task<List<UserInRole>> GetUserInRole(string username = null, string userId = null)
+        public async Task<List<UserInRole>> GetRoleInUser(string search = null)
         {
             List<UserInRole> data = new List<UserInRole>();
 
@@ -235,12 +234,11 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<UserInRole>("sp_Report_Version_View",
+                    data = (await dbConnection.QueryAsync<UserInRole>("sp_Auth_Users",
                         new
                         {
-                            UserName = username,
-                            UserID = userId
-
+                            Search = search,
+                            Action = "GetRoleInUse",
                         },
                         commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
@@ -254,7 +252,7 @@ namespace DataBVTA.Services.Repositories
             }
         }
 
-        public async Task<List<UserMenuPermission>> GetUserMenuPermissions(string userId = null, string username = null, string menuId = null, string menuname = null)
+        public async Task<List<UserMenuPermission>> GetMenuPermissionsInUser(string search = null)
         {
             List<UserMenuPermission> data = new List<UserMenuPermission>();
 
@@ -264,13 +262,11 @@ namespace DataBVTA.Services.Repositories
                 {
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
-                    data = (await dbConnection.QueryAsync<UserMenuPermission>("sp_Report_Version_View",
+                    data = (await dbConnection.QueryAsync<UserMenuPermission>("sp_Auth_NavigationMenu",
                         new
                         {
-                            UserID = userId,
-                            UserName = username,
-                            MenuID = menuId,
-                            MenuName = menuname
+                            Search = search,
+                            Action = "GetMenuPermissionInUser"
                         },
                         commandType: CommandType.StoredProcedure)).ToList();
                     dbConnection.Close();
@@ -295,6 +291,28 @@ namespace DataBVTA.Services.Repositories
                     if (dbConnection.State == ConnectionState.Closed)
                         dbConnection.Open();
                     data = (await dbConnection.QueryAsync<Users>("sp_Auth_Users", new { Action = "GetAll" }, commandType: CommandType.StoredProcedure)).ToList();
+                    dbConnection.Close();
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = ex.Message;
+                return data;
+            }
+        }
+
+        public async Task<Users> GetUsersByNameOrID(string search)
+        {
+            Users data = new Users();
+
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    data = (await dbConnection.QueryFirstOrDefaultAsync<Users>("sp_Auth_Users", new { Action = "GetByNameOrID", Search = search }, commandType: CommandType.StoredProcedure));
                     dbConnection.Close();
                 }
                 return data;
@@ -481,66 +499,27 @@ namespace DataBVTA.Services.Repositories
             }
         }
 
-        public Task<string> AddUserMenuPermissions()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> AddUserRole()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Check Exist
-        public Task<bool> IsUserHasPermission()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> IsUserHasRole()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Edit Item
-        public Task<string> UpdateAction(ModuleAction action, string user = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> UpdateController(ModuleController controller, string user = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> UpdateNavigationMenu()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<string> UpdateRole(Roles role, string user = null)
+        public async Task<string> InsertUserMenuPermissions(UserMenuPermission menu, string user = null)
         {
             string result = "";
             try
             {
                 using (IDbConnection dbConnection = Connection)
                 {
-                    if (dbConnection.State == ConnectionState.Closed)
-                        dbConnection.Open();
-                    var data = await dbConnection.QueryAsync<Roles>("sp_Auth_Roles"
-                        , new
+                    dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<UserMenuPermission>("sp_Auth_NavigationMenu",
+                        new
                         {
-                            Action = "Edit",
-                            RoleID = role.RoleID,
-                            RoleName = role.RoleName,
-                            Description = role.Description,
-                            Status = role.Status,
-                            User = user
-
-                        }
-                        , commandType: CommandType.StoredProcedure);
+                            UserID = menu.UserID,
+                            UserName = menu.UserName,
+                            RoleID = menu.RoleID,
+                            RoleName = menu.RoleName,
+                            MenuID = menu.NavigationMenuID,
+                            MenuName = menu.NavigationMenuName,
+                            User = user,
+                            Action = "AddUserMenuPermission"
+                        },
+                        commandType: CommandType.StoredProcedure);
                     if (data != null)
                     {
                         result = "OK";
@@ -556,6 +535,98 @@ namespace DataBVTA.Services.Repositories
             }
         }
 
+        public async Task<string> InsertUserRole(UserInRole userInRole)
+        {
+            string result = "";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    dbConnection.Open();
+                    var data = await dbConnection.QueryAsync<UserInRole>("sp_Auth_Users",
+                        new
+                        {
+                            UserID = userInRole.UserID,
+                            UserName = userInRole.UserName,
+                            RoleID   = userInRole.RoleID,
+                            RoleName = userInRole.RoleName,
+                            Action = "InsertRoleUse"
+                        },
+                        commandType: CommandType.StoredProcedure);
+                    if (data != null)
+                    {
+                        result = "OK";
+                    }
+                    dbConnection.Close();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                return result;
+            }
+        }
+        #endregion
+
+        #region Check Exist
+        public async Task<bool> IsUserHasPermission(string UserName = null, string MenuName = null)
+        {
+            List<UserMenuPermission> data = new List<UserMenuPermission>();
+            string query = "SELECT CAST(UserID AS varchar(60)) AS UserID, UserName, CAST(NavigationMenuID AS varchar(60)) AS NavigationMenuID, NavigationMenuName FROM DBO.RoleMenuPermission WHERE UserName = @UserName AND NavigationMenuName = @MenuName";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    data = (await dbConnection.QueryAsync<UserMenuPermission>(query, new { UserName = UserName, MenuName = MenuName })).ToList();
+                    dbConnection.Close();
+                }
+                if (data.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = ex.Message;
+                return false;
+            }
+        }
+
+        public async Task<bool> IsUserHasRole(string UserName = null, string RoleName = null)
+        {
+            List<UserInRole> data = new List<UserInRole>();
+            string query = "SELECT CAST(UserID AS varchar(60)) AS UserID, UserName, CAST(RoleID AS varchar(60)) AS RoleID, RoleName FROM DBO.UserRoles WHERE UserName = @UserName AND RoleName = @RoleName";
+            try
+            {
+                using (IDbConnection dbConnection = Connection)
+                {
+                    if (dbConnection.State == ConnectionState.Closed)
+                        dbConnection.Open();
+                    data = (await dbConnection.QueryAsync<UserInRole>(query, new { UserName = UserName, RoleName = RoleName })).ToList();
+                    dbConnection.Close();
+                }
+                if(data.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = ex.Message;
+                return false;
+            }
+        }
         #endregion
     }
 }

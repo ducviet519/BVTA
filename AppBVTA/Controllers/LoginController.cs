@@ -24,32 +24,28 @@ namespace AppBVTA.Controllers
         {
             _services = services;
         }
-        private List<Claim> GenerateClaim(UserModel user)
+        private async Task<List<Claim>> GenerateClaim(UserModel user)
         {
-            //var UserLoginInfo = _userServices.FindByName(login.Username);
-            //var RoleInUser = _userServices.GetRoleInUser(UserLoginInfo.UserID);
-            //var PermissionsInUser = _userServices.GetAllUserPermissions(UserLoginInfo.UserName);
+            var UserLoginInfo = await _services.Permission.GetUsersByNameOrID(user.Username);
+            var RoleInUser = await _services.Permission.GetRoleInUser(user.Username);
+            var PermissionMenusInUser = await _services.Permission.GetMenuPermissionsInUser(user.Username);
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.DisplayName ?? "Người dùng vô danh"),
-                new Claim(ClaimTypes.NameIdentifier, user.Username),
+                new Claim(ClaimTypes.Name, user.DisplayName ?? "Khách"),
+                new Claim(ClaimTypes.NameIdentifier, user.Username ?? "Unknow"),
                 new Claim(ClaimTypes.GroupSid, user.Source ?? "local"),
                 new Claim(ClaimTypes.Email, user.EmailAddress ?? ""),
-                new Claim(ClaimTypes.GivenName, user.DisplayName ?? ""),
-                new Claim(ClaimTypes.Surname, user.Permission ?? ""),
-                new Claim(ClaimTypes.Role, user.Role ?? ""),
             };
 
-            //foreach (var role in RoleInUser)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
-
-            //}
-            //foreach (var permission in PermissionsInUser)
-            //{
-            //    claims.Add(new Claim("Permission", $"{permission.Permission}"));
-            //}
+            foreach (var role in RoleInUser)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+            }
+            foreach (var permission in PermissionMenusInUser)
+            {
+                claims.Add(new Claim("Permission", $"{permission.NavigationMenuName}"));
+            }
 
             return claims;
         }
@@ -87,7 +83,7 @@ namespace AppBVTA.Controllers
                         Email = $@"{login.Username.Trim().ToLower()}@{domain}",
                         Status = (user.Enabled ?? false)
                     };
-                    _services.Login.InsertUsers(users);
+                    _services.Permission.InsertUsers(users);
                     return userAccount;
                 }
             }
@@ -127,7 +123,7 @@ namespace AppBVTA.Controllers
 
                     if (ad_authenticate.IsAuthenticated(UserLoginInfo.Source, UserLoginInfo.Username, UserLoginInfo.Password))
                     {
-                        List<Claim> claims = GenerateClaim(UserLoginInfo);
+                        List<Claim> claims = await GenerateClaim(UserLoginInfo);
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal,
@@ -135,7 +131,11 @@ namespace AppBVTA.Controllers
                             {
                                 IsPersistent = UserLoginInfo.Status
                             });
-                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                        string returnUrl = Request.Form["ReturnUrl"];
+                        if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                            return Redirect(returnUrl);
+                        else
+                            return RedirectToAction(nameof(HomeController.Index), "Home");
                     }
                     TempData["Error"] = "Lỗi! Tài khoản hoặc Mật khẩu không chính xác.";
                     return View();

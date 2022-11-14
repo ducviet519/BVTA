@@ -8,7 +8,7 @@ namespace DataBVTA.Services.Interfaces
 {
     public interface IUnitOfWork
     {
-        ILoginRepository Login { get; }
+        ILoginRepository Permission { get; }
         IProductRepository Products { get; }
         IChoKhamRepository DanhSachChoKham { get; }
         IPhongKhamRepository PhongKham { get; }
