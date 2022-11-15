@@ -69,6 +69,19 @@ $.fn.callToast = function (status, title, msg) {
     }
 }
 
+$.fn.callTreeView = function (id, data, level, showBorder) {
+    if (showBorder === "" || showBorder === null || showBorder === "1" || showBorder === 1) { showBorder = true; }
+    else if (showBorder === "0" || showBorder === 0) { showBorder = false;}
+    $(id).treeview({
+        data: data,
+        enableLinks: true,
+        showBorder: showBorder,
+        showTags: false,
+        levels: level,
+        collapseIcon: 'fas fa-minus',
+        expandIcon: 'fas fa-plus'
+    });
+}
 
 //Test Export trong trường hợp không truyền exportColumn
 $.fn.callDataTableExportExcel = function (btnName, btnClass, excellTitle, excelSheetName, exportColumn) {

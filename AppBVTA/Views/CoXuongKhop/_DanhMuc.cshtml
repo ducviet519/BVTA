@@ -1,8 +1,13 @@
-﻿<div class="card mb-0 mr-0" style="height: 100%">
+﻿<style>
+    .treeview .list-group{
+        border-radius:unset;
+    }
+</style>
+<div class="card mb-0 mr-0" style="height: 100%">
     <div class="card-header" style="padding-bottom:17px; padding-top:17px;">
         <h3 class="card-title head-text">Danh mục</h3>
     </div>
-    <div class="card-body">
+    <div class="card-body pl-0 pr-0 pt-0">
         <div id="DanhMuc" class="treeview"></div>
     </div>
 </div>
@@ -11,9 +16,9 @@
         document.querySelector('body').addEventListener('scriptsLoaded', function () {
 
             // .. do your thing here
-            var defaultData = [
+            var danhmucTree = [
                 {
-                    text: '1.Khám lâm sàng',
+                    text: '1. Khám lâm sàng',
                     href: '/CoXuongKhop/PhieuKhamBenh',
                     tags: ['0']
                 },
@@ -55,13 +60,7 @@
                 }
             ];
 
-            $('#DanhMuc').treeview({
-                data: defaultData,
-                enableLinks: true,
-                collapseIcon: 'fas fa-minus',
-                expandIcon: 'fas fa-plus'
-            });
-
+            $(this).callTreeView('#DanhMuc', danhmucTree, 2)
         });
     })();
 </script>

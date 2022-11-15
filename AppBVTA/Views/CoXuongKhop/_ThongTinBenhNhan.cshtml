@@ -2,6 +2,11 @@
     .sidebar {
         height: 160px;
     }
+    .scrollspy-phongkham {
+        position: relative;
+        height: 160px;
+        overflow: auto;
+    }
 </style>
 <!-- /.row -->
 <div class="row">
@@ -18,74 +23,12 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body pl-0">
                 <div class="row">
-                    <div class="col-3">
-                        <!-- Sidebar -->
-                        <div class="sidebar">
-                            <!-- Sidebar Menu -->
-                            <nav class="mt-2">
-                                <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent text-sm" data-widget="treeview" role="menu" data-accordion="farse">
-                                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-                                    <li class="nav-item menu-open">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-plus-square"></i>
-                                            <p>
-                                                Phòng khám
-                                                <i class="right fas fa-angle-left"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-minus-square"></i>
-                                                    <p>10/01/2022 Phòng khám CXK 01</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-plus-square"></i>
-                                                    <p>
-                                                        10/01/2022 Phòng khám CXK 01
-                                                        <i class="right fas fa-angle-left"></i>
-                                                    </p>
-                                                </a>
-                                                <ul class="nav nav-treeview">
-                                                    <li class="nav-item">
-                                                        <a href="#" class="nav-link">
-                                                            <i class="far fa-minus-square"></i>
-                                                            <p>10/01/2022 Phòng khám CXK 01</p>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a href="#" class="nav-link">
-                                                            <i class="far fa-minus-square"></i>
-                                                            <p>10/01/2022 Phòng khám CXK 01</p>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a href="#" class="nav-link">
-                                                            <i class="far fa-minus-square"></i>
-                                                            <p>10/01/2022 Phòng khám CXK 01</p>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-minus-square"></i>
-                                                    <p>10/01/2022 Phòng khám CXK 01</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- /.sidebar-menu -->
-                        </div>
-                        <!-- /.sidebar -->
+                    <div class="col-3 pr-0">
+                            <div id="DanhMucPhongKham" class="treeview scrollspy-phongkham" data-spy="scroll" data-target="#spy"></div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 pl-3">
                         <div class="row mb-3">
                             <label class="col-form-label col-3">Mã KH: <strong>18009858</strong></label>
                             <label class="col-form-label col-3">Họ và tên: Nguyễn Thị A</label>
@@ -171,7 +114,50 @@
                 $('#ngayKham').datetimepicker({ format: 'DD/MM/YYYY', locale: 'vi' });
                 $('#gioKham').datetimepicker({ format: 'HH:mm' });
             })
+            var phongkhamTree = [
+                {
+                    text: 'Phòng khám',
+                    href: '#',
+                    tags: ['3'],
+                    nodes: [
+                        {
+                            text: '10/01/2022 Phòng khám CXK 01',
+                            href: '#',
+                            tags: ['0'],
+                        },
+                        {
+                            text: '10/01/2022 Phòng khám CXK 01',
+                            href: '#',
+                            tags: ['3'],
+                            nodes: [
+                                {
+                                    text: '10/01/2022 Phòng khám CXK 01',
+                                    href: '#',
+                                    tags: ['0'],
+                                },
+                                {
+                                    text: '10/01/2022 Phòng khám CXK 01',
+                                    href: '#',
+                                    tags: ['0']
+                                },
+                                {
+                                    text: '10/01/2022 Phòng khám CXK 01',
+                                    href: '#',
+                                    tags: ['0']
+                                },
+                            ]
+                        },
+                        {
+                            text: '10/01/2022 Phòng khám CXK 01',
+                            href: '#',
+                            tags: ['0']
+                        },
+                    ]
+                },
+            ];
 
+            $(this).callTreeView('#DanhMucPhongKham', phongkhamTree, 2, 0)
+            $('[data-spy="scroll"]').scrollspy({ target: '#DanhMucPhongKham' })
         });
     })();
 </script>
