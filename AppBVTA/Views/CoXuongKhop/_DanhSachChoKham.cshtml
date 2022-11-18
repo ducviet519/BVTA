@@ -63,18 +63,34 @@
                     searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
                 var columnChoKham = [
-                    { "data": "stt" },
-                    { "data": "giodk" },
+                    {
+                        "data": "stt",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giodk",
+                        "className": "text-center"
+                    },
                     { "data": "tenphongkham" },
-                    { "data": "mabn" },
+                    {
+                        "data": "mabn",
+                        "className": "text-center"
+                    },
                     { "data": "hoten" },
-                    { "data": "namsinh" },
-                    { "data": "giohen" },
+                    {
+                        "data": "namsinh",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giohen",
+                        "className": "text-center"
+                    },
                     { "data": "tenchidinh" },
                     { "data": "ghichu" },
                     {
                         "data": { mabn: "mabn", maphongkham: "maphongkham" },
-                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham + "'  onclick=PhieuKhamBenh('" + row.id + "'); >Xác nhận</a>"; }
+                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham + "'  onclick=PhieuKhamBenh('" + row.id + "'); >Xác nhận</a>"; },
+                        "className": " text-nowrap"
                     },
                 ]
                 searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");

@@ -63,18 +63,37 @@
                     searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
                 var columnCLS = [
-                    { "data": "stt" },
-                    { "data": "giodk" },
+                    {
+                        "data": "stt",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giodk",
+                        "className": "text-center"
+                    },
                     { "data": "tenphongkham" },
-                    { "data": "mabn" },
+                    {
+                        "data": "mabn",
+                        "className": "text-center"
+                    },
                     { "data": "hoten" },
-                    { "data": "namsinh" },
-                    { "data": "giohen" },
-                    { "data": "tenchidinh" },
+                    {
+                        "data": "namsinh",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giohen",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "tenchidinh",
+                        "className": "text-wrap"
+                    },
                     { "data": "ghichu" },
                     {
                         "data": { mabn: "mabn", maphongkham: "maphongkham" },
-                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham +"'  onclick=PhieuKhamBenh('" + row.id + "'); >Xem phiếu khám</a>"; }
+                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham + "'  onclick=PhieuKhamBenh('" + row.id + "'); >Xem phiếu khám</a>"; },
+                        "className": "text-nowrap"
                     },
                 ]
                 searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
@@ -92,7 +111,6 @@
                     searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
                 });
             });
-
         });
     })();
 </script>

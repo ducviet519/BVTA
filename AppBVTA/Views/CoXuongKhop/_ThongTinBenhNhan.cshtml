@@ -11,7 +11,7 @@
 <!-- /.row -->
 <div class="row">
     <div class="col-12">
-        <div class="card mb-0">
+        <div class="card mb-1">
             <div class="card-header">
                 <div class="row">
                     <div class="col-3">
@@ -67,31 +67,18 @@
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label for="BacSi" class="col-form-label col-auto">Bác sĩ:</label>
-                                    <div class="col-auto">
-                                        <select class="form-control" id="MaBacSi" name="MaBacSi">
-                                            <option>0002</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <select class="form-control" id="BacSi" name="BacSi">
-                                            <option>Đặng Thị Hồng Hoa</option>
-                                        </select>
+                                    <div class="col-8">
+                                        <select class="form-control" id="BacSi" name="BacSi"></select>
+                                        <input type="hidden" id="selectedBacSi" name="selectedBacSi" value="001" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label for="DieuDuong" class="col-form-label col-auto">Điều dưỡng:</label>
-                                    <div class="col-auto">
-                                        <select class="form-control" id="MaDieuDuong" name="MaDieuDuong">
-                                            <option>0002</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <select class="form-control" id="DieuDuong" name="DieuDuong">
-                                            <option>Đặng Thị Hồng Hoa</option>
-                                        </select>
+                                    <div class="col-8">
+                                        <select class="form-control" id="DieuDuong" name="DieuDuong"></select>
+                                        <input type="hidden" id="selectedDieuDuong" name="selectedDieuDuong" value="002" />
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +143,92 @@
                 },
             ];
 
-            $(this).callTreeView('#DanhMucPhongKham', phongkhamTree, 2, 0)
-            $('[data-spy="scroll"]').scrollspy({ target: '#DanhMucPhongKham' })
+            $(this).callTreeView('#DanhMucPhongKham', phongkhamTree, 2, 0);
+            $('[data-spy="scroll"]').scrollspy({ target: '#DanhMucPhongKham' });
+
+            $('#BacSi').select2({
+                ajax: {
+                    url: '/BenhNhan/GetBacSi',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            term: params.term,
+                        }
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    id: item.mabs,
+                                    text: item.mabs + ' | ' + item.tenbs,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Chọn bác sĩ',
+                allowClear: true
+            });
+            var bacSiSelect = $('#BacSi');
+            var mabs = ((document.getElementById("selectedBacSi") || {}).value)
+            $.ajax({
+                type: 'GET',
+                url: '/BenhNhan/GetBacSi?mabs=' + mabs
+            }).then(function (data) {
+                // create the option and append to Select2
+                var option = new Option(data.data.mabs + ' | ' + data.data.tenbs, data.data.mabs, true, true);
+                bacSiSelect.append(option).trigger('change');
+                // manually trigger the `select2:select` event
+                bacSiSelect.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: data
+                    }
+                });
+            });
+
+            $('#DieuDuong').select2({
+                ajax: {
+                    url: '/BenhNhan/GetDieuDuong',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            term: params.term,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.madd + ' | ' + item.tendd,
+                                    id: item.madd
+                                }
+                            })
+                        };
+                    }
+                },
+                placeholder: 'Chọn điều dưỡng',
+                allowClear: true
+            });
+            var dieuDuongSelect = $('#DieuDuong');
+            var madd = ((document.getElementById("selectedDieuDuong") || {}).value)
+            $.ajax({
+                type: 'GET',
+                url: '/BenhNhan/GetDieuDuong?madd=' + madd
+            }).then(function (data) {
+                // create the option and append to Select2
+                var option = new Option(data.data.madd + ' | ' + data.data.tendd, data.data.madd, true, true);
+                dieuDuongSelect.append(option).trigger('change');
+                // manually trigger the `select2:select` event
+                dieuDuongSelect.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: data
+                    }
+                });
+            });
+
         });
     })();
 </script>

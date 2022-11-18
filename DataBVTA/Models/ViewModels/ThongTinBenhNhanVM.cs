@@ -1,4 +1,5 @@
 ﻿using DataBVTA.Models.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,9 @@ namespace DataBVTA.Models.ViewModels
         public ThongTinBenhNhan BenhNhan { get; set; } 
 
         public List<ThongTinBenhNhan> ListBenhNhan { get; set; }
+
+        public IEnumerable<SelectListItem> ListBacSi { get; set; }
+
+        public IEnumerable<SelectListItem> ListDieuDuong { get; set; }
     }
 }

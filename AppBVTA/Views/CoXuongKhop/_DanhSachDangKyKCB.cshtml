@@ -61,18 +61,34 @@
                     searchTerm1 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
                 var columnData = [
-                    { "data": "stt" },
+                    {
+                        "data": "stt",
+                        "className": "text-center"
+                    },
                     { "data": "tenphongkham" },
-                    { "data": "tongso" },
+                    {
+                        "data": "tongso",
+                        "className": "text-center"
+                    },
                     {
                         "data": { chuakham: "chuakham", maphongkham: "maphongkham" },
                         "render": function (data, title, row) {
                             return '<a class="btn btn-link btn-sm" data-toggle="ajax-modal" data-target="#phongkhamCXK-' + row.id + '" data-url="/CoXuongKhop/DanhSachChuaKham?mapk=' + data.maphongkham + '">' + data.chuakham + '</a>';
-                        }
+                        },
+                        "className": "text-center"
                     },
-                    { "data": "cls" },
-                    { "data": "coketqua" },
-                    { "data": "dakham" },
+                    {
+                        "data": "cls",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "coketqua",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "dakham",
+                        "className": "text-center"
+                    },
                 ]
                 searchDataTable("#dangKyKCBTable", columnData, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm1, 10, "");
 

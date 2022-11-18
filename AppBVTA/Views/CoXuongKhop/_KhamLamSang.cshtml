@@ -138,7 +138,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group row mb-2">
-                                    <div class="checkbox icheck-belizehole col-5">
+                                    <div class="checkbox icheck-belizehole col-4">
                                         <input type="checkbox" id="DauVungMongTCKPTK" />
                                         <label for="DauVungMongTCKPTK">Đau vùng mông (khớp cùng chậu): </label>
                                     </div>
@@ -162,7 +162,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group row mb-2">
-                                    <div class="checkbox icheck-belizehole col-5">
+                                    <div class="checkbox icheck-belizehole col-4">
                                         <input type="checkbox" id="ViemNgonTCKPTK" />
                                         <label for="ViemNgonTCKPTK">Viêm ngón: </label>
                                     </div>
@@ -186,7 +186,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group row mb-2">
-                                    <div class="checkbox icheck-belizehole col-5">
+                                    <div class="checkbox icheck-belizehole col-4">
                                         <input type="checkbox" id="KhacTCKPTK" />
                                         <label for="KhacTCKPTK">Khác: </label>
                                     </div>
@@ -619,12 +619,8 @@
                             <label class="col-form-label col-2">Bệnh chính: </label>
                             <div class="col-10">
                                 <div class="row">
-                                    <select class="form-control col-2" id="ICDBenhChinh" name="ICDBenhChinh">
-                                        <option>A00.1</option>
-                                    </select>
-                                    <select class="form-control col mr-5" id="BenhChinh" name="BenhChinh">
-                                        <option>Bệnh a</option>
-                                    </select>
+                                    <select class="form-control col mr-5 selectICD" id="BenhChinh" name="BenhChinh"></select>
+                                    <input type="hidden" id="selectICD_Chinh" name="selectICD_Chinh" value="001" />
                                 </div>
                             </div>
                         </div>
@@ -632,28 +628,16 @@
                             <label class="col-form-label col-2">Bệnh kèm theo: </label>
                             <div class="col-10">
                                 <div class="row mb-1">
-                                    <select class="form-control col-2" id="ICDBenhChinh" name="ICDBenhChinh">
-                                        <option>A00.1</option>
-                                    </select>
-                                    <select class="form-control col mr-5" id="BenhChinh" name="BenhChinh">
-                                        <option>Bệnh a</option>
-                                    </select>
+                                    <select class="form-control col mr-5 selectICD" id="BenhPhu1" name="BenhPhu1"></select>
+                                    <input type="hidden" id="selectICD_Phu1" name="selectICD_Phu1" value="003" />
                                 </div>
                                 <div class="row mb-1">
-                                    <select class="form-control col-2" id="ICDBenhChinh" name="ICDBenhChinh">
-                                        <option>A00.1</option>
-                                    </select>
-                                    <select class="form-control col mr-5" id="BenhChinh" name="BenhChinh">
-                                        <option>Bệnh a</option>
-                                    </select>
+                                    <select class="form-control col mr-5 selectICD" id="BenhPhu2" name="BenhPhu2"></select>
+                                    <input type="hidden" id="selectICD_Phu2" name="selectICD_Phu2" value="004" />
                                 </div>
                                 <div class="row mb-1">
-                                    <select class="form-control col-2" id="ICDBenhChinh" name="ICDBenhChinh">
-                                        <option>A00.1</option>
-                                    </select>
-                                    <select class="form-control col mr-5" id="BenhChinh" name="BenhChinh">
-                                        <option>Bệnh a</option>
-                                    </select>
+                                    <select class="form-control col mr-5 selectICD" id="BenhPhu3" name="BenhPhu3"></select>
+                                    <input type="hidden" id="selectICD_Phu3" name="selectICD_Phu3" value="005" />
                                 </div>
                             </div>
                         </div>
@@ -685,7 +669,54 @@
                 $('#ChieuCao').inputmask({ alias: 'numeric' });
                 $('#CanNang').inputmask({ alias: 'numeric' });
                 $('#BMI').inputmask({ alias: 'numeric' });
-            })
+            });
+
+            $(function () {
+                $('.selectICD').select2({
+                    ajax: {
+                        url: '/BenhNhan/GetICD',
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                term: params.term,
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.data, function (item) {
+                                    return {
+                                        text: item.maICD + ' | ' + item.tenICD,
+                                        id: item.maICD
+                                    }
+                                })
+                            };
+                        }
+                    },
+                    placeholder: 'Chọn chẩn đoán hoặc mã ICD',
+                    allowClear: true
+                });
+                function searchICD(id, maICD) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/BenhNhan/GetICD?maICD=' + maICD
+                    }).then(function (data) {
+                        // create the option and append to Select2
+                        var option = new Option(data.data.maICD + ' | ' + data.data.tenICD, data.data.maICD, true, true);
+                        $(id).append(option).trigger('change');
+                        // manually trigger the `select2:select` event
+                        $(id).trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: data
+                            }
+                        });
+                    });
+                };
+                searchICD('#BenhChinh', (document.getElementById("selectICD_Chinh") || {}).value);
+                searchICD('#BenhPhu1', (document.getElementById("selectICD_Phu1") || {}).value); 
+                searchICD('#BenhPhu2', (document.getElementById("selectICD_Phu2") || {}).value); 
+                searchICD('#BenhPhu3', (document.getElementById("selectICD_Phu3") || {}).value);          
+            });
         });
     })();
 </script>

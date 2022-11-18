@@ -17,6 +17,10 @@
     .nav-sidebar .nav-item:hover {
         background-color: transparent;
     }
+
+    .card {
+        border-radius: unset;
+    }
 </style>
 
 <ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
@@ -33,11 +37,11 @@
             <div class="col-12">
                 <div class="card">
                     
-                    @await Html.PartialAsync("_ThongTinBenhNhan")
+                    @await Html.PartialAsync("_ThongTinBenhNhan", Model)
                     <!-- /.row -->
                     <div class="row">
                         <div class="col-3 pr-0">
-                            @await Html.PartialAsync("_DanhMuc")
+                            @await Html.PartialAsync("_DanhMuc", Model)
                         </div>
                         <div class="col-9 pl-0">
                             @await Html.PartialAsync("_KhamLamSang", Model)

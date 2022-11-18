@@ -17,6 +17,10 @@
     .nav-sidebar .nav-item:hover {
         background-color: transparent;
     }
+
+    .card {
+        border-radius: unset;
+    }
 </style>
 
 <ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
@@ -43,7 +47,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <form id="myForm" method="post" asp-area="" asp-action="KhamLamSang" asp-controller="CoXuongKhop">
-                                        <div class="card mb-0 ml-0">
+                                        <div class="card mb-0 ml-0 box-shadow-disable">
                                             <div class="card-header">
                                                 <h3 class="card-title head-text">Đánh giá PASI</h3>
                                                 <div class="card-tools">
@@ -96,19 +100,19 @@
             var ketQua = ((document.getElementById("ketQua") || {}).value) || "";
 
             if (ketQua === "") {
-                $('#danhGia').callToast("warning", "Chú ý", "Hãy kết quả trước khi đánh giá trước khi đánh giá");
+                $('#danhGia').callToast("info", "Chú ý", "Hãy kết quả trước khi đánh giá trước khi đánh giá");
             }
             else {
                 const ketLuan = document.getElementById('ketLuan');
 
                 if (ketQua < 10) {
-                    ketLuan.innerHTML = "PASI = <strong>" + ketQua + " - Nhẹ</strong>";
+                    ketLuan.innerHTML = "PASI = <strong style='color: MediumSeaGreen;'>" + ketQua + " - Nhẹ</strong>";
                 }
                 else if (ketQua >= 10 && ketQua < 20) {
-                    ketLuan.innerHTML = "PASI = <strong>" + ketQua + " - Vừa</strong>";
+                    ketLuan.innerHTML = "PASI = <strong style='color: DodgerBlue;'>" + ketQua + " - Vừa</strong>";
                 }
                 else if (ketQua >= 20) {
-                    ketLuan.innerHTML = "PASI = <strong>" + ketQua + " - Nặng</strong>";
+                    ketLuan.innerHTML = "PASI = <strong style='color: Tomato;'>" + ketQua + " - Nặng</strong>";
                 }
             }
         })
