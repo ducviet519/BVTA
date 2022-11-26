@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model DataBVTA.Models.ViewModels.ThongTinBenhNhanVM
+<style>
     .sidebar {
         height: 160px;
     }
@@ -26,7 +27,37 @@
             <div class="card-body pl-0">
                 <div class="row">
                     <div class="col-3 pr-0">
-                            <div id="LichSuKham" class="treeview scrollspy-phongkham" data-spy="scroll" data-target="#spy"></div>
+                            <div id="LichSuKham" class="treeview scrollspy-phongkham" data-spy="scroll" data-target="#spy">
+                            <ul class="tree">
+                                
+                                <li>
+                                    <details open>
+                                        <summary>Phòng khám</summary>
+                                        <ul>
+                                            @{
+                                                if (Model.LichSuKhamBenh.Count > 0)
+                                                {
+                                                    foreach (var item in Model.LichSuKhamBenh)
+                                                    {
+                                                        <li>
+                                                            <details>
+                                                                <summary>@item.ngaykham @item.tenkhoaphong</summary>
+                                                                <ul>
+                                                                    <li>Bác sĩ: @item.tenbacsi</li>
+                                                                    <li>Chẩn đoán: @item.chandoan</li>
+                                                                    <li>Giới tính: @item.gioitinh</li>
+                                                                    <li>Ngày khám: @item.ngaykham</li>
+                                                                </ul>
+                                                            </details>
+                                                        </li>
+                                                    }
+                                                }
+                                            }     
+                                        </ul>
+                                    </details>
+                                </li>
+                            </ul>
+                            </div>
                     </div>
                     <div class="col-9 pl-3">
                         <div class="row mb-3">
@@ -143,7 +174,7 @@
                 },
             ];
 
-            $(this).callTreeView('#LichSuKham', phongkhamTree);
+            //$(this).callTreeView('#LichSuKham', phongkhamTree);
             $('[data-spy="scroll"]').scrollspy({ target: '#DanhMucPhongKham' });
 
             $('#BacSi').select2({
