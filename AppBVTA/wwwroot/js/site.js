@@ -69,17 +69,14 @@ $.fn.callToast = function (status, title, msg) {
     }
 }
 
-$.fn.callTreeView = function (id, data, level, showBorder) {
-    if (showBorder === "" || showBorder === null || showBorder === "1" || showBorder === 1) { showBorder = true; }
-    else if (showBorder === "0" || showBorder === 0) { showBorder = false;}
-    $(id).treeview({
-        data: data,
-        enableLinks: true,
-        showBorder: showBorder,
-        showTags: false,
-        levels: level,
+$.fn.callTreeView = function (id, dataTree) {
+    $(id).bstreeview({
+        data: dataTree,
+        expandIcon: 'fas fa-plus',
         collapseIcon: 'fas fa-minus',
-        expandIcon: 'fas fa-plus'
+        indent: 1.25,
+        parentsMarginLeft: '1.25rem',
+        openNodeLinkOnNewTab: false
     });
 }
 

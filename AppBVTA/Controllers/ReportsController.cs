@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Rotativa.AspNetCore;
-using Rotativa.AspNetCore.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;

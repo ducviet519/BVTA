@@ -17,6 +17,9 @@ namespace DataBVTA.Services
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IChoKhamRepository, ChoKhamRepository>();
             services.AddTransient<IPhongKhamRepository, PhongKhamRepository>();
+            services.AddTransient<ILichSuKhamBenhReponsitory, LichSuKhamBenhReponsitory>();
+            services.AddTransient<IThongTinHanhChinhRepository, ThongTinHanhChinhRepository>();
+            services.AddTransient<IPhieuKhamBenhRepository, PhieuKhamBenhRepository>();           
             services.AddTransient<IUploadFile, UploadFile>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }

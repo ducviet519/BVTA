@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Rotativa.AspNetCore;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -98,8 +97,7 @@ namespace AppBVTA
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+            
         }
     }
 }

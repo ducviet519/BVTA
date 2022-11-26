@@ -92,6 +92,26 @@ namespace AppBVTA.Controllers
         //{
         //    return PartialView("_BieuDo");
         //}
+        [HttpGet]
+        public async Task<JsonResult> GetLichSuKhamBenh(string mabn, string ngaykham = null, string maql = null, string thang = null)
+        {
+            List<TreeData> dataTree = new List<TreeData>();
+            List<LichSuKhamBenh> lichsuKB = await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn, ngaykham, maql, thang);
+            foreach(var ls in lichsuKB)
+            {
+                TreeData tree = new TreeData() {
+                    text = $"{ls.ngaykham} {ls.tenkhoaphong}",
+                    href = @"#",
+                    nodes = new List<TreeData>() { 
+                        new TreeData() { text = $"Đối tượng: {ls.doituong}"},
+                        new TreeData() { text = $"Chẩn đoán: {ls.chandoan}"},
+                        new TreeData() { text = $"Bác sĩ: {ls.tenbacsi}"},
+                    }
+                };
+                dataTree.Add(tree);
+            }
+            return Json(new { dataTree });
+        }
         #endregion
 
         #region 1. Khám lâm sàng
