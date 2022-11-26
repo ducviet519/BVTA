@@ -4,7 +4,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title head-text">Danh sách đang làm CLS</h3>
+                <h3 class="card-title head-text">Danh sách chờ khám</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -13,19 +13,19 @@
                         <div class="form-group row">
                             <label for="PhongKham" class="col-form-label col-auto">Phòng khám:</label>
                             <div class="col-auto">
-                                <select class="form-control selectPhongKham" id="PhongKham3" name="PhongKham3" asp-items="@Model.PhongKham">
+                                <select class="form-control selectPhongKham" id="PhongKham2" name="PhongKham2" asp-items="@Model.PhongKham">
                                     <option value="-1" selected="selected">Tất cả phòng khám</option>
                                 </select>
                             </div>
                             <label for="HoTenKH" class="col-form-label col-auto ml-5">PID/Họ tên KH:</label>
                             <div class="col-auto">
-                                <input type="text" class="form-control" id="HoTenKH3" name="HoTenKH3" />
+                                <input type ="text" class="form-control" id="HoTenKH" name="HoTenKH"/>
                             </div>
-                            <button class="btn btn-info ml-5" id="searchDangThucHienCLS">Tìm kiếm</button>
+                            <button class="btn btn-info ml-5" id="searchChoKham">Tìm kiếm</button>
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-hover text-nowrap" width="100%" id="dangThucHienCLSTable">
+                <table class="table table-bordered table-hover text-nowrap" width="100%" id="choKhamTable">
                     <thead class="thead">
                         <tr>
                             <th class="w-auto text-nowrap">STT</th>
@@ -53,43 +53,59 @@
         document.querySelector('body').addEventListener('scriptsLoaded', function () {
 
             $(function () {
-                var phongKham = $("#PhongKham3").find(":selected").val();
-                var hoTenKH = ((document.getElementById("HoTenKH3") || {}).value) || "";
+                var phongKham = $("#PhongKham2").find(":selected").val();
+                var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
 
-                var searchTerm3 = "param=3";
+                var searchTerm2 = "param=2";
                 if (phongKham != "")
-                    searchTerm3 += "&phongKham=" + phongKham;
+                    searchTerm2 += "&phongKham=" + phongKham;
                 if ($.trim(hoTenKH) != "")
-                    searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+                    searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
-                var columnCLS = [
-                    { "data": "stt" },
-                    { "data": "giodk" },
+                var columnChoKham = [
+                    {
+                        "data": "stt",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giodk",
+                        "className": "text-center"
+                    },
                     { "data": "tenphongkham" },
-                    { "data": "mabn" },
+                    {
+                        "data": "mabn",
+                        "className": "text-center"
+                    },
                     { "data": "hoten" },
-                    { "data": "namsinh" },
-                    { "data": "giohen" },
+                    {
+                        "data": "namsinh",
+                        "className": "text-center"
+                    },
+                    {
+                        "data": "giohen",
+                        "className": "text-center"
+                    },
                     { "data": "tenchidinh" },
                     { "data": "ghichu" },
                     {
                         "data": { mabn: "mabn", maphongkham: "maphongkham" },
-                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham +"'  onclick=PhieuKhamBenh('" + row.id + "'); >Xem phiếu khám</a>"; }
+                        "render": function (data, row) { return "<a class='btn btn-link btn-sm' href='/CoXuongKhop/PhieuKhamBenh?mabn=" + data.mabn + "&maphongkham=" + data.maphongkham + "'  onclick=PhieuKhamBenh('" + row.id + "'); >Xác nhận</a>"; },
+                        "className": " text-nowrap"
                     },
                 ]
-                searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
+                searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
 
-                $('#searchDangThucHienCLS').on('click', function () {
-                    var phongKham = $("#PhongKham3").find(":selected").val();
-                    var hoTenKH = ((document.getElementById("HoTenKH3") || {}).value) || "";
+                $('#searchChoKham').on('click', function () {
+                    var phongKham = $("#PhongKham2").find(":selected").val();
+                    var hoTenKH = ((document.getElementById("HoTenKH") || {}).value) || "";
 
-                    var searchTerm3 = "param=3";
+                    var searchTerm2 = "param=2";
                     if (phongKham != "")
-                        searchTerm3 += "&phongKham=" + phongKham;
+                        searchTerm2 += "&phongKham=" + phongKham;
                     if ($.trim(hoTenKH) != "")
-                        searchTerm3 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
+                        searchTerm2 += "&mabn=" + encodeURIComponent($.trim(hoTenKH));
 
-                    searchDataTable("#dangThucHienCLSTable", columnCLS, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm3, 10, "0,9");
+                    searchDataTable("#choKhamTable", columnChoKham, "/CoXuongKhop/GetDanhSachChoKham?" + searchTerm2, 10, "0,9");
                 });
             });
 

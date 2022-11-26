@@ -20,14 +20,14 @@ namespace AppBVTA.Controllers
             data.BarCode = StaticHelper.GenBarCode("12345678");
             data.TenPhieuIn = "PhieuKhamBenh";
 
-            //return View(data);
-            return new ViewAsPdf("PhieuKhamBenh", data)
-            {
-                //FileName = $"{data.TenPhieuIn}.pdf", //User for click download
-                PageSize = Size.A4,
-                PageOrientation = Orientation.Portrait,
-                IsJavaScriptDisabled = true,
-            };
+            return View(data);
+            //return new ViewAsPdf("PhieuKhamBenh", data)
+            //{
+            //    //FileName = $"{data.TenPhieuIn}.pdf", //User for click download
+            //    PageSize = Size.A4,
+            //    PageOrientation = Orientation.Portrait,
+            //    IsJavaScriptDisabled = true,
+            //};
 
         }
 

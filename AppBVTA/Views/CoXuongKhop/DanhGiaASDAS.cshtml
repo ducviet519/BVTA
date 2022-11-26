@@ -17,6 +17,10 @@
     .nav-sidebar .nav-item:hover {
         background-color: transparent;
     }
+
+    .card {
+        border-radius: unset;
+    }
 </style>
 
 <ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
@@ -44,7 +48,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <form id="myForm" method="post" asp-area="" asp-action="KhamLamSang" asp-controller="CoXuongKhop">
-                                        <div class="card mb-0 ml-0">
+                                        <div class="card mb-0 ml-0 box-shadow-disable">
                                             <div class="card-header">
                                                 <h3 class="card-title head-text">Đánh giá ASDAS</h3>
                                                 <div class="card-tools">
@@ -329,6 +333,7 @@
 
 @section Scripts{
     <script type="text/javascript">
+        $('#CRP').inputmask({ alias: 'numeric' });
         $('#danhGia').click(function () {
             var dauCotSong = ((document.querySelector('input[name="dauCotSong"]:checked') || {}).value) || "";
             var cungKhop = ((document.querySelector('input[name="cungKhop"]:checked') || {}).value) || "";
@@ -337,23 +342,23 @@
             var CRP = ((document.getElementById("CRP") || {}).value) || "0";
 
             if (dauCotSong === "" || cungKhop === "" || tuDanhGia === "" || khopNgoaiVi === "") {
-                $('#danhGia').callToast("warning","Chú ý","Hãy chọn đủ các tiêu chí trước khi đánh giá");
+                $('#danhGia').callToast("info","Chú ý","Hãy chọn đủ các tiêu chí trước khi đánh giá");
             }
 
-            var ketQua = eval('(0.12 *' + parseInt(dauCotSong) + ') + (0.06 *' + parseInt(cungKhop) + ') + (0.11 *' + parseInt(tuDanhGia) + ') + (0.07 *' + parseInt(khopNgoaiVi) + ') + (0.58 * ' + Math.log(parseInt(CRP) + 1) + ')');
+            var ketQua = eval('(0.12 *' + parseInt(dauCotSong) + ') + (0.06 *' + parseInt(cungKhop) + ') + (0.11 *' + parseInt(tuDanhGia) + ') + (0.07 *' + parseInt(khopNgoaiVi) + ') + (0.58 * ' + Math.log(parseInt(CRP) + 1) + ')').toFixed(2);
             const ketLuan = document.getElementById('ketLuan')
 
             if (ketQua < 1.3) {
-                ketLuan.innerHTML = "ASDAS = <strong>" + ketQua + "- Bệnh không hoạt động</strong>";
+                ketLuan.innerHTML = "ASDAS = <strong style='color: MediumSeaGreen;'>" + ketQua + "- Bệnh không hoạt động</strong>";
             }
             else if (ketQua >= 1.3 && ketQua < 2.1) {
-                ketLuan.innerHTML = "ASDAS = <strong>" + ketQua + "- Bệnh hoạt động trung bình</strong>";
+                ketLuan.innerHTML = "ASDAS = <strong style='color: DodgerBlue;'>" + ketQua + "- Bệnh hoạt động trung bình</strong>";
             }
             else if (ketQua >= 2.1 && ketQua < 3.5) {
-                ketLuan.innerHTML = "ASDAS = <strong>" + ketQua + " - Bệnh hoạt động mạnh</strong>";
+                ketLuan.innerHTML = "ASDAS = <strong style='color: DodgerBlue;'>" + ketQua + " - Bệnh hoạt động mạnh</strong>";
             }
             else if (ketQua >= 3.5) {
-                ketLuan.innerHTML = "ASDAS = <strong>" + ketQua + "- Bệnh hoạt động rất mạnh</strong>";
+                ketLuan.innerHTML = "ASDAS = <strong style='color: Tomato;'>" + ketQua + "- Bệnh hoạt động rất mạnh</strong>";
             }
         })
     </script>

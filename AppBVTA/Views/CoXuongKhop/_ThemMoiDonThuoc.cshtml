@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
 }
+
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -106,19 +107,19 @@
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-12">Giờ dùng (24h):</label>
-                                <div class="col-12"><input type="text" id="GioDung" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#GioDung" /></div>
+                                <div class="col-12"><input type="text" id="GioDung" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#GioDung" autocomplete="off" /></div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-12">Từ ngày:</label>
-                                <div class="col-12"><input type="text" id="TuNgay" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#TuNgay" /></div>
+                                <div class="col-12"><input type="text" id="TuNgay" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#TuNgay" autocomplete="off" /></div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-12">Đến ngày:</label>
-                                <div class="col-12"><input type="text" id="DenNgay" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#DenNgay" /></div>
+                                <div class="col-12"><input type="text" id="DenNgay" class="form-control datetimepicker-input cachdung" data-toggle="datetimepicker" data-target="#DenNgay" autocomplete="off" /></div>
                             </div>
                         </div>
                     </div>
@@ -149,7 +150,7 @@
     });
     $(document).ready(function () {
         var clicks = -1;
-        var table = $('#themThuocTable').callDataTable("5", 5);
+        var table = $('#themThuocTable').DataTable();
         $("#themThuoc").on('click', function (e) {
             clicks++;
             var item = $(".example").find(":selected").text().split('|');

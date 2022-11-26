@@ -17,6 +17,10 @@
     .nav-sidebar .nav-item:hover {
         background-color: transparent;
     }
+
+    .card {
+        border-radius: unset;
+    }
 </style>
 
 <ul class="nav nav-tabs pl-5" id="custom-content-above-tab" role="tablist">
@@ -43,7 +47,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <form id="myForm" method="post" asp-area="" asp-action="KhamLamSang" asp-controller="CoXuongKhop">
-                                        <div class="card mb-0 ml-0">
+                                        <div class="card mb-0 ml-0 box-shadow-disable">
                                             <div class="card-header">
                                                 <h3 class="card-title head-text">Đánh giá DAPSA</h3>
                                                 <div class="card-tools">
@@ -288,7 +292,7 @@
             var CRP = ((document.getElementById("CRP") || {}).value) || "0";
 
             if (benhKhopHD === "" || mucDoDauKhop === "" || soKhopDau === "" || soKhopSung === "") {
-                $('#danhGia').callToast("warning", "Chú ý", "Hãy chọn đủ các tiêu chí và nhập đầy đủ số liệu trước khi đánh giá trước khi đánh giá");
+                $('#danhGia').callToast("info", "Chú ý", "Hãy chọn đủ các tiêu chí và nhập đầy đủ số liệu trước khi đánh giá trước khi đánh giá");
             }
             else {
                 var ketQua = parseInt(benhKhopHD) + parseInt(mucDoDauKhop) + parseInt(soKhopDau) + parseInt(soKhopSung) + parseInt(CRP);
@@ -296,16 +300,16 @@
                 const ketLuan = document.getElementById('ketLuan');
 
                 if (ketQua >= 0 && ketQua < 5) {
-                    ketLuan.innerHTML = "DAPSA = <strong>" + ketQua + "- Lui bệnh</strong>";
+                    ketLuan.innerHTML = "DAPSA = <strong style='color: MediumSeaGreen;'>" + ketQua + "- Lui bệnh</strong>";
                 }
                 else if (ketQua >= 5 && ketQua < 15) {
-                    ketLuan.innerHTML = "DAPSA = <strong>" + ketQua + "- Thấp</strong>";
+                    ketLuan.innerHTML = "DAPSA = <strong style='color: DodgerBlue;'>" + ketQua + "- Thấp</strong>";
                 }
                 else if (ketQua >= 15 && ketQua < 29) {
-                    ketLuan.innerHTML = "DAPSA = <strong>" + ketQua + " - Trung bình</strong>";
+                    ketLuan.innerHTML = "DAPSA = <strong style='color: DodgerBlue;'>" + ketQua + " - Trung bình</strong>";
                 }
                 else if (ketQua >= 28) {
-                    ketLuan.innerHTML = "DAPSA = <strong>" + ketQua + "- Cao</strong>";
+                    ketLuan.innerHTML = "DAPSA = <strong style='color: Tomato;'>" + ketQua + "- Cao</strong>";
                 }
             }     
         })

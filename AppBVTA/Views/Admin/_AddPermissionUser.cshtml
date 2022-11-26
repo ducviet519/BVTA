@@ -88,8 +88,10 @@
                     })
                 };
             }
-        }
-    })
+        },
+        placeholder: 'Chọn để lọc',
+        allowClear: true
+    });
 
     $('#ControllerID2').on('change keyup', function () {
         var searchController = $('#ControllerID2').val() || "";
