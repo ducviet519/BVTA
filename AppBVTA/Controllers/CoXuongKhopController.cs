@@ -1,5 +1,6 @@
 ﻿using DataBVTA.Models.Entities;
 using DataBVTA.Models.ViewModels;
+using DataBVTA.Services;
 using DataBVTA.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,13 +51,7 @@ namespace AppBVTA.Controllers
         [HttpGet]
         public IActionResult DanhSachDangKyKCB()
         {
-            return PartialView("_DanhSachDangKyKCB");
-        }
-        
-        [HttpGet]
-        public IActionResult DanhSachChiTietBenhNhanChoKham()
-        {
-            return PartialView("_DanhSachChiTietBenhNhanChoKham");
+            return PartialView("_DanhSach_DangKyKCB");
         }
 
         [HttpGet]
@@ -64,19 +59,19 @@ namespace AppBVTA.Controllers
         {
             DanhSachDangKyKhamBenh model = new DanhSachDangKyKhamBenh();
             model.DanhSachChoKham = await _services.DanhSachChoKham.DanhSachChoKhamAsync("2", mapk);
-            return PartialView("_DanhSachChuaKham", model);
+            return PartialView("_DanhSach_ChiTietChuaKham", model);
         }
 
         [HttpGet]
         public IActionResult DanhSachChoKham()
         {
-            return PartialView("_DanhSachChoKham");
+            return PartialView("_DanhSach_ChoKham");
         }
 
         [HttpGet]
         public IActionResult DanhSachDangLamCLS()
         {
-            return PartialView("_DanhSachDangLamCLS");
+            return PartialView("_DanhSach_DangLamCLS");
         }
 
         #endregion
@@ -101,10 +96,12 @@ namespace AppBVTA.Controllers
 
         #region 1. Khám lâm sàng
 
-        public IActionResult PhieuKhamBenh(string mabn, string maphongkham)
+        public async Task<IActionResult> PhieuKhamBenh(string mabn, string maphongkham)
         {
             ThongTinBenhNhanVM model = new ThongTinBenhNhanVM();
-            
+            model.LichSuKhamBenh = await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn);
+            model.ThongTinHanhChinh = (await _services.ThongTinHanhChinh.GetThongTinHanhChinh(mabn)).Where(i => i.mabn != null).FirstOrDefault();
+            //string mavaovien = (await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn))
             return View(model);
         }
        
@@ -112,7 +109,7 @@ namespace AppBVTA.Controllers
         public IActionResult KhamLamSang()
         {
 
-            return PartialView("_KhamLamSang");
+            return PartialView("_PhieuKhamBenh_KhamLamSang");
         }
         [HttpPost]
         public IActionResult KhamLamSang(string id)

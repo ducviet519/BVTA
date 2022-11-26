@@ -10,12 +10,8 @@ namespace DataBVTA.Models.ViewModels
 {
     public class ThongTinBenhNhanVM
     {
-        public ThongTinBenhNhan BenhNhan { get; set; } 
-
-        public List<ThongTinBenhNhan> ListBenhNhan { get; set; }
-
-        public IEnumerable<SelectListItem> ListBacSi { get; set; }
-
-        public IEnumerable<SelectListItem> ListDieuDuong { get; set; }
+        public List<LichSuKhamBenh> LichSuKhamBenh { get; set; }
+        public ThongTinBenhNhan ThongTinHanhChinh { get; set; }
+        public PhieuKhamBenh PhieuKhamBenh { get; set; }
     }
 }

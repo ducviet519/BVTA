@@ -62,12 +62,6 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
 .box-shadow-disable {
     box-shadow: none;
     /*box-shadow: 0 0 0 rgb(0 0 0 / 13%), 0 0 0 rgb(0 0 0 / 20%);*/
@@ -252,4 +246,19 @@ body {
 
 .nav-tabs .nav-item:hover {
     background-color: transparent;
+}
+
+/*Phones (less than 740px)*/
+@media only screen and (max-width: 739px) {
+  
+}
+
+/*Tablets (740px and 1024px)*/
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+   
+}
+
+/*Desktops(1024px and up)*/
+@media only screen and (min-width: 1024px) {
+
 }
