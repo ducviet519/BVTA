@@ -1,8 +1,8 @@
-﻿@model DataBVTA.Models.ViewModels.DanhSachDangKyKhamBenh
-<style>
-    .treeview .list-group {
-        border-radius: unset;
+﻿<style>
+    .treeview .list-group{
+        border-radius:unset;
     }
+    
 </style>
 <div class="card mb-0 mr-0 box-shadow-disable" style="height: 100%">
     <div class="card-header" style="padding-bottom:17px; padding-top:17px;">
@@ -20,7 +20,7 @@
             var danhmucTree = [
                 {
                     text: '1. Khám lâm sàng',
-                    href: '/CoXuongKhop/PhieuKhamBenh?mabn=',
+                    href: '/CoXuongKhop/PhieuKhamBenh',
                     tags: ['0']
                 },
                 {
@@ -29,39 +29,39 @@
                     nodes: [
                         {
                             text: '2.1 Đánh giá ASDAS',
-                            href: '/CoXuongKhop/DanhGiaASDAS?mabn=',
+                            href: '/CoXuongKhop/DanhGiaASDAS',
                             tags: ['0']
                         },
                         {
                             text: '2.2 Đánh giá DAPSA',
-                            href: '/CoXuongKhop/DanhGiaDAPSA?mabn=',
+                            href: '/CoXuongKhop/DanhGiaDAPSA',
                             tags: ['0']
                         },
                         {
                             text: '2.3 Đánh giá PASI',
-                            href: '/CoXuongKhop/DanhGiaPASI?mabn=',
+                            href: '/CoXuongKhop/DanhGiaPASI',
                             tags: ['0']
                         },
                     ]
                 },
                 {
                     text: '3. Chỉ định',
-                    href: '/CoXuongKhop/ChiDinh?mabn=',
+                    href: '/CoXuongKhop/ChiDinh',
                     tags: ['0']
                 },
                 {
                     text: '4. Đơn thuốc',
-                    href: '/CoXuongKhop/DanhSachDonThuoc?mabn=',
+                    href: '/CoXuongKhop/DanhSachDonThuoc',
                     tags: ['0']
                 },
                 {
                     text: '5. Xử trí',
-                    href: '/CoXuongKhop/XuTri?mabn=',
+                    href: '/CoXuongKhop/XuTri',
                     tags: ['0']
                 }
             ];
 
-            $(this).callTreeView('#DanhMuc', danhmucTree,)
+            $(this).callTreeView('#DanhMuc', danhmucTree, 2)
         });
     })();
 </script>

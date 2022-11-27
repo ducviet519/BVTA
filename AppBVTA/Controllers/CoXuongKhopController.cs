@@ -143,17 +143,26 @@ namespace AppBVTA.Controllers
 
         #region 2. Đánh giá
 
-        public IActionResult DanhGiaASDAS()
+        public async Task<IActionResult> DanhGiaASDAS(string mabn)
         {
-            return View();
+            ThongTinBenhNhanVM model = new ThongTinBenhNhanVM();
+            model.LichSuKhamBenh = await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn);
+            model.ThongTinHanhChinh = (await _services.ThongTinHanhChinh.GetThongTinHanhChinh(mabn)).Where(i => i.mabn != null).FirstOrDefault();
+            return View(model);
         }
-        public IActionResult DanhGiaDAPSA()
+        public async Task<IActionResult> DanhGiaDAPSA(string mabn)
         {
-            return View();
+            ThongTinBenhNhanVM model = new ThongTinBenhNhanVM();
+            model.LichSuKhamBenh = await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn);
+            model.ThongTinHanhChinh = (await _services.ThongTinHanhChinh.GetThongTinHanhChinh(mabn)).Where(i => i.mabn != null).FirstOrDefault();
+            return View(model);
         }
-        public IActionResult DanhGiaPASI()
+        public async Task<IActionResult> DanhGiaPASI(string mabn)
         {
-            return View();
+            ThongTinBenhNhanVM model = new ThongTinBenhNhanVM();
+            model.LichSuKhamBenh = await _services.LichSuKhamBenh.GetLichSuKhamBenh(mabn);
+            model.ThongTinHanhChinh = (await _services.ThongTinHanhChinh.GetThongTinHanhChinh(mabn)).Where(i => i.mabn != null).FirstOrDefault();
+            return View(model);
         }
 
         #endregion

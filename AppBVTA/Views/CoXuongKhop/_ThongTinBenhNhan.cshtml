@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="col-3 pr-0">
                             <div id="LichSuKham" class="treeview scrollspy-phongkham" data-spy="scroll" data-target="#spy">
-                            <ul class="tree">
+                            <ul class="tree pl-0">
                                 
                                 <li>
                                     <details open>
@@ -61,10 +61,10 @@
                     </div>
                     <div class="col-9 pl-3">
                         <div class="row mb-3">
-                            <label class="col-form-label col-3">Mã KH: <strong>18009858</strong></label>
-                            <label class="col-form-label col-3">Họ và tên: Nguyễn Thị A</label>
-                            <label class="col-form-label col-3">Ngày sinh: 01/01/1987</label>
-                            <label class="col-form-label col-3">Giới tính: Nữ</label>
+                            <label class="col-form-label col-3">Mã KH: <strong>@Model.ThongTinHanhChinh.mabn</strong></label>
+                            <label class="col-form-label col-3">Họ và tên: @Model.ThongTinHanhChinh.hoten</label>
+                            <label class="col-form-label col-3">Ngày sinh: @Model.ThongTinHanhChinh.ngaysinh</label>
+                            <label class="col-form-label col-3">Giới tính: @Model.ThongTinHanhChinh.gioitinh</label>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3">
@@ -85,12 +85,12 @@
                             </div>
                             <div class="col-3">
                                 <div class="form-group row">
-                                    <label for="NguoiDanhGia" class="col-form-label col-auto">Đối tượng: Thu phí</label>
+                                    <label for="NguoiDanhGia" class="col-form-label col-auto">Đối tượng: @Model.ThongTinHanhChinh.doituong</label>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group row">
-                                    <label for="NguoiDanhGia" class="col-form-label col-auto">Phòng khám: Phòng khám 01</label>
+                                    <label for="NguoiDanhGia" class="col-form-label col-auto">Phòng khám: @Model.ThongTinHanhChinh.tenkhoaphong</label>
                                 </div>
                             </div>
                         </div>

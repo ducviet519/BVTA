@@ -46,7 +46,7 @@ namespace DataBVTA.Services.Repositories
                         new
                         {
                             mabn = mabn,
-                            ngaykham = ngaykhamD,
+                            //ngaykham = ngaykhamD,
                             maql = maql,
                             thang = thang
                         }, commandType: CommandType.StoredProcedure)).ToList();
